@@ -1,34 +1,3 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TItle here</title>
-    <link rel="stylesheet" href="style.css">
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            const id = entry.target.getAttribute('id');
-            if (entry.intersectionRatio > 0) {
-              document.querySelector(`nav li a[href="#${id}"]`)
-                .parentElement.classList.add('active');
-            } else {
-              document.querySelector(`nav li a[href="#${id}"]`)
-                .parentElement.classList.remove('active');
-            }
-          });
-        });
-
-        // Track all sections that have an `id` applied
-        document.querySelectorAll('section[id]').forEach((section) => {
-          observer.observe(section);
-        });
-
-      });
-    </script>
-  </head>
 <body>
   <div>
     <h1>Inter-rater Reliability</h1>
@@ -37,33 +6,60 @@
       A few notes on agreement between raters.
     </p>
 
-
     <section id="kappa">
-      <h2>Cohen's $\kappa$</h2>
+      <h2>Cohen's <math><mi>κ</mi></math></h2>
 
       <p>
-        Cohen's $\kappa$ can be used for agreement between two raters on categorical
-        data. The basic calculation is
+        Cohen's <math><mi>κ</mi></math> can be used for agreement between two
+        raters on categorical data. The basic calculation is
       </p>
 
-      $$
-      \kappa = \frac{p_a - p_e}{1 - p_e},
-      $$
-
+      <math display="block" class="tml-display" style="display:block math;">
+        <mrow>
+          <mi>κ</mi>
+          <mo>=</mo>
+        </mrow>
+        <mrow>
+          <mfrac>
+            <mrow>
+              <msub>
+                <mi>p</mi>
+                <mi>a</mi>
+              </msub>
+              <mo>−</mo>
+              <msub>
+                <mi>p</mi>
+                <mi>e</mi>
+              </msub>
+            </mrow>
+            <mrow>
+              <mn>1</mn>
+              <mo>−</mo>
+              <msub>
+                <mi>p</mi>
+                <mi>e</mi>
+              </msub>
+            </mrow>
+          </mfrac>
+          <mo separator="true">,</mo>
+        </mrow>
+      </math>
       <p>
-        where $p_a$ is the percentage observed agreement and $p_e$ is the percentage
-        expected agreement by chance. Therefore $\kappa$ is what percentage of the
-        agreement over chance is observed.
+        where <math><msub><mi>p</mi><mi>a</mi></msub></math> is the percentage
+        observed agreement and <math><msub><mi>p</mi><mi>e</mi></msub></math> is
+        the percentage expected agreement by chance.
+        Therefore <math><mi>κ</mi></math> is what percentage of the agreement
+        over chance is observed.
       </p>
 
       <p>
-        Fleiss' $\kappa$ is an extension to more than two raters and has a similar form.
+        Fleiss' <math><mi>κ</mi></math> is an extension to more than two raters and has a similar form.
       </p>
 
       <p>
-        A major flaw in either $\kappa$ is that for ordinal data, any disagreement is
+        A major flaw in either <math><mi>κ</mi></math> is that for ordinal data, any disagreement is
         treated equal. E.g. on a Likert scale, ratings of 4 and 5 are just as
-        disagreeable as ratings of 1 and 5. Weighted $\kappa$ addresses this by
+        disagreeable as ratings of 1 and 5. Weighted <math><mi>κ</mi></math> addresses this by
         including a weight matrix which can be used to provide levels of
         disagreement.
       </p>
@@ -83,23 +79,51 @@
 
       <p>
         ICC is used for continuous measurements. It can be used in place of weighted
-        $\kappa$ with ordinal variables of course. The basic calculation is
+        <math><mi>κ</mi></math> with ordinal variables of course. The basic calculation is
       </p>
 
-      $$
-      ICC = \frac{\sigma^2_w}{\sigma^2_w + \sigma^2_b},
-      $$
+      <math display="block" class="tml-display" style="display:block math;">
+        <mrow>
+          <mtext>ICC</mtext>
+          <mo>=</mo>
+        </mrow>
+        <mrow>
+          <mfrac>
+            <msubsup>
+              <mi>σ</mi>
+              <mi>w</mi>
+              <mn>2</mn>
+            </msubsup>
+            <mrow>
+              <msubsup>
+                <mi>σ</mi>
+                <mi>w</mi>
+                <mn>2</mn>
+              </msubsup>
+              <mo>+</mo>
+              <msubsup>
+                <mi>σ</mi>
+                <mi>b</mi>
+                <mn>2</mn>
+              </msubsup>
+            </mrow>
+          </mfrac>
+          <mo separator="true">,</mo>
+        </mrow>
+      </math>
 
       <p>
-        where $\sigma^2_w$ and $\sigma^2_b$ represent within- and between- rater
-        variability respectively. Since the denominator is the total variance of all
-        ratings regardless of rater, this fraction represents the percent of total
-        variation accounted for by within-variation.
+        where <math><msubsup><mi>σ</mi><mi>w</mi><mn>2</mn></msubsup></math>
+        and <math><msubsup><mi>σ</mi><mi>b</mi><mn>2</mn></msubsup></math>
+        represent within- and between- rater variability respectively. Since the
+        denominator is the total variance of all ratings regardless of rater,
+        this fraction represents the percent of total variation accounted for by
+        within-variation.
       </p>
 
       <p>
         The modern way to estimate the ICC is by a mixed model, extracting the
-        $\sigma$'s that are needed.
+        <math><mi>σ</mi></math>'s that are needed.
       </p>
 
       <section id="icc_r">
@@ -110,10 +134,10 @@
           measurements and look at correlation by `Subject`.
         </p>
 
+
         ```{r}
         library(nlme)
         library(lme4)
-        data(Orthodont)
         ```
 
       </section>
@@ -124,16 +148,16 @@
           Using the `nlme` package, we fit the model:
         </p>
 
+
         ```{r}
         fm1 <- lme(distance ~ 1, random = ~ 1 | Subject, data = Orthodont)
         summary(fm1)
         ```
 
         <p>
-          The between-effect standard deviation is reported as the
-          `Residual StdDev`. To obtain the ICC, we compute each $\sigma$:
+          The between-effect standard deviation is reported as the `Residual
+          StdDev`. To obtain the ICC, we compute each <math><mi>σ</mi></math>:
         </p>
-
 
         ```{r}
         s2w <- getVarCov(fm1)[[1]]
@@ -149,6 +173,7 @@
           Using the `lme4` package, we fit the model:
         </p>
 
+
         ```{r}
         fm2 <- lmer(distance ~ (1 | Subject), data = Orthodont)
         summary(fm2)
@@ -158,6 +183,7 @@
           The Variance column of the Random Effects table gives the within-subject
           (Subject) and between-subject (Residual) variances.
         </p>
+
 
         ```{r}
         s2w <- summary(fm2)$varcor$Subject[1]
@@ -198,4 +224,3 @@
     </ol>
 	</nav>
 </body>
-</html>
