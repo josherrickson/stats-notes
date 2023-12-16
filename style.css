@@ -1,21 +1,61 @@
-#sidebar-div {
-    position: fixed;
-    float: left;
-    width: 20%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-    min-height: 20px;
+@import url("https://errickson.net/style.css");
+
+/* 1. Enable smooth scrolling */
+html {
+    scroll-behavior: smooth;
 }
 
-#sidebar-div-content {
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
+/* 2. Make nav sticky */
+body > nav {
+	position: sticky;
+	top: 2rem;
+	align-self: start;
 }
 
-#results-div {
-    margin-left: 25%
+/* 3. ScrollSpy active styles (see JS tab for activation) */
+.section-nav li.active > a {
+    text-decoration: underline;
+	  font-weight: 900;
+}
+
+/* Sidebar Navigation */
+.section-nav {
+	padding-left: 0;
+	/* border-left: 1px solid #efefef; */
+}
+
+.section-nav a {
+	text-decoration: none;
+	display: block;
+	padding: .125rem 0;
+	transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
+}
+
+/** Poor man's reset **/
+* {
+	box-sizing: border-box;
+}
+
+ul, ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	margin-left: 1rem;
+}
+
+/** page layout **/
+body {
+	display: grid;
+	grid-template-columns: 1fr 15em;
+	max-width: 100em;
+	width: 90%;
+	margin: 0 auto;
+}
+
+/** enlarge the sections for this demo, so that we have a long scrollable page **/
+section {
+	padding-bottom: 20rem;
 }
