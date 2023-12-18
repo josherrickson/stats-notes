@@ -13,9 +13,9 @@
 
     <p>
       Let<math><mi>X</mi></math> be a predictor, <math><mi>Y</mi></math> be a
-      response and we are studying whether <math><mi>Z</mi></math> moderates the
+      response and we are studying whether <math><mi>M</mi></math> moderates the
       relationship between<math><mi>X</mi></math> and <math><mi>Y</mi></math>.
-      In other words, we want to know whether <math><mi>Z</mi></math> modifies
+      In other words, we want to know whether <math><mi>M</mi></math> modifies
       the strength (or direction) of the relationship
       between <math><mi>X</mi></math> and <math><mi>Y</mi></math> . For example,
       we could study the relationship between socio-economic status
@@ -24,7 +24,7 @@
       because current recommendations are for women age 40 and over to get
       exams. However, in older women, there is a relationship because those with
       higher SES tend to be more concerned with health. Age
-      (<math><mi>Z</mi></math>) moderates the relationship between SES and
+      (<math><mi>M</mi></math>) moderates the relationship between SES and
       frequency of breast exams.
     </p>
 
@@ -64,14 +64,14 @@
             <mi>β</mi>
             <mn>2</mn>
           </msub>
-          <mi>Z</mi>
+          <mi>M</mi>
           <mo>+</mo>
           <msub>
             <mi>β</mi>
             <mn>3</mn>
           </msub>
           <mi>X</mi>
-          <mi>Z</mi>
+          <mi>M</mi>
           <mo>+</mo>
           <mi>ϵ</mi>
           <mi>.</mi>
@@ -97,10 +97,10 @@
     <p>
       Again, let <math><mi>X</mi></math> be a predictor
       and <math><mi>Y</mi></math> be a response. We are studying
-      whether <math><mi>Z</mi></math> mediates the relationship
+      whether <math><mi>M</mi></math> mediates the relationship
       between<math><mi>X</mi></math> and <math><mi>Y</mi></math>. Mediating
       variables are more complicated that moderators. A variable
-      (<math><mi>Z</mi></math>) is said to be a mediator if it partially or
+      (<math><mi>M</mi></math>) is said to be a mediator if it partially or
       fully explains the relationship between the predictor
       (<math><mi>X</mi></math>) and the response (<math><mi>Y</mi></math>).
       The easiest way to explain this is visually.
@@ -132,18 +132,26 @@
     </p>
 
     <ul>
-      <li>If <math><mi>d</mi></math> is non-zero but <math><mi>bc</mi></math> is
-        zero, then we have no evidence of mediation.</li>
-      <li>If both <math><mi>d</mi></math> and <math><mi>bc</mi></math> are
+      <li>
+        If <math><mi>d</mi></math> is non-zero but <math><mi>bc</mi></math> is
+        zero, then we have no evidence of mediation.
+      </li>
+      <li>
+        If both <math><mi>d</mi></math> and <math><mi>bc</mi></math> are
         non-zero then we have evidence of <strong>partial mediation</strong>.
-        (There is evidence of both a direct effect and an indirect effect.)</li>
-      <li>If <math><mi>d</mi></math> is zero, but <math><mi>bc</mi></math> is
+        (There is evidence of both a direct effect and an indirect effect.)
+      </li>
+      <li>
+        If <math><mi>d</mi></math> is zero, but <math><mi>bc</mi></math> is
         non-zero, then we have evidence of <strong>total mediation</strong>.
         (The only evidence of a relationship between <math><mi>X</mi></math>
         and <math><mi>Y</mi></math> is through the mediation
-        of <math><mi>M</mi></math>.)</li>
-      <li>Finally, if both <math><mi>d</mi></math> and <math><mi>bc</mi></math>
-      are zero, there's no evidence of a relationship.</li>
+        of <math><mi>M</mi></math>.)
+      </li>
+      <li>
+        Finally, if both <math><mi>d</mi></math> and <math><mi>bc</mi></math>
+        are zero, there's no evidence of a relationship.
+      </li>
     </ul>
 
     <p> We
@@ -156,116 +164,149 @@
     </p>
   </section>
 
-  <section id="in-regression-1" class="level2">
-    <h2 class="anchored" data-anchor-id="in-regression-1">In Regression</h2>
-    <div class="callout callout-style-default callout-important callout-titled">
-      <div class="callout-header d-flex align-content-center">
-        <div class="callout-icon-container">
-          <i class="callout-icon"></i>
-        </div>
-        <div class="callout-title-container flex-fill">Important</div>
-      </div>
-      <div class="callout-body-container callout-body">
-        <p>
-          While we <em>can</em> fit mediation via regression (called the
-          Baron-Kenny approach), it is <strong>not</strong> recommended. Use
-          either SEM or the
-          <a
-            href="https://cran.r-project.org/web/packages/mediation/vignettes/mediation.pdf"
-            >mediation package</a
-          >
-          in R or
-          <a
-            href="https://www.stata.com/new-in-stata/causal-mediation-analysis/"
-            >causal mediation</a
-          >
-          in Stata.
-        </p>
-      </div>
-    </div>
-    <p>To test, we fit three regression models, testing all paths above.</p>
+  <section id="mediation_in-regression">
+    <h3>In Regression</h3>
+
+    <p class="warning">
+      <strong>Warning:</strong> While we <em>can</em> fit mediation via
+      regression (called the Baron-Kenny approach), it is <strong>not</strong>
+      recommended. Thinking of mediation as a series of linear regressions is
+      great for conceptualizing mediation, but not for estimation. Use either the
+      <a href="https://cran.r-project.org/package=lavaan">lavaan</a> or
+      <a href="https://cran.r-project.org/package=mediation">mediation</a>
+      packages in R or
+      use <a href="https://www.stata.com/new-in-stata/causal-mediation-analysis/">causal
+      mediation</a> in Stata.
+    </p>
+
+    <p>
+      We can conceptalize the above model as three regression models, testing
+      all paths above.
+    </p>
+
     <ol type="1">
       <li>
-        Test <math><mi>c</mi></math> to establish a relationship
-        between predictor (<math><mi>X</mi></math> and response
-        (<math><mi>Y</mi></math>
-        ):
+        Test <math><mi>a</mi></math> to establish a relationship between
+        predictor (<math><mi>X</mi></math>) and response
+        (<math><mi>Y</mi></math>):
       </li>
     </ol>
+
     <p>
-      <span class="math display">\[ Y = \beta_0^{(1)} + cX + \epsilon. \]</span>
+    <math display="block" class="tml-display" style="display:block math;">
+      <mrow>
+        <mi>Y</mi>
+        <mo>=</mo>
+        <msubsup>
+          <mi>β</mi>
+          <mn>0</mn>
+          <mrow>
+            <mo form="prefix" stretchy="false" lspace="0em">(</mo>
+            <mn>1</mn>
+            <mo form="postfix" stretchy="false" rspace="0em">)</mo>
+          </mrow>
+        </msubsup>
+        <mo>+</mo>
+        <mi>a</mi>
+        <mi>X</mi>
+        <mo>+</mo>
+        <mi>ϵ</mi>
+      </mrow>
+    </math>
     </p>
 
-
-        Tset <span moderatino_class="math >\(a</mi></math> to establish correlation
-                                     be2><mi>X</mi></math> and moderat3r
-
-        (<math><mi>Z</mi></math>):
+    <ol type="2">
+      <li>
+        Test <math><mi>b</mi></math> to establish correlation between predictor
+        (<math><mi>X</mi></math>) and moderator (<math><mi>M</mi></math>):
       </li>
     </ol>
-    <p><span class="math display">\[ Z = \beta_0^{(2)} + aX + \epsilon. \]</span>
+
+    <p>
+      <math display="block" class="tml-display" style="display:block math;">
+        <mrow>
+          <mi>M</mi>
+          <mo>=</mo>
+          <msubsup>
+            <mi>β</mi>
+            <mn>0</mn>
+            <mrow>
+              <mo form="prefix" stretchy="false" lspace="0em">(</mo>
+              <mn>2</mn>
+              <mo form="postfix" stretchy="false" rspace="0em">)</mo>
+            </mrow>
+          </msubsup>
+          <mo>+</mo>
+          <mi>b</mi>
+          <mi>X</mi>
+          <mo>+</mo>
+          <mi>ϵ</mi>
+        </mrow>
+      </math>
     </p>
-    <ol start="3" type="1">
 
-      th niline">\(moderatino_b</mi></math>><mi>Z</mi></math>) affects the response
-(<2><mi>Y</mi></mat3>
-
-        ). Include both mediator (<math><mi>Z</mi></math>) and
-        predictor (<math><mi>X</mi></math> to establishthat the relationship
-        exists when controlling for
-       <math><mi>X</mi></math>.
+    <ol type="3">
+      <li>
+        Test <math><mi>c</mi></math> to establish that the mediator
+        (<math><mi>M</mi></math>) affects the response
+        (<math><mi>Y</mi></math>). Include both mediator
+        (<math><mi>M</mi></math>) and predictor (<math><mi>X</mi></math>) to
+        establish that the relationship exists when controlling
+        for <math><mi>X</mi></math>.
       </li>
     </ol>
-    <p>
-      <span class="math display"
-            >\[ Y = \beta_0^{(3)
-        } + dX + bM + \epsilon. \]</span
 
     <p>
-      I f<span moderatino_class=>\(c</mi></math>,
-      <s2>\(a</mi></math> a3d
+      <math display="block" class="tml-display" style="display:block math;">
+        <mrow>
+          <mi>Y</mi>
+          <mo>=</mo>
+          <msubsup>
+            <mi>β</mi>
+            <mn>0</mn>
+            <mrow>
+              <mo form="prefix" stretchy="false" lspace="0em">(</mo>
+              <mn>3</mn>
+              <mo form="postfix" stretchy="false" rspace="0em">)</mo>
+            </mrow>
+          </msubsup>
+          <mo>+</mo>
+          <mi>d</mi>
+          <mi>X</mi>
+          <mo>+</mo>
+          <mi>c</mi>
+          <mi>M</mi>
+          <mo>+</mo>
+          <mi>ϵ</mi>
+        </mrow>
+      </math>
+    </p>
 
-      <math><mi>b</mi></math> are shown to be significant in each
-      step above, we have established partial mediation.
-    </p>
-    <p>If additionally <math><mi>d</mi></math> is zero, we have
-      established full mediation.
-    </p>
   </section>
-  <section id="sources-1" class="level2">
-    <h2 class="anchored" data-anchor-id="sources-1">Sources</h2>
-    <p>
-      <a href="http://davidakenny.net/cm/mediate.htm" class="uri"
-        >http://davidakenny.net/cm/mediate.htm</a
-      >
-    </p>
-    <p>
-      <a
-        href="http://data.library.virginia.edu/introduction-to-mediation-analysis/"
-        class="uri"
-        >http://data.library.virginia.edu/introduction-to-mediation-analysis/</a
-      >
-    </p>
+  <section id="mediation_sources">
+    <h3>Sources</h3>
+    <ul>
+      <li>
+        <a href="http://davidakenny.net/cm/mediate.htm">http://davidakenny.net/cm/mediate.htm</a>
+      </li>
+      <li>
+        <a href="http://data.library.virginia.edu/introduction-to-mediation-analysis/">http://data.library.virginia.edu/introduction-to-mediation-analysis/</a>
+      </li>
+    </ul>
   </section>
   </div>
-</section>
-	<nav class="section-nav">
-		<ol>
-			<li class=""><a href="#moderation">Moderation</a>
+  <nav class="section-nav">
+	  <ol>
+		  <li class=""><a href="#moderation">Moderation</a>
         <ol>
           <li class=""><a href="#moderation_in-regression">In regression</a></li>
           <li class=""><a href="#moderation_sources">Sources</a></li>
         </ol>
       </li>
-			<li class=""><a href="#icc">ICC</a>
-			  <ol>
-				  <li class=""><a href="#icc_r">ICC in R</a>
-            <ol>
-              <li class=""><a href="#icc_nlme">ICC in nlme</a></li>
-              <li class=""><a href="#icc_lme4">ICC in lme4</a></li>
-            </ol>
-          </li>
-          <li class=""><a href="#icc_sources">Sources</a></li>
+			<li class=""><a href="#mediation">Mediation</a>
+        <ol>
+          <li class=""><a href="#mediation_in-regression">In regression</a></li>
+          <li class=""><a href="#mediation_sources">Sources</a></li>
         </ol>
       </li>
     </ol>

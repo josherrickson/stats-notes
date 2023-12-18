@@ -67,6 +67,15 @@ a:hover code {
     text-decoration: none;
 }
 
+p.warning
+{
+     background-color: #FEADAD;
+     border-left: solid 4px var(--red);
+     line-height: 18px;
+     overflow: hidden;
+     padding: 10px 60px;
+}
+
 h1 {
     font-size: 200%;
     color: var(--green);
