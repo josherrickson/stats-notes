@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TItle here</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Mathjax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- Polyfill needed only for IE11 -->
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <!-- /Mathjax -->
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            if (entry.intersectionRatio > 0) {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.add('active');
+            } else {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.remove('active');
+            }
+          });
+        });
+
+        // Track all sections that have an `id` applied
+        document.querySelectorAll('section[id]').forEach((section) => {
+          observer.observe(section);
+        });
+
+      });
+    </script>
+  </head>
+<body class="statsnotes">
+  <div>
+    <section id="introduction">
+      <h1>Logistic Models and the <code>margins</code> command</h1>
+
+      <p>
+        When looking at the results of a logistic model, there are several
+        different measures of the relationship between the predictors and the
+        probability of a positive outcome that can be used to interpret the
+        model:
+      </p>
+      <ul>
+        <li>The odds ratios</li>
+        <li>The log odds</li>
+        <li>The odds</li>
+        <li>Marginal probablities/percentages</li>
+      </ul>
+
+      <p>
+        If you are unclear which you are looking at, confusion can abound. This
+        is doubly-confounded in Stata (in my opinion) where
+        certain <code>margins</code> commands will produce a different measure
+        than perhaps expected.
+      </p>
+
+    </section>
+    <section id="intercept-only-model">
+      <h2>Intercept only model</h2>
+
+      <p>
+        Let’s start simple and consider a model with only an intercept. We’ll
+        use the "auto" data set, and fit a model predicting the probability of a
+        car being foreign made.
+      </p>
+
+      <pre>. <span class="keyword">sysuse</span> auto
+(1978 automobile data)
+
+. <span class="keyword">logit</span> foreign, nolog
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(0)    =   0.00
+                                                        Prob > chi2   =      .
+Log likelihood = -45.03321                              Pseudo R2     = 0.0000
+
+------------------------------------------------------------------------------
+     foreign | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |  -.8602013   .2543331    -3.38   0.001    -1.358685   -.3617176
+------------------------------------------------------------------------------
+
+. <span class="keyword">logit</span>, or
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(0)    =   0.00
+                                                        Prob > chi2   =      .
+Log likelihood = -45.03321                              Pseudo R2     = 0.0000
+
+------------------------------------------------------------------------------
+     foreign |       Odds   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .4230769   .1076025    -3.38   0.001     .2569985     .696479
+------------------------------------------------------------------------------</pre>
+
+
+      <p>
+        The default output from the <code>logit</code> command are the log odds,
+        \(-.86\), and passing the <code>or</code> option (or
+        calling <code>logistic</code> instead of <code>logit</code> gives the
+        odds ratio of \(.423\). The conversion between these values is
+        straightforward:
+      </p>
+
+      \[
+      \textrm{logodds} = \log(\textrm{odds})
+      \]
+      \[
+      \textrm{odds} = \exp^{\textrm{logodds}}
+      \]
+
+      <p>
+        Let’s backtrack to see how we arrive at those values.
+      </p>
+
+      <p>
+        First, let’s look at the breakdown of foreign and domestic cars.
+      </p>
+
+      <pre>. <span class="keyword">tabulate</span> foreign
+
+ Car origin |      Freq.     Percent        Cum.
+------------+-----------------------------------
+   Domestic |         52       70.27       70.27
+    Foreign |         22       29.73      100.00
+------------+-----------------------------------
+      Total |         74      100.00</pre>
+
+      <p>
+        We see that \(P(\textrm{foreign}) = .297\) and \(P(\textrm{domestic}) =
+        .703\). We can convert these probabilities into odds, using the formula
+      </p>
+
+      \[
+      \textrm{Odds}(\textrm{foreign}) = \frac{P(\textrm{foreign})}{1 - P(\textrm{foreign})}.
+      \]
+
+      <p>
+        Therefore we can easily see that
+      </p>
+
+      \[
+      \textrm{Odds}(\textrm{foreign}) = \frac{.297}{1 - .297} = .423
+      \]
+      \[
+      \textrm{Odds}(\textrm{domestic}) = \frac{.703}{1 - .703} = 2.36
+      \]
+
+      <p>
+        For completeness, to convert from odds to probability you can use
+      </p>
+
+      \[
+      P(\textrm{foreign}) = \frac{\textrm{Odds}(\textrm{foreign})}{1 + \textrm{Odds}(\textrm{foreign})}.
+      \]
+
+      <p>
+        Note that the odds of a car being foreign is exactly the result we saw
+        above from <code>logit, or</code>. So in a logistic model with only an
+        intercept, the coefficient on the intercept is the odds of a positive
+        outcome.
+      </p>
+
+      <p>
+        Rather than calculate these manually, Stata can produce these automatically.
+      </p>
+
+      <p>
+        \(P(\textrm{foreign})\):
+      </p>
+
+      <pre>. <span class="keyword">margins</span>
+warning: prediction constant over observations.
+
+Predictive margins                                          Number of obs = 74
+Model VCE: OIM
+
+Expression: Pr(foreign), predict()
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .2972973   .0531331     5.60   0.000     .1931583    .4014363
+------------------------------------------------------------------------------</pre>
+
+      <p>
+        \(\textrm{Odds}(\textrm{foreign})\):
+      </p>
+
+      <pre>. <span class="keyword">margins</span>, expression(exp(xb()))
+warning: prediction constant over observations.
+
+Predictive margins                                          Number of obs = 74
+Model VCE: OIM
+
+Expression: exp(xb())
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _cons |   .4230769   .1076025     3.93   0.000       .21218    .6339739
+------------------------------------------------------------------------------</pre>
+
+      <p>
+        The <code>expression(exp(xb()))</code> is a bit odd, but the easiest way
+        to obtain what we need. Think of it as just saying “give me the odds”.
+      </p>
+    </section>
+    <section id="binary-predictor">
+      <h2>A single binary predictor</h2>
+
+      <p>
+        In the intercept only example, we had no concept of an odds ratio. Let’s
+        add a fixed effect, in this case a binary predictor, which will require
+        interpreting an odds ratio.
+      </p>
+
+      <pre>. <span class="keyword">generate</span> highmileage = mpg > 25
+
+. <span class="keyword">label define</span> highmileage 0 "Low Mileage" 1 "High Mileage"
+
+. <span class="keyword">label value</span> highmileage highmileage
+
+. <span class="keyword">tabulate</span> foreign highmileage
+
+           |      highmileage
+Car origin | Low Milea  High Mile |     Total
+-----------+----------------------+----------
+  Domestic |        45          7 |        52
+   Foreign |        15          7 |        22
+-----------+----------------------+----------
+     Total |        60         14 |        74
+
+. <span class="keyword">logit</span> foreign i.highmileage, nolog
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(1)    =   3.18
+                                                        Prob > chi2   = 0.0746
+Log likelihood = -43.444169                             Pseudo R2     = 0.0353
+
+------------------------------------------------------------------------------
+     foreign | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ highmileage |
+High Mile..  |   1.098612   .6120483     1.79   0.073    -.1009804    2.298205
+       _cons |  -1.098612   .2981424    -3.68   0.000    -1.682961   -.5142639
+------------------------------------------------------------------------------
+
+. <span class="keyword">logit</span>, or
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(1)    =   3.18
+                                                        Prob > chi2   = 0.0746
+Log likelihood = -43.444169                             Pseudo R2     = 0.0353
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ highmileage |
+High Mile..  |          3   1.836145     1.79   0.073     .9039507    9.956295
+       _cons |   .3333333   .0993808    -3.68   0.000      .185823    .5979406
+------------------------------------------------------------------------------
+Note: _cons estimates baseline odds.</pre>
+
+      <section id="binary-predictor_probabilities" class="level2">
+        <h3>Probabilities</h3>
+
+        <p>
+          Let’s look at the probabilities. Here we have conditional
+          probabilities since we have a predictor. So we are interested in
+          \(P(\textrm{foreign} | \textrm{high mileage})\) and
+          \(P(\textrm{foreign} | \textrm{low mileage})\).
+        </p>
+        <p>
+          From the table above, we can easily compute this:
+        </p>
+
+        <pre>. <span class="keyword">tabulate</span> foreign highmileage, col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+| column percentage |
++-------------------+
+
+           |      highmileage
+Car origin | Low Milea  High Mile |     Total
+-----------+----------------------+----------
+  Domestic |        45          7 |        52
+           |     75.00      50.00 |     70.27
+-----------+----------------------+----------
+   Foreign |        15          7 |        22
+           |     25.00      50.00 |     29.73
+-----------+----------------------+----------
+     Total |        60         14 |        74
+           |    100.00     100.00 |    100.00 </pre>
+
+
+        <p>
+          We see \(P(\textrm{foreign} | \textrm{high mileage}) = .25\) and
+          \(P(\textrm{foreign} | \textrm{low mileage}) = .5\).
+        </p>
+
+        <p>
+          We can also obtain these via <code>margins</code>:
+        </p>
+
+        <pre>. <span class="keyword">margins</span> highmileage
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: Pr(foreign), predict()
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ highmileage |
+Low Mileage  |        .25   .0559017     4.47   0.000     .1404347    .3595653
+High Mile..  |         .5   .1336306     3.74   0.000     .2380888    .7619112
+------------------------------------------------------------------------------</pre>
+
+        <p>
+          If you do not flag <code>highmileage</code> as a categorical
+          with <code>i.</code>, you can use instead <code>margins,
+          over(highmileage)</code>. If you pass a continuous variable, it will
+          compute the probability at each discrete value of the continuous
+          variable.
+        </p>
+
+        <p>
+          Testing for equality between these percentages:
+        </p>
+
+        <pre>. <span class="keyword">margins</span> highmileage, pwcompare(pv)
+
+Pairwise comparisons of adjusted predictions                Number of obs = 74
+Model VCE: OIM
+
+Expression: Pr(foreign), predict()
+
+---------------------------------------------------------------------
+                             |            Delta-method    Unadjusted
+                             |   Contrast   std. err.      z    P>|z|
+-----------------------------+---------------------------------------
+                 highmileage |
+High Mileage vs Low Mileage  |        .25   .1448521     1.73   0.084
+---------------------------------------------------------------------</pre>
+
+      </section>
+      <section id="binary-predictor_odds">
+        <h3>Odds</h3>
+
+        <p>
+          We can compute the odds using the formulas above, giving us
+        </p>
+
+        \[
+        \textrm{Odds}(\textrm{foreign} | \textrm{high mileage}) = 1
+        \]
+
+        <p>
+          and
+        </p>
+
+        \[
+        \textrm{Odds}(\textrm{foreign} | \textrm{low mileage}) = .333.
+        \]
+
+        <p>
+          To obtain with <code>margins</code>, we again pass
+          the <code>expression</code> option:
+        </p>
+
+        <pre>. <span class="keyword">margins</span> highmileage, expression(exp(xb()))
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: exp(xb())
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ highmileage |
+Low Mileage  |   .3333333   .0993808     3.35   0.001     .1385505    .5281161
+High Mile..  |          1   .5345225     1.87   0.061    -.0476448    2.047645
+------------------------------------------------------------------------------</pre>
+
+
+        <p>
+          Note that we do <em>not</em> want to test if the odds are different
+          using <code>pwcompare</code> as that’s what the odds ratio is for!
+        </p>
+
+      </section>
+      <section id="binary-predictor_odds-ratio">
+        <h3>Odds ratio</h3>
+
+        <p>
+          The odds ratio is often very confusing to interpret, but is
+          straightforward: An odds ratio predicts the number of positive
+          outcomes we expect to see for every negative outcome. So an odds ratio
+          of \(2\) would mean for every domestic car, we’d expect to see \(2\)
+          foreign cars. An odds ratio of \(.25\) would mean for every domestic
+          car, we’d expect \(.25\) foreign cars - or, for every \(4\) domestic
+          cars, we’d expect \(1\) foreign car (since \(.25 = 1/4\)).
+        </p>
+        <p>
+
+          The odds ratio is literally the ratio of the odds.
+        </p>
+
+        \[
+        \textrm{OR}(\textrm{foreign} | \textrm{high mileage}) = \frac{\textrm{odds}(\textrm{foreign} | \textrm{high mileage})}{\textrm{odds}(\textrm{foreign} | \textrm{low mileage})} = 1/.333 = 3
+        \]
+
+        <p>
+          Looking at the regression results again:
+        </p>
+
+        <pre>. <span class="keyword">logit</span>, or
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(1)    =   3.18
+                                                        Prob > chi2   = 0.0746
+Log likelihood = -43.444169                             Pseudo R2     = 0.0353
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ highmileage |
+High Mile..  |          3   1.836145     1.79   0.073     .9039507    9.956295
+       _cons |   .3333333   .0993808    -3.68   0.000      .185823    .5979406
+------------------------------------------------------------------------------
+Note: _cons estimates baseline odds.</pre>
+
+        <p>
+          The intercept is (\textrm{odds}(\textrm{foreign} | \textrm{low
+          mileage})\), the odds of a positive outcome in the baseline group, and
+          the coefficient on <code>highmileage</code> is the odds ratio!
+        </p>
+
+        <p>
+          Note that we cannot use the <code>margins</code> command to obtain the
+          odds ratio. (If I'm wrong about that, please let me know!) Instead, we
+          use <code>lincom</code>:
+        </p>
+
+        <pre>. <span class="keyword">lincom</span> _b[1.highmileage], or
+
+ ( 1)  [foreign]1.highmileage = 0
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |          3   1.836145     1.79   0.073     .9039507    9.956295
+------------------------------------------------------------------------------</pre>
+
+
+        <p>
+          (I obtained the <code>_b[1.highmileage]</code> name by
+          running <code>logit, coeflegend</code> to obtain the legend.) Note
+          the <code>or</code> option, without it we obtain the log odds.
+        </p>
+
+      </section>
+    </section>
+    <section id="categorical-predictor">
+      <h2>A categorical predictor</h2>
+
+      <p>
+        Moving from a binary predictor to a categorical predictor is fairly
+        straightforward; instead of a single odds ratio, we have one for each
+        level of the categorical predictor, excluding the reference category.
+      </p>
+
+      <pre>. <span class="keyword">generate</span> pricecat = price < 7500
+
+. <span class="keyword">replace</span> pricecat = 2 if price >= 7500 & price < 10000
+(5 real changes made)
+
+. <span class="keyword">replace</span> pricecat = 3 if price >= 10000 & price < .
+(10 real changes made)
+
+. <span class="keyword">logit</span> foreign i.pricecat, or nolog
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(2)    =   2.47
+                                                        Prob > chi2   = 0.2905
+Log likelihood = -43.797041                             Pseudo R2     = 0.0275
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    pricecat |
+          2  |   3.705882   3.546757     1.37   0.171     .5678577    24.18487
+          3  |   .6176471   .5195704    -0.57   0.567     .1187686    3.212026
+             |
+       _cons |   .4047619   .1163527    -3.15   0.002     .2304165    .7110264
+------------------------------------------------------------------------------
+Note: _cons estimates baseline odds.</pre>
+
+
+      <section id="categorical-predictor_probabilities">
+        <h3>Probabilities</h3>
+
+        <pre>. <span class="keyword">tabulate</span> foreign pricecat, col
+
++-------------------+
+| Key               |
+|-------------------|
+|     frequency     |
+| column percentage |
++-------------------+
+
+           |             pricecat
+Car origin |         1          2          3 |     Total
+-----------+---------------------------------+----------
+  Domestic |        42          2          8 |        52
+           |     71.19      40.00      80.00 |     70.27
+-----------+---------------------------------+----------
+   Foreign |        17          3          2 |        22
+           |     28.81      60.00      20.00 |     29.73
+-----------+---------------------------------+----------
+     Total |        59          5         10 |        74
+           |    100.00     100.00     100.00 |    100.00 </pre>
+
+        <pre>. <span class="keyword">margins</span> pricecat
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: Pr(foreign), predict()
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    pricecat |
+          1  |   .2881356   .0589618     4.89   0.000     .1725725    .4036987
+          2  |         .6    .219089     2.74   0.006     .1705934    1.029407
+          3  |         .2   .1264911     1.58   0.114     -.047918     .447918
+------------------------------------------------------------------------------</pre>
+
+      </section>
+      <section id="categorical-predictor_odds">
+        <h3>Odds</h3>
+
+        <p>
+          The intercept is the odds of a foreign car in <code>pricecat</code> 1,
+          or \(.288/.712 = .405\). We can obtain the odds of
+          each <code>pricecat</code> in the typical way.
+        </p>
+
+        <pre>. <span class="keyword">margins</span> pricecat, expression(exp(xb()))
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: exp(xb())
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    pricecat |
+          1  |   .4047619   .1163527     3.48   0.001     .1767148     .632809
+          2  |        1.5   1.369306     1.10   0.273    -1.183791    4.183791
+          3  |        .25   .1976424     1.26   0.206    -.1373719    .6373719
+------------------------------------------------------------------------------</pre>
+
+      </section>
+      <section id="categorical-predictor_odds-ratios">
+        <h3>Odds ratios</h3>
+
+        <p>
+          Finally, the two coefficients in the model are the odds ratios of
+          being in <code>pricecat</code> 2 or 3 versus 1. Again we can
+          use <code>lincom</code> to obtain these.
+        </p>
+
+        <pre>. <span class="keyword">lincom</span> _b[2.pricecat], or
+
+ ( 1)  [foreign]2.pricecat = 0
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   3.705882   3.546757     1.37   0.171     .5678577    24.18487
+------------------------------------------------------------------------------
+
+. <span class="keyword">lincom</span> _b[3.pricecat], or
+
+ ( 1)  [foreign]3.pricecat = 0
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .6176471   .5195704    -0.57   0.567     .1187686    3.212026
+------------------------------------------------------------------------------</pre>
+
+        <p>
+          Note here that multiplying the odds ratios by the odds
+          in <code>pricecat</code> 1 (the intercept) gives the odds in the other
+          group. E.g. \(3.71\times .408 \approx 1.5).
+        </p>
+
+      </section>
+    </section>
+    <section id="continuous-predictor">
+      <h2>A continuous predictor</h2>
+
+      <p>
+        Now let’s replace the categorical predictor with a continuous one.
+        Again, most interpretations stay the same.
+      </p>
+
+      <pre>. <span class="keyword">logit</span> foreign headroom, or nolog
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(1)    =   6.72
+                                                        Prob > chi2   = 0.0095
+Log likelihood = -41.671379                             Pseudo R2     = 0.0747
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    headroom |   .4304066   .1490474    -2.43   0.015     .2183295    .8484873
+       _cons |   4.780366   4.755595     1.57   0.116      .680253    33.59324
+------------------------------------------------------------------------------
+Note: _cons estimates baseline odds.</pre>
+
+      <p>
+        Instead of talking about probability or odds in a level of a categorical
+        predictor, it is instead at a specific level of headroom. The intercept
+        is the odds of having a positive outcome when the headroom is
+        identically \(0\), which in this case, as is often the case, is not
+        interesting.
+      </p>
+
+      <section id="continuous-predictor_probabilities">
+        <h3>Probabilities</h3>
+
+        <p>
+          We cannot look at crosstabs as we did before the compute
+          probabilities, but the margins command still works.
+        </p>
+
+        <pre>. <span class="keyword">margins</span>, at(headroom = (2.5 5))
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: Pr(foreign), predict()
+1._at: headroom = 2.5
+2._at: headroom =   5
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   .3674795   .0655664     5.60   0.000     .2389717    .4959873
+          2  |   .0659516    .050366     1.31   0.190    -.0327639     .164667
+------------------------------------------------------------------------------</pre>
+
+        <p>
+          These are the predicted probabilties of a positive outcome at the
+          referenced levels of <code>headroom</code>, i.e. \(P(\textrm{foreign}
+          | \textrm{headroom} = 2.5)\) and \(P(\textrm{foreign} |
+          \textrm{headroom} = 5)\).
+        </p>
+
+      </section>
+      <section id="continuous-predictor_odds">
+        <h3>Odds</h3>
+
+        <p>
+          We can directly compute the odds given the probabilities above, but
+          it’s easier to continue using <code>margins</code>.
+        </p>
+
+        <pre>. margins, at(headroom = (2.5 5)) expression(exp(xb()))
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: exp(xb())
+1._at: headroom = 2.5
+2._at: headroom =   5
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         _at |
+          1  |   .5809764   .1638824     3.55   0.000     .2597729    .9021799
+          2  |   .0706083   .0577296     1.22   0.221    -.0425396    .1837562
+------------------------------------------------------------------------------</pre>
+
+      </section>
+      <section id="continuous-predictor_odds-ratio">
+        <h3 class="anchored" data-anchor-id="odds-ratio-1">Odds ratio</h3>
+
+        <p>
+          The coefficient in the logistic regression is interpreted as the odds
+          ratio when increasing headroom by \(1\). In other words, if we had a
+          collection of cars with headroom of \(x\) and magically change their
+          headroom to \(x + 1\), we would expect for every one additional
+          domestic car, we’d see \(.43\) additional foreign cars.
+        </p>
+
+        <p>
+          We can obtain this odds ratio by again using <code>lincom</code>.
+        </p>
+
+        <pre>. <span class="keyword">lincom</span> _b[headroom], or
+
+ ( 1)  [foreign]headroom = 0
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         (1) |   .4304066   .1490474    -2.43   0.015     .2183295    .8484873
+------------------------------------------------------------------------------</pre>
+
+      </section>
+    </section>
+    <section id="interactions">
+      <h2>Interactions</h2>
+      <p>
+        Let’s consider interactions now. We’ll interact two binary variables.
+      </p>
+
+      <pre>. <span class="keyword">generate</span> highprice = price > 5000
+
+. <span class="keyword">label define</span> highprice 0 "Low Price" 1 "High Price"
+
+. <span class="keyword">label value</span> highprice highprice
+
+. <span class="keyword">logit</span> foreign i.highprice##i.highmileage, or nolog
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(3)    =  10.54
+                                                        Prob > chi2   = 0.0145
+Log likelihood = -39.763201                             Pseudo R2     = 0.1170
+
+------------------------------------------------------------------------------
+     foreign | Odds ratio   Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   highprice |
+ High Price  |   6.795455    5.54509     2.35   0.019     1.372897    33.63558
+             |
+ highmileage |
+High Mile..  |       11.5    10.7684     2.61   0.009      1.83505    72.06888
+             |
+   highprice#|
+ highmileage |
+ High Price #|
+High Mile..  |   .1471572   .2548493    -1.11   0.269     .0049392    4.384364
+             |
+       _cons |   .0869565   .0641052    -3.31   0.001     .0205016    .3688215
+------------------------------------------------------------------------------
+Note: _cons estimates baseline odds.</pre>
+
+      <section id="interactions_probabilities">
+        <h3>Probabilities</h3>
+
+        <p>
+          Because we have two categorical predictors, we can return to looking
+          at crosstabs as a way of obtaining probabilities.
+          The <code>margins</code> call will also return them.
+        </p>
+
+        <pre>. <span class="keyword">table</span> foreign highmileage highprice
+
+----------------------------------------------------
+                   |             highprice
+                   |  Low Price   High Price   Total
+-------------------+--------------------------------
+Car origin         |
+  Domestic         |
+    highmileage    |
+      Low Mileage  |         23           22      45
+      High Mileage |          6            1       7
+      Total        |         29           23      52
+  Foreign          |
+    highmileage    |
+      Low Mileage  |          2           13      15
+      High Mileage |          6            1       7
+      Total        |          8           14      22
+  Total            |
+    highmileage    |
+      Low Mileage  |         25           35      60
+      High Mileage |         12            2      14
+      Total        |         37           37      74
+----------------------------------------------------
+
+. <span class="keyword">margins</span> highprice#highmileage
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: Pr(foreign), predict()
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   highprice#|
+ highmileage |
+  Low Price #|
+Low Mileage  |        .08   .0542586     1.47   0.140     -.026345     .186345
+  Low Price #|
+High Mile..  |         .5   .1443376     3.46   0.001     .2171036    .7828964
+ High Price #|
+Low Mileage  |   .3714286   .0816735     4.55   0.000     .2113515    .5315056
+ High Price #|
+High Mile..  |         .5   .3535534     1.41   0.157    -.1929519    1.192952
+------------------------------------------------------------------------------</pre>
+
+        <p>
+          This is similar to the categorical predictor, where there are four
+          groups. For example, low price and low mileage, \(2\) out of \(25\)
+          cars are foreign, so the probability is \(2/25 = .08\).
+        </p>
+
+      </section>
+      <section id="interactions_odds">
+        <h3>Odds</h3>
+
+        <pre>. <span class="keyword">margins</span> highprice#highmileage, expression(exp(xb()))
+
+Adjusted predictions                                        Number of obs = 74
+Model VCE: OIM
+
+Expression: exp(xb())
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   highprice#|
+ highmileage |
+  Low Price #|
+Low Mileage  |   .0869565   .0641052     1.36   0.175    -.0386874    .2126004
+  Low Price #|xo
+High Mile..  |          1   .5773503     1.73   0.083    -.1315857    2.131586
+ High Price #|
+Low Mileage  |   .5909091   .2067148     2.86   0.004     .1857554    .9960628
+ High Price #|
+High Mile..  |          1   1.414214     0.71   0.480    -1.771808    3.771808
+------------------------------------------------------------------------------</pre>
+
+        <p>
+          If you look at the logistic results above, the baseline categories are low mileage and low price. So, as before, the intercept is the odds of a foreign car in that subcategory, which we see here.
+        </p>
+
+        <p>
+          We do not obtain the odds for the other categories in the regression
+          output.
+        </p>
+      </section>
+
+      <section id="interactions_odds-ratios">
+        <h3>Odds ratios</h3>
+
+        <p>
+          The odds ratios reported in the regression output only present part of
+          the story. Let’s take a look at them again.
+        </p>
+
+        <p>
+          The coefficient on <code>highprice</code> is the odds ratio of being
+          foreign between high price and low price cars, in the low mileage
+          category.
+        </p>
+
+        \[
+        \frac{\textrm{OR}(\textrm{foreign}|\textrm{high price, low mileage})}{\textrm{OR}(\textrm{foreign}|\textrm{low price, low mileage})}
+        \]
+
+        <p>
+          The coefficient on <code>highmileage</code> is the odds ratio of being
+          foreign between high mileage and low mileage cars, in the low price
+          category.
+        </p>
+
+        \[
+        \frac{\textrm{OR}(\textrm{foreign}|\textrm{low price, high mileage})}{\textrm{OR}(\textrm{foreign}|\textrm{low price, low mileage})}
+        \]
+
+
+      </section>
+    </section>
+  </div>
+  <nav class="section-nav">
+	  <ol>
+		  <li class=""><a href="#introduction">Introduction</a></li>
+		  <li class=""><a href="#intercept-only-model">Intercept only Model</a></li>
+		  <li class=""><a href="#binary-predictor">A Single Binary Predictor</a>
+        <ol>
+          <li class=""><a href="#binary-predictor_probabilities">Probabilities</a></li>
+          <li class=""><a href="#binary-predictor_odds">Odds</a></li>
+          <li class=""><a href="#binary-predictor_odds-ratio">Odds Ratio</a></li>
+        </ol>
+      </li>
+		  <li class=""><a href="#categorical-predictor">A Categorical Predictor</a>
+        <ol>
+          <li class=""><a href="#categorical-predictor_probabilities">Probabilities</a></li>
+          <li class=""><a href="#categorical-predictor_odds">Odds</a></li>
+          <li class=""><a href="#categorical-predictor_odds-ratios">Odds Ratios</a></li>
+        </ol>
+      </li>
+		  <li class=""><a href="#continuous-predictor">A Continuous Predictor</a>
+        <ol>
+          <li class=""><a href="#continuous-predictor_probabilities">Probabilities</a></li>
+          <li class=""><a href="#continuous-predictor_odds">Odds</a></li>
+          <li class=""><a href="#continuous-predictor_odds-ratio">Odds Ratio</a></li>
+        </ol>
+      </li>
+		  <li class=""><a href="#interactions">Interactions</a>
+        <ol>
+          <li class=""><a href="#interactions_probabilities">Probabilities</a></li>
+          <li class=""><a href="#interactions_odds">Odds</a></li>
+          <li class=""><a href="#interactions_odds-ratios">Odds Ratio</a></li>
+        </ol>
+      </li>
+    </ol>
+	</nav>
+
+</body>
+</html>

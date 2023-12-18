@@ -154,77 +154,77 @@
         \(Y\). In least squares regression (linear regression), we have that \(a =
         d + bc\). In all other models, that relationship may not hold.
       </p>
-    </section>
 
-    <section id="mediation_in-regression">
-      <h3>In Regression</h3>
+      <section id="mediation_in-regression">
+        <h3>In Regression</h3>
 
-      <p class="warning">
-        <strong>Warning:</strong> While we <em>can</em> fit mediation via
-        regression (called the Baron-Kenny approach), it is <strong>not</strong>
-        recommended. Thinking of mediation as a series of linear regressions is
-        great for conceptualizing mediation, but not for estimation. Use either
-        the
-        <a href="https://cran.r-project.org/package=lavaan">lavaan</a> or
-        <a href="https://cran.r-project.org/package=mediation">mediation</a>
-        packages in R or
-        use <a href="https://www.stata.com/new-in-stata/causal-mediation-analysis/">causal
-          mediation</a> in Stata.
-      </p>
+        <p class="warning">
+          <strong>Warning:</strong> While we <em>can</em> fit mediation via
+          regression (called the Baron-Kenny approach), it is <strong>not</strong>
+          recommended. Thinking of mediation as a series of linear regressions is
+          great for conceptualizing mediation, but not for estimation. Use either
+          the
+          <a href="https://cran.r-project.org/package=lavaan">lavaan</a> or
+          <a href="https://cran.r-project.org/package=mediation">mediation</a>
+          packages in R or
+          use <a href="https://www.stata.com/new-in-stata/causal-mediation-analysis/">causal
+            mediation</a> in Stata.
+        </p>
 
-      <p>
-        We can conceptalize the above model as three regression models, testing
-        all paths above.
-      </p>
+        <p>
+          We can conceptalize the above model as three regression models, testing
+          all paths above.
+        </p>
 
-      <ol start="1">
-        <li>
-          Test \(a\) to establish a relationship between predictor (\(X\)) and
-          response (\(Y\)):
-        </li>
-      </ol>
+        <ol start="1">
+          <li>
+            Test \(a\) to establish a relationship between predictor (\(X\)) and
+            response (\(Y\)):
+          </li>
+        </ol>
 
-      \[
-      Y = \beta_0^{(1)} + cX + \epsilon_1
-      \]
+        \[
+        Y = \beta_0^{(1)} + cX + \epsilon_1
+        \]
 
-      <ol start="2">
-        <li>
-          Test \(b\) to establish correlation between predictor
-          (\(X\)) and moderator (\(M\)):
-        </li>
-      </ol>
+        <ol start="2">
+          <li>
+            Test \(b\) to establish correlation between predictor
+            (\(X\)) and moderator (\(M\)):
+          </li>
+        </ol>
 
-      \[
-      Z = \beta_0^{(2)} + aX + \epsilon_2
-      \]
+        \[
+        Z = \beta_0^{(2)} + aX + \epsilon_2
+        \]
 
-      <ol start="3">
-        <li>
-          Test \(c\) to establish that the mediator
-          (\(M\)) affects the response
-          (\(Y\)). Include both mediator
-          (\(M\)) and predictor (\(X\)) to
-          establish that the relationship exists when controlling
-          for \(X\).
-        </li>
-      </ol>
+        <ol start="3">
+          <li>
+            Test \(c\) to establish that the mediator
+            (\(M\)) affects the response
+            (\(Y\)). Include both mediator
+            (\(M\)) and predictor (\(X\)) to
+            establish that the relationship exists when controlling
+            for \(X\).
+          </li>
+        </ol>
 
-      \[
-      Y = \beta_0^{(3)} + dX + bM + \epsilon_3
-      \]
+        \[
+        Y = \beta_0^{(3)} + dX + bM + \epsilon_3
+        \]
 
-    </section>
-    <section id="mediation_sources">
-      <h3>Sources</h3>
-      <ul>
-        <li>
-          <a href="http://davidakenny.net/cm/mediate.htm">http://davidakenny.net/cm/mediate.htm</a>
-        </li>
-        <li>
-          <a href="http://data.library.virginia.edu/introduction-to-mediation-analysis/">http://data.library.virginia.edu/introduction-to-mediation-analysis/</a>
-        </li>
-      </ul>
+      </section>
+      <section id="mediation_sources">
+        <h3>Sources</h3>
+        <ul>
+          <li>
+            <a href="http://davidakenny.net/cm/mediate.htm">http://davidakenny.net/cm/mediate.htm</a>
+          </li>
+          <li>
+            <a href="http://data.library.virginia.edu/introduction-to-mediation-analysis/">http://data.library.virginia.edu/introduction-to-mediation-analysis/</a>
+          </li>
+        </ul>
+      </section>
     </section>
   </div>
   <nav class="section-nav">
