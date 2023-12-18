@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TItle here</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            if (entry.intersectionRatio > 0) {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.add('active');
+            } else {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.remove('active');
+            }
+          });
+        });
+
+        // Track all sections that have an `id` applied
+        document.querySelectorAll('section[id]').forEach((section) => {
+          observer.observe(section);
+        });
+
+      });
+    </script>
+  </head>
+<body class="statsnotes">
+  <div>
+  <h1>Introduction</h1>
+
+  <p>
+    Moderation and mediation are terms for measuring conditional effects. They
+    are frequently discussed in the context of SEMs. However, both can be
+    estimated in standard regression settings.
+  </p>
+
+  <section id="moderation">
+    <h2>Moderation</h2>
+
+    <p>
+      Let<math><mi>X</mi></math> be a predictor, <math><mi>Y</mi></math> be a
+      response and we are studying whether <math><mi>Z</mi></math> moderates the
+      relationship between<math><mi>X</mi></math> and <math><mi>Y</mi></math>.
+      In other words, we want to know whether <math><mi>Z</mi></math> modifies
+      the strength (or direction) of the relationship
+      between <math><mi>X</mi></math> and <math><mi>Y</mi></math> . For example,
+      we could study the relationship between socio-economic status
+      (<math><mi>X</mi></math> and frequency of breast exams
+      (<math><mi>Y</mi></math> ). Among younger women, breast exams are rare
+      because current recommendations are for women age 40 and over to get
+      exams. However, in older women, there is a relationship because those with
+      higher SES tend to be more concerned with health. Age
+      (<math><mi>Z</mi></math>) moderates the relationship between SES and
+      frequency of breast exams.
+    </p>
+
+    <section id="moderation_in-regression">
+      <h3>In Regression</h3>
+
+      <p>
+        Moderation is represented in a regression model with nothing more than
+        an interaction term. There is a causal aspect to it, in that there needs
+        to be the assumption that the predictor (<math><mi>X</mi></math>) has a
+        causal relationship on the response (<math><mi>Y</mi></math>).
+        If <math><mi>X</mi></math> is randomized, this assumption is satisfied.
+        If the <math><mi>X</mi></math> is not randomized, this assumption must
+        be based on theory and domain specific knowledge.
+      </p>
+
+      <p>
+        Fit the interaction model,
+      </p>
+
+      <math display="block" class="tml-display" style="display:block math;">
+        <mrow>
+          <mi>Y</mi>
+          <mo>=</mo>
+          <msub>
+            <mi>β</mi>
+            <mn>0</mn>
+          </msub>
+          <mo>+</mo>
+          <msub>
+            <mi>β</mi>
+            <mn>1</mn>
+          </msub>
+          <mi>X</mi>
+          <mo>+</mo>
+          <msub>
+            <mi>β</mi>
+            <mn>2</mn>
+          </msub>
+          <mi>Z</mi>
+          <mo>+</mo>
+          <msub>
+            <mi>β</mi>
+            <mn>3</mn>
+          </msub>
+          <mi>X</mi>
+          <mi>Z</mi>
+          <mo>+</mo>
+          <mi>ϵ</mi>
+          <mi>.</mi>
+        </mrow>
+      </math>
+
+      <p>
+        Therefore, <math><msub><mi>β</mi><mn>3</mn></msub></math> measures the
+        moderation effect.
+      </p>
+    </section>
+    <section id="moderation_sources">
+      <h3>Sources</h3>
+
+      <ul>
+        <li><a href="http://davidakenny.net/cm/moderation.htm">http://davidakenny.net/cm/moderation.htm</a></li>
+      </ul>
+    </section>
+  </section>
+  <section id="mediation">
+    <h2>Mediation</h2>
+
+    <p>
+      Again, let <math><mi>X</mi></math> be a predictor
+      and <math><mi>Y</mi></math> be a response. We are studying
+      whether <math><mi>Z</mi></math> mediates the relationship
+      between<math><mi>X</mi></math> and <math><mi>Y</mi></math>. Mediating
+      variables are more complicated that moderators. A variable
+      (<math><mi>Z</mi></math>) is said to be a mediator if it partially or
+      fully explains the relationship between the predictor
+      (<math><mi>X</mi></math>) and the response (<math><mi>Y</mi></math>).
+      The easiest way to explain this is visually.
+    </p>
+
+    <p>The unmediated and mediated model follow.</p>
+
+    <img src="images/mediation.svg" class="image_center">
+
+    <p>
+      In the first model, the unmediated model, the total relationship
+      between <math><mi>X</mi></math> and <math><mi>Y</mi></math> is captured
+      by <math><mi>a</mi></math>. This model allows no mediation.
+    </p>
+
+    <p>
+      In the second model, the total effect is split into a <strong>direct
+      effect</strong> and an <strong>indirect
+      effect</strong>. <math><mi>d</mi></math> is the direct effect
+      and <math><mi>bc</mi></math> (the product of <math><mi>b</mi></math>
+      and <math><mi>c</mi></math>) is the indirect effect
+      from <math><mi>X</mi></math> to <math><mi>Y</mi></math> mediated
+      through <math><mi>M</mi></math>.
+    </p>
+
+    <p>
+      Depending on the significance (both statistical and practical)
+      of <math><mi>d</mi></math> and <math><mi>bc</mi></math>, we would have:
+    </p>
+
+    <ul>
+      <li>If <math><mi>d</mi></math> is non-zero but <math><mi>bc</mi></math> is
+        zero, then we have no evidence of mediation.</li>
+      <li>If both <math><mi>d</mi></math> and <math><mi>bc</mi></math> are
+        non-zero then we have evidence of <strong>partial mediation</strong>.
+        (There is evidence of both a direct effect and an indirect effect.)</li>
+      <li>If <math><mi>d</mi></math> is zero, but <math><mi>bc</mi></math> is
+        non-zero, then we have evidence of <strong>total mediation</strong>.
+        (The only evidence of a relationship between <math><mi>X</mi></math>
+        and <math><mi>Y</mi></math> is through the mediation
+        of <math><mi>M</mi></math>.)</li>
+      <li>Finally, if both <math><mi>d</mi></math> and <math><mi>bc</mi></math>
+      are zero, there's no evidence of a relationship.</li>
+    </ul>
+
+    <p> We
+      call <math><mrow><mi>d</mi><mo>+</mo></mrow><mrow><mi>bc</mi></mrow></math>
+      the <strong>total effect</strong> between <math><mi>X</mi></math>
+      and <math><mi>Y</mi></math>. In least squares regression (linear
+      regression), we have
+      that <math><mrow><mi>a</mi><mo>=</mo></mrow><mrow><mi>d</mi><mo>+</mo></mrow><mrow><mi>bc</mi></mrow></math>.
+      In all other models, that relationship may not hold.
+    </p>
+  </section>
+
+  <section id="in-regression-1" class="level2">
+    <h2 class="anchored" data-anchor-id="in-regression-1">In Regression</h2>
+    <div class="callout callout-style-default callout-important callout-titled">
+      <div class="callout-header d-flex align-content-center">
+        <div class="callout-icon-container">
+          <i class="callout-icon"></i>
+        </div>
+        <div class="callout-title-container flex-fill">Important</div>
+      </div>
+      <div class="callout-body-container callout-body">
+        <p>
+          While we <em>can</em> fit mediation via regression (called the
+          Baron-Kenny approach), it is <strong>not</strong> recommended. Use
+          either SEM or the
+          <a
+            href="https://cran.r-project.org/web/packages/mediation/vignettes/mediation.pdf"
+            >mediation package</a
+          >
+          in R or
+          <a
+            href="https://www.stata.com/new-in-stata/causal-mediation-analysis/"
+            >causal mediation</a
+          >
+          in Stata.
+        </p>
+      </div>
+    </div>
+    <p>To test, we fit three regression models, testing all paths above.</p>
+    <ol type="1">
+      <li>
+        Test <math><mi>c</mi></math> to establish a relationship
+        between predictor (<math><mi>X</mi></math> and response
+        (<math><mi>Y</mi></math>
+        ):
+      </li>
+    </ol>
+    <p>
+      <span class="math display">\[ Y = \beta_0^{(1)} + cX + \epsilon. \]</span>
+    </p>
+
+
+        Tset <span moderatino_class="math >\(a</mi></math> to establish correlation
+                                     be2><mi>X</mi></math> and moderat3r
+
+        (<math><mi>Z</mi></math>):
+      </li>
+    </ol>
+    <p><span class="math display">\[ Z = \beta_0^{(2)} + aX + \epsilon. \]</span>
+    </p>
+    <ol start="3" type="1">
+
+      th niline">\(moderatino_b</mi></math>><mi>Z</mi></math>) affects the response
+(<2><mi>Y</mi></mat3>
+
+        ). Include both mediator (<math><mi>Z</mi></math>) and
+        predictor (<math><mi>X</mi></math> to establishthat the relationship
+        exists when controlling for
+       <math><mi>X</mi></math>.
+      </li>
+    </ol>
+    <p>
+      <span class="math display"
+            >\[ Y = \beta_0^{(3)
+        } + dX + bM + \epsilon. \]</span
+
+    <p>
+      I f<span moderatino_class=>\(c</mi></math>,
+      <s2>\(a</mi></math> a3d
+
+      <math><mi>b</mi></math> are shown to be significant in each
+      step above, we have established partial mediation.
+    </p>
+    <p>If additionally <math><mi>d</mi></math> is zero, we have
+      established full mediation.
+    </p>
+  </section>
+  <section id="sources-1" class="level2">
+    <h2 class="anchored" data-anchor-id="sources-1">Sources</h2>
+    <p>
+      <a href="http://davidakenny.net/cm/mediate.htm" class="uri"
+        >http://davidakenny.net/cm/mediate.htm</a
+      >
+    </p>
+    <p>
+      <a
+        href="http://data.library.virginia.edu/introduction-to-mediation-analysis/"
+        class="uri"
+        >http://data.library.virginia.edu/introduction-to-mediation-analysis/</a
+      >
+    </p>
+  </section>
+  </div>
+</section>
+	<nav class="section-nav">
+		<ol>
+			<li class=""><a href="#moderation">Moderation</a>
+        <ol>
+          <li class=""><a href="#moderation_in-regression">In regression</a></li>
+          <li class=""><a href="#moderation_sources">Sources</a></li>
+        </ol>
+      </li>
+			<li class=""><a href="#icc">ICC</a>
+			  <ol>
+				  <li class=""><a href="#icc_r">ICC in R</a>
+            <ol>
+              <li class=""><a href="#icc_nlme">ICC in nlme</a></li>
+              <li class=""><a href="#icc_lme4">ICC in lme4</a></li>
+            </ol>
+          </li>
+          <li class=""><a href="#icc_sources">Sources</a></li>
+        </ol>
+      </li>
+    </ol>
+	</nav>
+</body>
+</html>
