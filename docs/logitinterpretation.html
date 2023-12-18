@@ -105,7 +105,7 @@ Log likelihood = -45.03321                              Pseudo R2     = 0.0000
       <p>
         The default output from the <code>logit</code> command are the log odds,
         \(-.86\), and passing the <code>or</code> option (or
-        calling <code>logistic</code> instead of <code>logit</code> gives the
+        calling <code>logistic</code> instead of <code>logit</code>) gives the
         odds ratio of \(.423\). The conversion between these values is
         straightforward:
       </p>
@@ -449,8 +449,7 @@ High Mile..  |          3   1.836145     1.79   0.073     .9039507    9.956295
 Note: _cons estimates baseline odds.</pre>
 
         <p>
-          The intercept is (\textrm{odds}(\textrm{foreign} | \textrm{low
-          mileage})\), the odds of a positive outcome in the baseline group, and
+          The intercept is \(\textrm{odds}(\textrm{foreign} | \textrm{low mileage})\), the odds of a positive outcome in the baseline group, and
           the coefficient on <code>highmileage</code> is the odds ratio!
         </p>
 
@@ -616,7 +615,7 @@ Expression: exp(xb())
         <p>
           Note here that multiplying the odds ratios by the odds
           in <code>pricecat</code> 1 (the intercept) gives the odds in the other
-          group. E.g. \(3.71\times .408 \approx 1.5).
+          group. Such as \(3.71\times .408 \approx 1.5\).
         </p>
 
       </section>
