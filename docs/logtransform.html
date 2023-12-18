@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TItle here</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Mathjax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- Polyfill needed only for IE11 -->
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <!-- /Mathjax -->
+
     <script>
       window.addEventListener('DOMContentLoaded', () => {
 
@@ -42,601 +50,361 @@
       </p>
 
       <p>
-        We are always discussing the natural log
-        (<math><mrow><mi>ln</mi></mrow></math>),
-        i.e. <math><msub><mtext>log</mtext><mi>e</mi></msub></math>.
+        We are always discussing the natural log (\(ln\)), i.e. \(\log_e()\).
       </p>
 
       <section id="introduction_change">
         <h3>Multiplicative vs Percent Change</h3>
         <p>
           Note that multiplicative changes can be expressed as percent changes
-          and vice-versa. For example, multiplying a value
-          by <math><mn>1.3</mn></math> is equivalent to increasing the value
-          by <math><mrow><mn>30</mn><mi>%</mi></mrow></math>, or conversly,
-          decreasing a value by <math><mrow><mn>15</mn><mi>%</mi></mrow></math>
-          is equivalent to multiplying it by <math><mn>.85</mn></math>.
+          and vice-versa. For example, multiplying a value by \(1.3\) is
+          equivalent to increasing the value by \(30\%\), or conversly,
+          decreasing a value by \(15\%\) is equivalent to multiplying it by
+          \(.85\).
         </p>
       </section>
     </section>
     <section id="logged-outcome">
       <h2>Logged Outcome</h2>
       <p>
-        A <math><mn>1</mn></math> unit change in a predictor is associated with
-        a
-        <math><mrow><mtext>exp</mtext><mo form="prefix"
-        stretchy="false">(</mo><mover><mi>β</mi><mo stretchy="false"
-        class="tml-capshift"
-        style="math-style:normal;math-depth:0;">^</mo></mover><mo form="postfix"
-        stretchy="false">)</mo></mrow></math> mulitplicative change
-        in <math><mi>Y</mi></math>, or a <math><mrow><mo form="prefix"
-        stretchy="false">(</mo><mn>100</mn><mo form="prefix"
-        stretchy="false">(</mo><mtext>exp</mtext><mo form="prefix"
-        stretchy="false">(</mo><mover><mi>β</mi><mo stretchy="false"
-        class="tml-capshift"
-        style="math-style:normal;math-depth:0;">^</mo></mover><mo form="postfix"
-        stretchy="false">)</mo><mo>−</mo><mn>1</mn><mo form="postfix"
-        stretchy="false">)</mo><mi>%</mi><mo form="postfix"
-        stretchy="false">)</mo></mrow></math> change in <math><mi>Y</mi></math>.
+        A \(1\) unit change in a predictor is associated with a
+        \(\exp\left(\hat{\beta}\right)\) multiplicative change in \(y\), or a
+        \(\left(100\left(\exp\left(\hat{\beta}\right) - 1\right)\%\right)\)
+        change in \(Y\).
       </p>
 
-        <p>Examples:</p>
-        <ul>
-          <li>
-            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
-            style="math-style:normal;math-depth:0;">^</mo></mover></math>
-            is <math><mn>.2</mn></math>, a <math><mn>1</mn></math>-unit increase
-            in <math><mi>X</mi></math> is associated with
-            an <math><mrow><mtext>exp</mtext><mo form="prefix"
-            stretchy="false">(</mo><mi>.</mi><mn>2</mn><mo form="postfix"
-            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mn>1.22</mn></mrow></math>
-            multiplicative change in <math><mi>Y</mi></math>, or
-            a <math><mrow><mn>22</mn><mi>%</mi></mrow></math> increase.
-          </li>
-          <li>
-            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
-            style="math-style:normal;math-depth:0;">^</mo></mover></math>
-            is <math><mi>-.</mi><mn>4</mn></math>,
-            a <math><mn>1</mn></math>-unit increase in <math><mi>X</mi></math>
-            is associated with
-            an <math><mrow><mtext>exp</mtext><mo form="prefix"
-            stretchy="false">(</mo><mi>-.</mi><mn>4</mn><mo form="postfix"
-            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mi>.</mi><mn>67</mn></mrow></math>
-            multiplicative change in <math><mi>Y</mi></math>, or
-            a <math><mrow><mn>33</mn><mi>%</mi></mrow></math> decrease.
-          </li>
-        </ul>
-        <section id="logged-outcome_theory">
-          <h3>Theory</h3>
+      <p>
+        Examples:
+      </p>
 
-          <p>
-            Assume our regression equation is
-          </p>
+      <ul>
+        <li>
+          If \(\hat{\beta}\) is \(.2\), a \(1\)-unit increase in \(X\) is
+          associated with an \(\exp\left(.2\right) \approx 1.22\)
+          multiplicative change in \(Y\), or a \(22\%\) increase.
+        </li>
+        <li>
+          If \(\hat{\beta}\) is \(-.4\) a \(1\)-unit increase in \(X\) is
+          associated with an \(\exp\left(-.4\right) \approx .67\) multiplicative
+          change in \(Y\), or a \(33\%\) <strong>de</strong>crease.
+        </li>
+      </ul>
+      <section id="logged-outcome_theory">
+        <h3>Theory</h3>
 
-          <math display="block" class="tml-display" style="display:block math;">
-            <mrow>
-              <mi>E</mi>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mi>Y</mi>
-              <mi>|</mi>
-              <mi>X</mi>
-              <mo>=</mo>
-              <mi>x</mi>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mo>=</mo>
-              <msub>
-                <mi>β</mi>
-                <mn>0</mn>
-              </msub>
-              <mo>+</mo>
-              <msub>
-                <mi>β</mi>
-                <mn>1</mn>
-              </msub>
-              <mi>x</mi>
-              <mi>.</mi>
-            </mrow>
-          </math>
+        <p>
+          Assume our regression equation is
+        </p>
 
-          <p>
-            If we regress on the log of q<math><mi>Y</mi></math> instead,
-          </p>
+        \[
+        E(Y|X = x) = \beta_0 + \beta_1x.
+        \]
 
-          <math display="block" class="tml-display" style="display:block math;">
-            <mrow>
-              <mi>E</mi>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mrow>
-                <mi>log</mi>
-                <mo>⁡</mo>
-              </mrow>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mi>Y</mi>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mi>|</mi>
-              <mi>X</mi>
-              <mo>=</mo>
-              <mi>x</mi>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mo>=</mo>
-              <msub>
-                <mi>β</mi>
-                <mn>0</mn>
-              </msub>
-              <mo>+</mo>
-              <msub>
-                <mi>β</mi>
-                <mn>1</mn>
-              </msub>
-              <mi>x</mi>
-              <mi>.</mi>
-            </mrow>
-          </math>
+        <p>
+          If we regress on the log of \(Y\) instead,
+        </p>
 
-          <p>
-            By <a href="https://en.wikipedia.org/wiki/Taylor_series">Taylor
-              expansion</a>,
-          </p>
+        \[
+        E(\log(Y)|X = x) = \beta_0 + \beta_1x.
+        \]
 
-          <math display="block" class="tml-display" style="display:block math;">
-            <mrow>
-              <mrow>
-                <mi>log</mi>
-                <mo>⁡</mo>
-              </mrow>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mi>E</mi>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mi>X</mi>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mo>≈</mo>
-              <mi>E</mi>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mrow>
-                <mi>log</mi>
-                <mo>⁡</mo>
-              </mrow>
-              <mo form="prefix" stretchy="false">(</mo>
-              <mi>X</mi>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mo form="postfix" stretchy="false">)</mo>
-              <mi>.</mi>
-            </mrow>
-          </math>
+        <p>
+          By <a href="https://en.wikipedia.org/wiki/Taylor_series">Taylor
+            expansion</a>,
+        </p>
 
-          <p>
-            Therefore we can write
-          </p>
-          <math display="block" class="tml-display" style="display:block math;">
-            <mtable displaystyle="true" columnalign="right">
-              <mtr>
-                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
-                  <mrow>
-                    <mi>E</mi>
-                    <mo form="prefix" stretchy="false">(</mo>
-                    <mi>Y</mi>
-                    <mi>|</mi>
-                    <mi>X</mi>
-                    <mo>=</mo>
-                    <mi>x</mi>
-                    <mo>+</mo>
-                    <mn>1</mn>
-                    <mo form="postfix" stretchy="false">)</mo>
-                    <mo>=</mo>
-                    <mtext>exp</mtext>
-                    <mrow>
-                      <mo fence="true" form="prefix">(</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>0</mn>
-                      </msub>
-                      <mo>+</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>1</mn>
-                      </msub>
-                      <mo form="prefix" stretchy="false">(</mo>
-                      <mi>x</mi>
-                      <mo>+</mo>
-                      <mn>1</mn>
-                      <mo form="postfix" stretchy="false">)</mo>
-                      <mo fence="true" form="postfix">)</mo>
-                    </mrow>
-                  </mrow>
-                </mtd>
-              </mtr>
-              <mtr>
-                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
-                  <mrow>
-                    <mo lspace="0em">=</mo>
-                    <mtext>exp</mtext>
-                    <mrow>
-                      <mo fence="true" form="prefix">(</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>0</mn>
-                      </msub>
-                      <mo>+</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>1</mn>
-                      </msub>
-                      <mi>x</mi>
-                      <mo>+</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>1</mn>
-                      </msub>
-                      <mo fence="true" form="postfix">)</mo>
-                    </mrow>
-                  </mrow>
-                </mtd>
-              </mtr>
-              <mtr>
-                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
-                  <mrow>
-                    <mo lspace="0em">=</mo>
-                    <mtext>exp</mtext>
-                    <mrow>
-                      <mo fence="true" form="prefix">(</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>0</mn>
-                      </msub>
-                      <mo>+</mo>
-                      <msub>
-                        <mi>β</mi>
-                        <mn>1</mn>
-                      </msub>
-                      <mi>x</mi>
-                      <mo fence="true" form="postfix">)</mo>
-                    </mrow>
-                    <mtext>exp</mtext>
-                    <mo form="prefix" stretchy="false">(</mo>
-                    <msub>
-                      <mi>β</mi>
-                      <mn>1</mn>
-                    </msub>
-                    <mo form="postfix" stretchy="false" rspace="0em">)</mo>
-                  </mrow>
-                </mtd>
-              </mtr>
-              <mtr>
-                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
-                  <mrow>
-                    <mo lspace="0em">=</mo>
-                    <mi>E</mi>
-                    <mo form="prefix" stretchy="false">(</mo>
-                    <mi>Y</mi>
-                    <mi>|</mi>
-                    <mi>X</mi>
-                    <mo>=</mo>
-                    <mi>x</mi>
-                    <mo form="postfix" stretchy="false">)</mo>
-                    <mtext>exp</mtext>
-                    <mo form="prefix" stretchy="false">(</mo>
-                    <msub>
-                      <mi>β</mi>
-                      <mn>1</mn>
-                    </msub>
-                    <mo form="postfix" stretchy="false" rspace="0em">)</mo>
-                    <mi>.</mi>
-                  </mrow>
-                </mtd>
-              </mtr>
-            </mtable>
-          </math>
-        </section>
+        \[
+        \log(E(X)) \approx E(\log(X))
+        \]
 
-        <section id="logged-outcome_example">
-          <h3>Example</h3>
+        <p>
+          Therefore we can write
+        </p>
 
-          <pre><span class="keyword">data</span>(mtcars)
-(m <span class="operator"><-</span> <span class="keyword">lm</span>(<span class="keyword">log</span>(disp) <span class="operator">~</span> drat, <span class="keyword">data</span> <span class="operator">=</span> mtcars))</pre>
+        \begin{align*}
+        E(Y|X = x + 1) & = \textrm{exp}\left(\beta_0 + \beta_1(x + 1)\right) \\
+        & = \textrm{exp}\left(\beta_0 + \beta_1x + \beta_1\right) \\
+        & = \textrm{exp}\left(\beta_0 + \beta_1x\right)\textrm{exp}(\beta_1) \\
+        & = E(Y|X = x)\textrm{exp}(\beta_1)
+        \end{align*}
 
-          <pre class="r_output">Call:
+      </section>
+      <section id="logged-outcome_example">
+        <h3>Example</h3>
+
+        <pre><span class="keyword">data</span>(mtcars)
+          (m <span class="operator"><-</span> <span class="keyword">lm</span>(<span class="keyword">log</span>(disp) <span class="operator">~</span> drat, <span class="keyword">data</span> <span class="operator">=</span> mtcars))</pre>
+
+        <pre class="r_output">Call:
 lm(formula = log(disp) ~ drat, data = mtcars)
 
 Coefficients:
 (Intercept)         drat
      8.2782      -0.8323</pre>
 
-          <p>
-            Therefore a 1-unit increase in <code>drat</code> is associated with
-            an <math><mrow><mtext>exp</mtext><mo form="prefix"
-            stretchy="false">(</mo><mn>-.8323</mn><mo form="postfix"
-            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mi>.</mi><mn>435</mn></mrow></math>
-            multiplicative change in <code>disp</code>, corresponding to
-            a <math><mrow><mn>56.5</mn><mi>%</mi></mrow></math> decrease.
-          </p>
-          <p>
-            To test this, we predict the ratio in predicted outcome with some
-            values of <code>drat</code>, and that value increased
-            by <math><mn>1</mn></math>. <strong>Note</strong>: We exponentiate
-            the predicted values to get them on the outcome scale.
-          </p>
+        <p>
+          Therefore a \(1\)-unit increase in <code>drat</code> is associated
+          with an \(\exp(-.8323) \approx .435\) multiplicative change
+          in <code>disp</code>, corresponding to a \(56.5\%\) decrease.
+        </p>
+        <p>
+          To test this, we predict the ratio in predicted outcome with some
+          values of <code>drat</code>, and that value increased by
+          \(1\). <strong>Note</strong>: We exponentiate the predicted values
+          to get them on the outcome scale.
+        </p>
 
-          <pre><span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">5</span>)))/<span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">4</span>)))</pre>
+        <pre><span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">5</span>)))/<span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">4</span>)))</pre>
 
-          <pre class="r_output">1
+        <pre class="r_output">        1
 0.4350567</pre>
 
-          <p>
-            Repeat with different values of <code>drat</code> to show that all
-            that matters is the change in the predictor, not its starting value.
-          </p>
+        <p>
+          Repeat with different values of <code>drat</code> to show that all
+          that matters is the change in the predictor, not its starting value.
+        </p>
 
-          <pre><span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">18</span>)))/<span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">17</span>)))</pre>
+        <pre><span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">18</span>)))/<span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">17</span>)))</pre>
 
-          <pre class="r_output">1
+        <pre class="r_output">        1
 0.4350567</pre>
 
-        </section>
+      </section>
     </section>
 
     <section id="logged-predictor">
-        <h2>Logged Predictor</h2>
+      <h2>Logged Predictor</h2>
+      <p>
+        A \(k\%\) change in a predictor is associated with
+        \(\hat{\beta}\log\left(1 + \frac{k}{100}\right)\) change in the
+        outcome.
+      </p>
+
+      <p>
+        Examples:
+      </p>
+
+      <ul>
+        <li>
+          If \(\hat{\beta}\) is \(2\), a \(10\%\) increase in \(X\) is
+          associated with a \(2\log\left(1 + \frac{10}{100}\right) =
+          2\log(1.1) \approx 0.19\) increase in \(Y\).
+        </li>
+        <li>
+          If \(\hat{\beta}\) is \(-1.51\), a \(5\%\) increase in \(X\) is
+          associated with a \(-1.5\log\left(1 + \frac{5}{100}\right) =
+          -1.5\log(1.05) \approx 0.03\) <strong>de</strong>crease in \(Y\).
+        </li>
+        <li>
+          If \(\hat{\beta}\) is \(.75\), a \(5\%\) <strong>de</strong>crease in
+          \(X\) is associated with a \(.75\log\left(1 + \frac{-15}{100}\right) =
+          .75\log(.85) \approx 0.05\) <strong>de</strong>crease in \(Y\).
+        </li>
+      </ul>
+
+      <section id="logged-predictor_theory">
+        <h3>Theory</h3>
+
         <p>
-          A <math><mrow><mi>k</mi><mi>%</mi></mrow></math> change in a predictor
-          is associated with <math><mrow><mover><mi>β</mi><mo stretchy="false"
-          class="tml-capshift"
-          style="math-style:normal;math-depth:0;">^</mo></mover><mrow><mi>log</mi><mo>⁡</mo></mrow><mrow><mo fence="true"
-          form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><mi>k</mi><mn>100</mn></mfrac><mo fence="true"
-          form="postfix">)</mo></mrow></mrow></math> change in the outcome.
+          Assume our regression equation is
+        </p>
+
+        \[
+        E(Y|X = x) = \beta_0 + \beta_1x.
+        \]
+
+        <p>
+          If we include \(\log(X)\) instead, we have
+        </p>
+
+        \[
+        E(Y|X = x) = \beta_0 + \beta_1\log(x).
+        \]
+
+        <p>
+          Consider when \(X = cX\) where \(c\) is some constant (e.g. \(2\) for a
+          doubling of \(X\) or \(1.3\) for a \(30\%\) increase in \(X\)).
+        </p>
+
+        \[
+        E(Y|X = cx) = \beta_0 + \beta_1\log(cx).
+        \]
+
+        <p>
+          Therefore if we look at the difference in expectation,
+        </p>
+
+        \begin{align*}
+        E(Y|X = cx) - E(Y|X = x) & = \beta_1(\log(cx) - \log(x)) \\
+        & = \beta_1\log(c).
+        \end{align*}
+
+        <section id="logged-predictor_approximation">
+          <h4>Approximation</h4>
+
+          <p>
+            If your percent change is small (a few percent) then you can
+            approximate the change. This is because \(\log(1 + x) \approx x\) when
+            \(x\) is close to \(0\). So to approximate what effect a \(1\%\)
+            change in \(X\) would have, simply multiple \(\hat{\beta}\) by that
+            value: \(0.1\hat{\beta}\). This works reliably well up to \(\pm3\%\),
+            moderately up to \(\pm5\%\) and gets much worse beyond that.
+            </p>
+          </section>
+        </section>
+
+        <section id="logged-predictor_example">
+          <h3>Example</h3>
+
+          <pre><span class="keyword">data</span>(mtcars)
+(m <span class="operator"><-</span> <span class="keyword">lm</span>(disp <span class="operator">~</span> <span class="keyword">log</span>(drat), <span class="keyword">data</span> <span class="operator">=</span> mtcars))</pre>
+
+          <pre class="r_output">Call:
+lm(formula = drat ~ log(disp), data = mtcars)
+
+Coefficients:
+(Intercept)    log(disp)
+     7.2301      -0.6875</pre>
+
+          <p>
+            Therefore a \(25\%\) increase in <code>disp</code> is associated with a
+            \(-0.688\log(1.25) = -0.153\) change in <code>drat</code>.
+          </p>
+
+          <p>
+            To test this, we predict the difference in predicted outcome with some
+            values of <code>disp</code>, and that value increased by\(25\%\).
+          </p>
+
+          <pre><span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">5</span>)) <span class="operator">-</span> <span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">5</span><span class="operator">*</span><span class="numeric">1.25</span>))</pre>
+
+          <pre class="r_output">        1
+0.1534182</pre>
+
+          <pre><span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">11</span>)) <span class="operator">-</span> <span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">11</span><span class="operator">*</span><span class="numeric">1.25</span>))</pre>
+
+          <pre class="r_output">        1
+0.1534182</pre>
+
+        </section>
+    </section>
+    <section id="both-logged">
+        <h2>Both Logged</h2>
+
+        <p>
+          A \(k\%\) change in a predictor is associated with a \(\left(1 +
+          \frac{k}{100}\right)^{\hat{\beta}}\) multiplicative change in the
+          outcome.
         </p>
 
         <p>
-          Example:
+          Examples:
         </p>
 
         <ul>
           <li>
-            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
-            style="math-style:normal;math-depth:0;">^</mo></mover></math>
-            is <math><mn>2</mn></math>,
-            a <math><mrow><mn>10</mn><mi>%</mi></mrow></math> increase
-            in <math><mi>X</mi></math> is associated with
-            a <math><mrow><mn>2</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mrow><mo fence="true"
-            form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><mn>10</mn><mn>100</mn></mfrac><mo fence="true"
-            form="postfix">)</mo></mrow><mo>=</mo></mrow><mrow><mn>2</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mo form="prefix"
-            stretchy="false">(</mo><mn>1.1</mn><mo form="postfix"
-            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mn>0.19</mn></mrow></math>
-            increase in <math><mi>Y</mi></math>.
+            If \(\hat{\beta}\) is \(2\), a \(10\%\) increase in \(X\) is
+           associated with a \(\left(1 + \frac{10}{100}\right)^2 = 1.1^2 \approx
+           1.21 = 21\%\) increase in \(Y\).
           </li>
           <li>
-            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
-            style="math-style:normal;math-depth:0;">^</mo></mover></math>
-            is <math><mn>-1.5</mn></math>,
-            a <math><mrow><mn>20</mn><mi>%</mi></mrow></math> <strong>de</strong>crease
-            in <math><mi>X</mi></math> is associated with
-            a <math><mrow><mn>-1.5</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mrow><mo fence="true"
-            form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><mn>-20</mn><mn>100</mn></mfrac><mo fence="true"
-            form="postfix">)</mo></mrow><mo>=</mo></mrow><mrow><mn>-1.5</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mo form="prefix"
-            stretchy="false">(</mo><mn>.8</mn><mo form="postfix"
-            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mn>0.33</mn></mrow></math>
-            decrease in <math><mi>Y</mi></math>.
+            If \(\hat{\beta}\) is \(-1.5\), a \(20\%\) <strong>de</strong>crease
+            in \(X\) is associated with a \(\left(1 +
+            \frac{-20}{100}\right)^{-1.5} = .8^{-1.5} \approx 1.40 = 40\%\)
+            increase in \(Y\).
           </li>
         </ul>
+        <section id="both-logged_theory">
+          <h3>Theory</h3>
 
+          <p>
+            To-do.
+          </p>
+        </section>
+        <section id="both-logged_example">
+          <h3>Example</h3>
+
+          <pre><span class="keyword">data</span>(mtcars)
+(m <span class="operator"><-</span> <span class="keyword">lm</span>(<span class="keyword">log</span>(disp) <span class="operator">~</span> <span class="keyword">log</span>(drat), <span class="keyword">data</span> <span class="operator">=</span> mtcars))</pre>
+
+          <pre class="r_output">Call:
+lm(formula = log(drat) ~ log(disp), data = mtcars)
+
+Coefficients:
+(Intercept)    log(disp)
+     2.2763      -0.1905</pre>
+
+          <p>
+            Therefore a \(25\%\) increase in <code>disp</code> is associated
+            with a \(1.25^{-.1905} = 0.958\) multiplicative change
+            in <code>drat</code>, corresponding to a \(4.2\%\) decrease.
+          </p>
+
+          <p>
+            To test this, we predict the difference in predicted outcome with
+            some values of <code>disp</code>, and that value increaed by
+            \(25\%\).
+          </p>
+
+          <pre><span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">5</span>)) <span class="operator">-</span> <span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">5</span><span class="operator">*</span><span class="numeric">1.25</span>))</pre>
+
+          <pre class="r_output">         1
+0.04251857</pre>
+
+          <pre><span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">8</span>)) <span class="operator">-</span> <span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(disp <span class="operator">=</span> <span class="numeric">8</span><span class="operator">*</span><span class="numeric">1.25</span>))</pre>
+
+          <pre class="r_output">         1
+0.04251857</pre>
+        </section>
     </section>
-<!--   <section id="theory-1" class="level2"> -->
-      <!--     <h2 class="anchored" data-anchor-id="theory-1">Theory</h2> -->
-      <!--     <p>Assume our regression equation is</p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ E(Y|X = x) = \beta_0 + \beta_1x. \]</span -->
-      <!--                                                      > -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       If we include -->
-      <!--       <math><mi>\log(X)</mi></math> instead, we have -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ E(Y|X = x) = \beta_0 + \beta_1\log(x). \]</span -->
-      <!--                                                            > -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       Consider when <math><mi>X = cX</mi></math> where -->
-      <!--       <math><mi>c</mi></math> is some constant -->
-      <!--       (e.g.&nbsp;2 for a doubling of -->
-      <!--       <math><mi>X</mi></math> or 1.3 for a 30% increase -->
-      <!--       in <math><mi>X</mi></math>). -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ E(Y|X = cx) = \beta_0 + \beta_1\log(cx). \]</span -->
-      <!--                                                              > -->
-      <!--     </p> -->
-      <!--     <p>Therefore if we look at the difference in expectation,</p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ E(Y|X = cx) - E(Y|X = x) = \beta_1(\log(cx) - \log(x)) = -->
-      <!--         \beta_1\log(c). \]</span -->
-      <!--                             > -->
-      <!--     </p> -->
-      <!--     <section id="approximation" class="level3"> -->
-      <!--       <h3 class="anchored" data-anchor-id="approximation"> -->
-      <!--         Approximation -->
-      <!--       </h3> -->
-      <!--       <p> -->
-      <!--         If your percent change is small (e.g.&nbsp;a few percent) then -->
-      <!--         you can approximate the change. This is because -->
-      <!--       </p> -->
-      <!--       <p> -->
-      <!--         <span class="math display">\[ log(1 + x) \approx x, \]</span> -->
-      <!--       </p> -->
-      <!--       <p> -->
-      <!--         when <math><mi>x</mi></math> is close to 0. So to -->
-      <!--         approximate what effect a 1% change in -->
-      <!--         <math><mi>X</mi></math>` would have, simply -->
-      <!--         multiple <math><mi>\hat{\beta}</mi></math> by -->
-      <!--         that value; <math><mi>0.1\hat{\beta}</mi></math>. -->
-      <!--         This works reliably well up to -->
-      <!--         <math><mi>\pm3\%</mi></math>, moderately up to -->
-      <!--         <math><mi>\pm5\%</mi></math> and gets much worse -->
-      <!--         beyond that. -->
-      <!--       </p> -->
-      <!--     </section> -->
-      <!--   </section> -->
-      <!--   <section id="example-1" class="level2"> -->
-      <!--     <h2 class="anchored" data-anchor-id="example-1">Example</h2> -->
-      <!--     <div class="cell"> -->
-      <!--       <div class="sourceCode cell-code" id="cb7"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span> -->
-      <!--             <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">lm</span>(drat <span class="sc">~</span> <span class="fu">log</span>(disp), <span class="at">data =</span> mtcars))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code> -->
-      <!--             Call: -->
-      <!--             lm(formula = drat ~ log(disp), data = mtcars) -->
-
-      <!--             Coefficients: -->
-      <!--             (Intercept)    log(disp) -->
-      <!--             7.2301      -0.6875  </code></pre> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--     <p> -->
-      <!--       Therefore a 25% increase in <code>disp</code> is associated with a -->
-      <!--       <math><mi>-0.688\log(1.25) = -0.153</mi></math> -->
-      <!--       change in <code>drat</code>. -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       To test this, we predict the difference in predicted outcome with -->
-      <!--       some values of <code>disp</code>, and that value increaed by 25%. -->
-      <!--     </p> -->
-      <!--     <div class="cell"> -->
-      <!--       <div class="sourceCode cell-code" id="cb9"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code>        1 -->
-      <!--             0.1534182 </code></pre> -->
-      <!--       </div> -->
-      <!--       <div class="sourceCode cell-code" id="cb11"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code>        1 -->
-      <!--             0.1534182 </code></pre> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--   </section> -->
-      <!-- </section> -->
-      <!-- <section id="both-logged" class="level1"> -->
-      <!--   <h1>Both Logged</h1> -->
-      <!--   <p> -->
-      <!--     A <math><mi>k\%</mi></math> change in a predictor is -->
-      <!--     associated with a -->
-      <!--     <span class="math inline" -->
-      <!--           >\(\left(1 + \frac{k}{100}\right)^{\hat{\beta}}\)</span -->
-      <!--                                                              > -->
-      <!--     multiplicative change in the outcome. -->
-      <!--   </p> -->
-      <!--   <p>Examples:</p> -->
-      <!--   <ul> -->
-      <!--     <li> -->
-      <!--       If <math><mi>\hat{\beta}</mi></math> is 2, a -->
-      <!--       <math><mi>10\%</mi></math> increase in -->
-      <!--       <math><mi>X</mi></math> is associated with a -->
-      <!--       <span class="math inline" -->
-      <!--             >\(\left(1 + \frac{10}{100}\right)^2 = 1.1^2 \approx 1.21 = -->
-      <!--         21\%\)</span -->
-      <!--                 > -->
-      <!--       increaes in <math><mi>Y</mi></math>. -->
-      <!--     </li> -->
-      <!--     <li> -->
-      <!--       If <math><mi>\hat{\beta}</mi></math> is -1.5, a -->
-      <!--       <math><mi>20\%</mi></math> -->
-      <!--       <strong>de</strong>crease in -->
-      <!--       <math><mi>X</mi></math> is associated with a -->
-      <!--       <span class="math inline" -->
-      <!--             >\(\left(1 + \frac{-20}{100}\right)^{-1.5} = .8^{-1.5} \approx -->
-      <!--         1.40 = 40\%\)</span -->
-      <!--                        > -->
-      <!--       increase in <math><mi>Y</mi></math>. -->
-      <!--     </li> -->
-      <!--   </ul> -->
-      <!--   <section id="theory-2" class="level2"> -->
-      <!--     <h2 class="anchored" data-anchor-id="theory-2">Theory</h2> -->
-      <!--     <p>To-do.</p> -->
-      <!--   </section> -->
-      <!--   <section id="example-2" class="level2"> -->
-      <!--     <h2 class="anchored" data-anchor-id="example-2">Example</h2> -->
-      <!--     <div class="cell"> -->
-      <!--       <div class="sourceCode cell-code" id="cb13"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span> -->
-      <!--             <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(drat) <span class="sc">~</span> <span class="fu">log</span>(disp), <span class="at">data =</span> mtcars))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code> -->
-      <!--             Call: -->
-      <!--             lm(formula = log(drat) ~ log(disp), data = mtcars) -->
-
-      <!--             Coefficients: -->
-      <!--             (Intercept)    log(disp) -->
-      <!--             2.2763      -0.1905  </code></pre> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--     <p> -->
-      <!--       Therefore a 25% increase in <code>disp</code> is associated with a -->
-      <!--       <math><mi>1.25^{`r round(m</mi></math>coef[2], -->
-      <!--       3)<code>} = 0.958$ multiplicative change in</code>drat`, -->
-      <!--       corresponding to a 4.2% decrease. -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       To test this, we predict the difference in predicted outcome with -->
-      <!--       some values of <code>disp</code>, and that value increaed by 25%. -->
-      <!--     </p> -->
-      <!--     <div class="cell"> -->
-      <!--       <div class="sourceCode cell-code" id="cb15"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code>         1 -->
-      <!--             0.04251857 </code></pre> -->
-      <!--       </div> -->
-      <!--       <div class="sourceCode cell-code" id="cb17"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code>         1 -->
-      <!--             0.04251857 </code></pre> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--   </section> -->
-      <!-- </section> -->
-	</div>
+</div>
 	<nav class="section-nav">
 		<ol>
-			<li class=""><a href="#introduction">Introduction</a>
+			<li class="">
+        <a href="#introduction">Introduction</a>
         <ol>
-          <li class=""><a href="#introduction_change">Multiplicative vs
-          Percentage change</a></li>
+          <li class="">
+            <a href="#introduction_change">Multiplicative vs Percentage
+              change</a>
+          </li>
         </ol>
       </li>
-			<li class=""><a href="#logged-outcome">Logged Outcome</a>
+			<li class="">
+        <a href="#logged-outcome">Logged Outcome</a>
 			  <ol>
-				  <li class=""><a href="#icc_r">ICC in R</a>
+				  <li class="">
+            <a href="#logged-outcome_theory">Theory</a>
+          </li>
+          <li class="">
+            <a href="#logged-outcome_example">Example</a>
+          </li>
+        </ol>
+      </li>
+			<li class="">
+        <a href="#logged-predictor">Logged Predictor</a>
+			  <ol>
+				  <li class="">
+            <a href="#logged-predictor_theory">Theory</a>
             <ol>
-              <li class=""><a href="#icc_nlme">ICC in nlme</a></li>
-              <li class=""><a href="#icc_lme4">ICC in lme4</a></li>
+              <li class="">
+                <a href="#logged-predictor_approximation">Approximation</a>
+              </li>
             </ol>
           </li>
-          <li class=""><a href="#icc_sources">Sources</a></li>
+          <li class="">
+            <a href="#logged-predictor_example">Example</a>
+          </li>
+        </ol>
+      </li>
+			<li class="">
+        <a href="#both-logged">Both Logged</a>
+			  <ol>
+				  <li class="">
+            <a href="#both-logged_theory">Theory</a>
+          </li>
+          <li class="">
+            <a href="#both-logged_example">Example</a>
+          </li>
         </ol>
       </li>
     </ol>
