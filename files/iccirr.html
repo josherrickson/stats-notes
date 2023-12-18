@@ -7,59 +7,31 @@
     </p>
 
     <section id="kappa">
-      <h2>Cohen's <math><mi>κ</mi></math></h2>
+      <h2>Cohen's \(\kappa\)</h2>
 
       <p>
-        Cohen's <math><mi>κ</mi></math> can be used for agreement between two
+        Cohen's \(\kappa\) can be used for agreement between two
         raters on categorical data. The basic calculation is
       </p>
 
-      <math display="block" class="tml-display" style="display:block math;">
-        <mrow>
-          <mi>κ</mi>
-          <mo>=</mo>
-        </mrow>
-        <mrow>
-          <mfrac>
-            <mrow>
-              <msub>
-                <mi>p</mi>
-                <mi>a</mi>
-              </msub>
-              <mo>−</mo>
-              <msub>
-                <mi>p</mi>
-                <mi>e</mi>
-              </msub>
-            </mrow>
-            <mrow>
-              <mn>1</mn>
-              <mo>−</mo>
-              <msub>
-                <mi>p</mi>
-                <mi>e</mi>
-              </msub>
-            </mrow>
-          </mfrac>
-          <mo separator="true">,</mo>
-        </mrow>
-      </math>
+      \[
+      \kappa = \frac{p_a - p_e}{1 - p_e},
+      \]
+
       <p>
-        where <math><msub><mi>p</mi><mi>a</mi></msub></math> is the percentage
-        observed agreement and <math><msub><mi>p</mi><mi>e</mi></msub></math> is
-        the percentage expected agreement by chance.
-        Therefore <math><mi>κ</mi></math> is what percentage of the agreement
-        over chance is observed.
+        where \(p_a\) is the percentage observed agreement and \(p_e\) is the
+        percentage expected agreement by chance. Therefore \(\kappa\) is what
+        percentage of the agreement over chance is observed.
       </p>
 
       <p>
-        Fleiss' <math><mi>κ</mi></math> is an extension to more than two raters and has a similar form.
+        Fleiss' \(\kappa\) is an extension to more than two raters and has a similar form.
       </p>
 
       <p>
-        A major flaw in either <math><mi>κ</mi></math> is that for ordinal data, any disagreement is
+        A major flaw in either \(\kappa\) is that for ordinal data, any disagreement is
         treated equal. E.g. on a Likert scale, ratings of 4 and 5 are just as
-        disagreeable as ratings of 1 and 5. Weighted <math><mi>κ</mi></math> addresses this by
+        disagreeable as ratings of 1 and 5. Weighted \(\kappa\) addresses this by
         including a weight matrix which can be used to provide levels of
         disagreement.
       </p>
@@ -78,52 +50,26 @@
       <h2>Intra-class correlation</h2>
 
       <p>
-        ICC is used for continuous measurements. It can be used in place of weighted
-        <math><mi>κ</mi></math> with ordinal variables of course. The basic calculation is
+        ICC is used for continuous measurements. It can be used in place of
+        weighted \(\kappa\) with ordinal variables of course. The basic
+        calculation is
       </p>
 
-      <math display="block" class="tml-display" style="display:block math;">
-        <mrow>
-          <mtext>ICC</mtext>
-          <mo>=</mo>
-        </mrow>
-        <mrow>
-          <mfrac>
-            <msubsup>
-              <mi>σ</mi>
-              <mi>w</mi>
-              <mn>2</mn>
-            </msubsup>
-            <mrow>
-              <msubsup>
-                <mi>σ</mi>
-                <mi>w</mi>
-                <mn>2</mn>
-              </msubsup>
-              <mo>+</mo>
-              <msubsup>
-                <mi>σ</mi>
-                <mi>b</mi>
-                <mn>2</mn>
-              </msubsup>
-            </mrow>
-          </mfrac>
-          <mo separator="true">,</mo>
-        </mrow>
-      </math>
+      \[
+      ICC = \frac{\sigma^2_w}{\sigma^2_w + \sigma^2_b},
+      \]
+
 
       <p>
-        where <math><msubsup><mi>σ</mi><mi>w</mi><mn>2</mn></msubsup></math>
-        and <math><msubsup><mi>σ</mi><mi>b</mi><mn>2</mn></msubsup></math>
-        represent within- and between- rater variability respectively. Since the
-        denominator is the total variance of all ratings regardless of rater,
-        this fraction represents the percent of total variation accounted for by
-        within-variation.
+        where \(\sigma_w^2\) and \(\sigma_b^2\) represent within- and between-
+        rater variability respectively. Since the denominator is the total
+        variance of all ratings regardless of rater, this fraction represents
+        the percent of total variation accounted for by within-variation.
       </p>
 
       <p>
         The modern way to estimate the ICC is by a mixed model, extracting the
-        <math><mi>σ</mi></math>'s that are needed.
+        \(\sigma\)'s that are needed.
       </p>
 
       <section id="icc_r">
@@ -175,8 +121,8 @@ Number of Groups: 27</pre>
 
         <p>
           The between-effect standard deviation is reported as
-          the <code>Residual StdDev</code>. To obtain the ICC, we compute
-          each <math><mi>σ</mi></math>:
+          the <code>Residual StdDev</code>. To obtain the ICC, we compute each
+          \(\sigma\):
         </p>
 
         <pre>s2w <span class="operator"><-</span> <span class="keyword">getVarCov</span>(fm1)[[<span class="numeric">1</span>]]
