@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TItle here</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Mathjax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- Polyfill needed only for IE11 -->
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <!-- /Mathjax -->
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            if (entry.intersectionRatio > 0) {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.add('active');
+            } else {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.remove('active');
+            }
+          });
+        });
+
+        // Track all sections that have an `id` applied
+        document.querySelectorAll('section[id]').forEach((section) => {
+          observer.observe(section);
+        });
+
+      });
+    </script>
+  </head>
+<body class="statsnotes">
+  <div>
+    <section id="intro">
+      <h1>The Divide by 4 Rule</h1>
+      <p>
+        In addition to the odds ratio interpretation of coefficients in a logistic
+        regression model, the “divide by 4” rule can also help with
+        interpretation.
+      </p>
+
+      <pre>. <span class="keyword">sysuse</span> auto
+(1978 automobile data)
+
+. <span class="keyword">logit</span> foreign mpg
+
+Iteration 0:  Log likelihood =  -45.03321
+Iteration 1:  Log likelihood = -39.380959
+Iteration 2:  Log likelihood = -39.288802
+Iteration 3:  Log likelihood =  -39.28864
+Iteration 4:  Log likelihood =  -39.28864
+
+Logistic regression                                     Number of obs =     74
+                                                        LR chi2(1)    =  11.49
+                                                        Prob > chi2   = 0.0007
+Log likelihood = -39.28864                              Pseudo R2     = 0.1276
+
+------------------------------------------------------------------------------
+     foreign | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         mpg |   .1597621   .0525876     3.04   0.002     .0566922     .262832
+       _cons |  -4.378866   1.211295    -3.62   0.000    -6.752961   -2.004771
+------------------------------------------------------------------------------</pre>
+
+
+      <p>
+        The coefficient on <code>mpg</code>, \(.1597\), is the log odds. The
+        “divide by 4” rule says that the log odds divided by \(4\) (so \(.1597/4 =
+        .0399\)) is the maximum difference in predicted probability for a
+        \(1\)-unit change in <code>mpg</code>.
+      </p>
+    </section>
+    <section id="example">
+      <h2>Example</h2>
+        <p>
+          In other words, consider the following plot of predicted probabilities.
+        </p>
+
+        <pre>. <span class="keyword">quiet margins</span>, at(mpg = (12(1)41)) nose
+
+. <span class="keyword">marginsplot</span>, ///
+>     recast(line) ///
+>     addplot(pci .5 12 .5 41, lpattern(shortdash) lcolor(black)  || ///
+>             pci 0 `=4.378866/.1597621' 1 `=4.378866/.1597621', ///
+>             lpattern(shortdash) lcolor(black)) ///
+>     legend(off)
+
+Variables that uniquely identify margins: mpg</pre>
+
+        <p>
+          <img src="images/divideby4.svg" class="image_center">
+        </p>
+
+        <p>
+          The plotted line represents the predicted probability of the outcome being
+          \(1\) as <code>mpg</code> varies. In linear regression, this would be a
+          straight line, and the difference in predicted probability
+          between <code>mpg</code> \(= 14\) versus <code>mpg</code> \(= 15\) would
+          be equivalent to the difference in predicted probability
+          between <code>mpg</code> \(= 30\) versus <code>mpg</code> \(= 31\).
+          However, since this is a logistic curve, the difference in predicted
+          probability varies over <code>mpg</code>, being sharpest near the middle.
+          Specifically, at the point when the predicted probability is exactly
+          \(.5\) (the dashed lines), the slope is the largest, and it recedes from
+          there.
+        </p>
+
+        <p>
+          This means that at that middle point (around <code>mpg</code> \(= 27\)),
+          increasing <code>mpg</code> by \(1\) is increasing the predicted
+          probability by \(.0399\). For all other places on that curve, the
+          increased probability when increasing <code>mpg</code> by \(1\) is less
+          than \(.0399\).
+        </p>
+    </section>
+  </div>
+  <nav class="section-nav">
+	  <ol>
+		  <li class=""><a href="#intro">Introduction</a></li>
+		  <li class=""><a href="#example">Example</a></li>
+    </ol>
+	</nav>
+
+</body>
+</html>
