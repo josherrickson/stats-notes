@@ -75,129 +75,321 @@
             a <math><mrow><mn>33</mn><mi>%</mi></mrow></math> decrease.
           </li>
         </ul>
-      <!--   <section id="theory" class="level2"> -->
-      <!--  =   <h2 class="anchored" data-anchor-id="theory">Theory</h2> -->
-      <!--     <p>Assume our regression equation is</p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ E(Y|X = x) = \beta_0 + \beta_1x. \]</span -->
-      <!--                                                      > -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       If we regress on the log of -->
-      <!--       <math><mi>Y</mi></math> instead, -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ E(\log(Y)|X = x) = \beta_0 + \beta_1x. \]</span -->
-      <!--                                                            > -->
-      <!--     </p> -->
-      <!--     <p>By Taylor expansion,</p> -->
-      <!--     <p> -->
-      <!--       <span class="math display" -->
-      <!--             >\[ \log(E(X)) \approx E(\log(X)). \]</span -->
-      <!--                                                    > -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       Therefore we can write -->
-      <!--       <span class="math display" -->
-      <!--             >\[\begin{align*} E(Y|X = x + 1) &amp; = -->
-      <!--         \textrm{exp}\left(\beta_0 + \beta_1(x + 1)\right) \\ &amp; = -->
-      <!--         \textrm{exp}\left(\beta_0 + \beta_1x + \beta_1\right) \\ &amp; = -->
-      <!--         \textrm{exp}\left(\beta_0 + \beta_1x\right)\textrm{exp}(\beta_1) -->
-      <!--         \\ &amp; = E(Y|X = x)\textrm{exp}(\beta_1) \end{align*}\]</span -->
-      <!--                                                                    > -->
-      <!--     </p> -->
-      <!--   </section> -->
-      <!--   <section id="example" class="level2"> -->
-      <!--     <h2 class="anchored" data-anchor-id="example">Example</h2> -->
-      <!--     <div class="cell"> -->
-      <!--       <div class="sourceCode cell-code" id="cb1"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span> -->
-      <!--             <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(disp) <span class="sc">~</span> drat, <span class="at">data =</span> mtcars))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code> -->
-      <!--             Call: -->
-      <!--             lm(formula = log(disp) ~ drat, data = mtcars) -->
+        <section id="logged-outcome_theory">
+          <h3>Theory</h3>
 
-      <!--             Coefficients: -->
-      <!--             (Intercept)         drat -->
-      <!--             8.2782      -0.8323  </code></pre> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--     <p> -->
-      <!--       Therefore a 1-unit increase in <code>drat</code> is associated -->
-      <!--       with an -->
-      <!--       <math><mi>\textrm{exp}(`r round(m\)</span -->
-      <!--                                                              >coef[2], 3)<code>) = 0.435$ multiplicative change in</code>disp`, -->
-      <!--       corresponding to a 56.5% decrease. -->
-      <!--     </p> -->
-      <!--     <p> -->
-      <!--       To test this, we predict the ratio in predicted outcome with some -->
-      <!--       values of <code>drat</code>, and that value increased by 1. -->
-      <!--       <strong>Note</strong>: We exponentiate the predicted values to get -->
-      <!--       them on the outcome scale. -->
-      <!--     </p> -->
-      <!--     <div class="cell"> -->
-      <!--       <div class="sourceCode cell-code" id="cb3"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">5</span>)))<span class="sc">/</span><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code>        1 -->
-      <!--             0.4350567 </code></pre> -->
-      <!--       </div> -->
-      <!--       <div class="sourceCode cell-code" id="cb5"> -->
-      <!--         <pre -->
-      <!--           class="sourceCode r code-with-copy" -->
-      <!--           ><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">30</span>)))<span class="sc">/</span><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">29</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
-      <!--       </div> -->
-      <!--       <div class="cell-output cell-output-stdout"> -->
-      <!--         <pre><code>        1 -->
-      <!--             0.4350567 </code></pre> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--   </section> -->
-      <!-- </section> -->
-      <!-- <section id="logged-predictor" class="level1"> -->
-      <!--   <h1>Logged Predictor</h1> -->
-      <!--   <p> -->
-      <!--     A <math><mi>k\%</mi></math> change in a predictor is -->
-      <!--     associated with -->
-      <!--     <span class="math inline" -->
-      <!--           >\(\hat{\beta}\log\left(1 + \frac{k}{100}\right)\)</span -->
-      <!--                                                               > -->
-      <!--     change in the outcome. -->
-      <!--   </p> -->
-      <!--   <p>Examples:</p> -->
-      <!--   <ul> -->
-      <!--     <li> -->
-      <!--       If <math><mi>\hat{\beta}</mi></math> is 2, a -->
-      <!--       <math><mi>10\%</mi></math> increase in -->
-      <!--       <math><mi>X</mi></math> is associated with a -->
-      <!--       <span class="math inline" -->
-      <!--             >\(2\log\left(1 + \frac{10}{100}\right) = 2\log(1.1) \approx -->
-      <!--         0.19\)</span -->
-      <!--                 > -->
-      <!--       increase in <math><mi>Y</mi></math>. -->
-      <!--     </li> -->
-      <!--     <li> -->
-      <!--       If <math><mi>\hat{\beta}</mi></math> is -1.5, a -->
-      <!--       <math><mi>20\%</mi></math> -->
-      <!--       <strong>de</strong>crease in -->
-      <!--       <math><mi>X</mi></math> is associated with a -->
-      <!--       <span class="math inline" -->
-      <!--             >\(-1.5\log\left(1 + \frac{-20}{100}\right) = -1.5\log(.8) -->
-      <!--         \approx 0.15\)</span -->
-      <!--                         > -->
-      <!--       increase in <math><mi>Y</mi></math>. -->
-      <!--     </li> -->
-      <!--   </ul> -->
-      <!--   <section id="theory-1" class="level2"> -->
+          <p>
+            Assume our regression equation is
+          </p>
+
+          <math display="block" class="tml-display" style="display:block math;">
+            <mrow>
+              <mi>E</mi>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mi>Y</mi>
+              <mi>|</mi>
+              <mi>X</mi>
+              <mo>=</mo>
+              <mi>x</mi>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mo>=</mo>
+              <msub>
+                <mi>β</mi>
+                <mn>0</mn>
+              </msub>
+              <mo>+</mo>
+              <msub>
+                <mi>β</mi>
+                <mn>1</mn>
+              </msub>
+              <mi>x</mi>
+              <mi>.</mi>
+            </mrow>
+          </math>
+
+          <p>
+            If we regress on the log of q<math><mi>Y</mi></math> instead,
+          </p>
+
+          <math display="block" class="tml-display" style="display:block math;">
+            <mrow>
+              <mi>E</mi>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mrow>
+                <mi>log</mi>
+                <mo>⁡</mo>
+              </mrow>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mi>Y</mi>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mi>|</mi>
+              <mi>X</mi>
+              <mo>=</mo>
+              <mi>x</mi>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mo>=</mo>
+              <msub>
+                <mi>β</mi>
+                <mn>0</mn>
+              </msub>
+              <mo>+</mo>
+              <msub>
+                <mi>β</mi>
+                <mn>1</mn>
+              </msub>
+              <mi>x</mi>
+              <mi>.</mi>
+            </mrow>
+          </math>
+
+          <p>
+            By <a href="https://en.wikipedia.org/wiki/Taylor_series">Taylor
+              expansion</a>,
+          </p>
+
+          <math display="block" class="tml-display" style="display:block math;">
+            <mrow>
+              <mrow>
+                <mi>log</mi>
+                <mo>⁡</mo>
+              </mrow>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mi>E</mi>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mi>X</mi>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mo>≈</mo>
+              <mi>E</mi>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mrow>
+                <mi>log</mi>
+                <mo>⁡</mo>
+              </mrow>
+              <mo form="prefix" stretchy="false">(</mo>
+              <mi>X</mi>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mo form="postfix" stretchy="false">)</mo>
+              <mi>.</mi>
+            </mrow>
+          </math>
+
+          <p>
+            Therefore we can write
+          </p>
+          <math display="block" class="tml-display" style="display:block math;">
+            <mtable displaystyle="true" columnalign="right">
+              <mtr>
+                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
+                  <mrow>
+                    <mi>E</mi>
+                    <mo form="prefix" stretchy="false">(</mo>
+                    <mi>Y</mi>
+                    <mi>|</mi>
+                    <mi>X</mi>
+                    <mo>=</mo>
+                    <mi>x</mi>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo form="postfix" stretchy="false">)</mo>
+                    <mo>=</mo>
+                    <mtext>exp</mtext>
+                    <mrow>
+                      <mo fence="true" form="prefix">(</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>0</mn>
+                      </msub>
+                      <mo>+</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mo form="prefix" stretchy="false">(</mo>
+                      <mi>x</mi>
+                      <mo>+</mo>
+                      <mn>1</mn>
+                      <mo form="postfix" stretchy="false">)</mo>
+                      <mo fence="true" form="postfix">)</mo>
+                    </mrow>
+                  </mrow>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
+                  <mrow>
+                    <mo lspace="0em">=</mo>
+                    <mtext>exp</mtext>
+                    <mrow>
+                      <mo fence="true" form="prefix">(</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>0</mn>
+                      </msub>
+                      <mo>+</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mi>x</mi>
+                      <mo>+</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mo fence="true" form="postfix">)</mo>
+                    </mrow>
+                  </mrow>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
+                  <mrow>
+                    <mo lspace="0em">=</mo>
+                    <mtext>exp</mtext>
+                    <mrow>
+                      <mo fence="true" form="prefix">(</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>0</mn>
+                      </msub>
+                      <mo>+</mo>
+                      <msub>
+                        <mi>β</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mi>x</mi>
+                      <mo fence="true" form="postfix">)</mo>
+                    </mrow>
+                    <mtext>exp</mtext>
+                    <mo form="prefix" stretchy="false">(</mo>
+                    <msub>
+                      <mi>β</mi>
+                      <mn>1</mn>
+                    </msub>
+                    <mo form="postfix" stretchy="false" rspace="0em">)</mo>
+                  </mrow>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd class="tml-right" style="padding:0.7ex 0em 0.7ex 0em;">
+                  <mrow>
+                    <mo lspace="0em">=</mo>
+                    <mi>E</mi>
+                    <mo form="prefix" stretchy="false">(</mo>
+                    <mi>Y</mi>
+                    <mi>|</mi>
+                    <mi>X</mi>
+                    <mo>=</mo>
+                    <mi>x</mi>
+                    <mo form="postfix" stretchy="false">)</mo>
+                    <mtext>exp</mtext>
+                    <mo form="prefix" stretchy="false">(</mo>
+                    <msub>
+                      <mi>β</mi>
+                      <mn>1</mn>
+                    </msub>
+                    <mo form="postfix" stretchy="false" rspace="0em">)</mo>
+                    <mi>.</mi>
+                  </mrow>
+                </mtd>
+              </mtr>
+            </mtable>
+          </math>
+        </section>
+
+        <section id="logged-outcome_example">
+          <h3>Example</h3>
+
+          <pre><span class="keyword">data</span>(mtcars)
+(m <span class="operator"><-</span> <span class="keyword">lm</span>(<span class="keyword">log</span>(disp) <span class="operator">~</span> drat, <span class="keyword">data</span> <span class="operator">=</span> mtcars))</pre>
+
+          <pre class="r_output">Call:
+lm(formula = log(disp) ~ drat, data = mtcars)
+
+Coefficients:
+(Intercept)         drat
+     8.2782      -0.8323</pre>
+
+          <p>
+            Therefore a 1-unit increase in <code>drat</code> is associated with
+            an <math><mrow><mtext>exp</mtext><mo form="prefix"
+            stretchy="false">(</mo><mn>-.8323</mn><mo form="postfix"
+            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mi>.</mi><mn>435</mn></mrow></math>
+            multiplicative change in <code>disp</code>, corresponding to
+            a <math><mrow><mn>56.5</mn><mi>%</mi></mrow></math> decrease.
+          </p>
+          <p>
+            To test this, we predict the ratio in predicted outcome with some
+            values of <code>drat</code>, and that value increased
+            by <math><mn>1</mn></math>. <strong>Note</strong>: We exponentiate
+            the predicted values to get them on the outcome scale.
+          </p>
+
+          <pre><span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">5</span>)))/<span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">4</span>)))</pre>
+
+          <pre class="r_output">1
+0.4350567</pre>
+
+          <p>
+            Repeat with different values of <code>drat</code> to show that all
+            that matters is the change in the predictor, not its starting value.
+          </p>
+
+          <pre><span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">18</span>)))/<span class="keyword">exp</span>(<span class="keyword">predict</span>(m, <span class="keyword">newdata</span> <span class="operator">=</span> <span class="keyword">data.frame</span>(drat <span class="operator">=</span> <span class="numeric">17</span>)))</pre>
+
+          <pre class="r_output">1
+0.4350567</pre>
+
+        </section>
+    </section>
+
+    <section id="logged-predictor">
+        <h2>Logged Predictor</h2>
+        <p>
+          A <math><mrow><mi>k</mi><mi>%</mi></mrow></math> change in a predictor
+          is associated with <math><mrow><mover><mi>β</mi><mo stretchy="false"
+          class="tml-capshift"
+          style="math-style:normal;math-depth:0;">^</mo></mover><mrow><mi>log</mi><mo>⁡</mo></mrow><mrow><mo fence="true"
+          form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><mi>k</mi><mn>100</mn></mfrac><mo fence="true"
+          form="postfix">)</mo></mrow></mrow></math> change in the outcome.
+        </p>
+
+        <p>
+          Example:
+        </p>
+
+        <ul>
+          <li>
+            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
+            style="math-style:normal;math-depth:0;">^</mo></mover></math>
+            is <math><mn>2</mn></math>,
+            a <math><mrow><mn>10</mn><mi>%</mi></mrow></math> increase
+            in <math><mi>X</mi></math> is associated with
+            a <math><mrow><mn>2</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mrow><mo fence="true"
+            form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><mn>10</mn><mn>100</mn></mfrac><mo fence="true"
+            form="postfix">)</mo></mrow><mo>=</mo></mrow><mrow><mn>2</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mo form="prefix"
+            stretchy="false">(</mo><mn>1.1</mn><mo form="postfix"
+            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mn>0.19</mn></mrow></math>
+            increase in <math><mi>Y</mi></math>.
+          </li>
+          <li>
+            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
+            style="math-style:normal;math-depth:0;">^</mo></mover></math>
+            is <math><mn>-1.5</mn></math>,
+            a <math><mrow><mn>20</mn><mi>%</mi></mrow></math> <strong>de</strong>crease
+            in <math><mi>X</mi></math> is associated with
+            a <math><mrow><mn>-1.5</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mrow><mo fence="true"
+            form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><mn>-20</mn><mn>100</mn></mfrac><mo fence="true"
+            form="postfix">)</mo></mrow><mo>=</mo></mrow><mrow><mn>-1.5</mn><mrow><mspace width="0.1667em"></mspace><mi>log</mi><mo>⁡</mo></mrow><mo form="prefix"
+            stretchy="false">(</mo><mn>.8</mn><mo form="postfix"
+            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mn>0.33</mn></mrow></math>
+            decrease in <math><mi>Y</mi></math>.
+          </li>
+        </ul>
+
+    </section>
+<!--   <section id="theory-1" class="level2"> -->
       <!--     <h2 class="anchored" data-anchor-id="theory-1">Theory</h2> -->
       <!--     <p>Assume our regression equation is</p> -->
       <!--     <p> -->
