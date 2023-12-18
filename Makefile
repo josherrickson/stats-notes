@@ -16,6 +16,7 @@ clean:
 	rm -rf $(DEST_DIR)
 
 copy_files:
+	cp toc.js docs/
 	cp style.css docs/
 	rm -rf docs/images
 	cp -r files/images docs/

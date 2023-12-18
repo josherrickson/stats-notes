@@ -1,0 +1,25 @@
+window.addEventListener('DOMContentLoaded', () => {
+  let options = {
+    rootMargin: "0px",
+    threshold: 0
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      if (entry.intersectionRatio > 0) {
+        document.querySelector(`nav li a[href="#${id}"]`)
+          .parentElement.classList.add('active');
+      } else {
+        document.querySelector(`nav li a[href="#${id}"]`)
+          .parentElement.classList.remove('active');
+      }
+    });
+  }, options);
+
+  // Track all sections that have an `id` applied
+  document.querySelectorAll('section[id]').forEach((section) => {
+    observer.observe(section);
+  });
+
+});
