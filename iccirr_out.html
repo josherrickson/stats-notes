@@ -1,3 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TItle here</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            const id = entry.target.getAttribute('id');
+            if (entry.intersectionRatio > 0) {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.add('active');
+            } else {
+              document.querySelector(`nav li a[href="#${id}"]`)
+                .parentElement.classList.remove('active');
+            }
+          });
+        });
+
+        // Track all sections that have an `id` applied
+        document.querySelectorAll('section[id]').forEach((section) => {
+          observer.observe(section);
+        });
+
+      });
+    </script>
+  </head>
 <body class="statsnotes">
   <div>
     <h1>Inter-rater Reliability</h1>
@@ -265,3 +296,4 @@ s2b <span class="operator"><-</span> <span class="keyword">summary</span>(fm2)<s
     </ol>
 	</nav>
 </body>
+</html>
