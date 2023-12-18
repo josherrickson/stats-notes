@@ -51,20 +51,16 @@
     <h2>Moderation</h2>
 
     <p>
-      Let<math><mi>X</mi></math> be a predictor, <math><mi>Y</mi></math> be a
-      response and we are studying whether <math><mi>M</mi></math> moderates the
-      relationship between<math><mi>X</mi></math> and <math><mi>Y</mi></math>.
-      In other words, we want to know whether <math><mi>M</mi></math> modifies
-      the strength (or direction) of the relationship
-      between <math><mi>X</mi></math> and <math><mi>Y</mi></math> . For example,
-      we could study the relationship between socio-economic status
-      (<math><mi>X</mi></math> and frequency of breast exams
-      (<math><mi>Y</mi></math> ). Among younger women, breast exams are rare
-      because current recommendations are for women age 40 and over to get
-      exams. However, in older women, there is a relationship because those with
-      higher SES tend to be more concerned with health. Age
-      (<math><mi>M</mi></math>) moderates the relationship between SES and
-      frequency of breast exams.
+      Let\(X\) be a predictor, \(Y\) be a response and we are studying whether
+      \(M\) moderates the relationship between\(X\) and \(Y\). In other words,
+      we want to know whether \(M\) modifies the strength (or direction) of the
+      relationship between \(X\) and \(Y\) . For example, we could study the
+      relationship between socio-economic status (\(X\) and frequency of breast
+      exams (\(Y\) ). Among younger women, breast exams are rare because current
+      recommendations are for women age 40 and over to get exams. However, in
+      older women, there is a relationship because those with higher SES tend to
+      be more concerned with health. Age (\(M\)) moderates the relationship
+      between SES and frequency of breast exams.
     </p>
 
     <section id="moderation_in-regression">
@@ -73,53 +69,22 @@
       <p>
         Moderation is represented in a regression model with nothing more than
         an interaction term. There is a causal aspect to it, in that there needs
-        to be the assumption that the predictor (<math><mi>X</mi></math>) has a
-        causal relationship on the response (<math><mi>Y</mi></math>).
-        If <math><mi>X</mi></math> is randomized, this assumption is satisfied.
-        If the <math><mi>X</mi></math> is not randomized, this assumption must
-        be based on theory and domain specific knowledge.
+        to be the assumption that the predictor (\(X\)) has a causal
+        relationship on the response (\(Y\)). If \(X\) is randomized, this
+        assumption is satisfied. If the \(X\) is not randomized, this assumption
+        must be based on theory and domain specific knowledge.
       </p>
 
       <p>
         Fit the interaction model,
       </p>
 
-      <math display="block" class="tml-display" style="display:block math;">
-        <mrow>
-          <mi>Y</mi>
-          <mo>=</mo>
-          <msub>
-            <mi>β</mi>
-            <mn>0</mn>
-          </msub>
-          <mo>+</mo>
-          <msub>
-            <mi>β</mi>
-            <mn>1</mn>
-          </msub>
-          <mi>X</mi>
-          <mo>+</mo>
-          <msub>
-            <mi>β</mi>
-            <mn>2</mn>
-          </msub>
-          <mi>M</mi>
-          <mo>+</mo>
-          <msub>
-            <mi>β</mi>
-            <mn>3</mn>
-          </msub>
-          <mi>X</mi>
-          <mi>M</mi>
-          <mo>+</mo>
-          <mi>ϵ</mi>
-          <mi>.</mi>
-        </mrow>
-      </math>
+      \[
+      Y = \beta_0 + \beta_1X + \beta_2Z + \beta_3XZ + \epsilon.
+      \]
 
       <p>
-        Therefore, <math><msub><mi>β</mi><mn>3</mn></msub></math> measures the
-        moderation effect.
+        Therefore, \(\beta_3\) measures the moderation effect.
       </p>
     </section>
     <section id="moderation_sources">
@@ -134,15 +99,12 @@
     <h2>Mediation</h2>
 
     <p>
-      Again, let <math><mi>X</mi></math> be a predictor
-      and <math><mi>Y</mi></math> be a response. We are studying
-      whether <math><mi>M</mi></math> mediates the relationship
-      between<math><mi>X</mi></math> and <math><mi>Y</mi></math>. Mediating
-      variables are more complicated that moderators. A variable
-      (<math><mi>M</mi></math>) is said to be a mediator if it partially or
-      fully explains the relationship between the predictor
-      (<math><mi>X</mi></math>) and the response (<math><mi>Y</mi></math>).
-      The easiest way to explain this is visually.
+      Again, let \(X\) be a predictor and \(Y\) be a response. We are studying
+      whether \(M\) mediates the relationship between\(X\) and \(Y\). Mediating
+      variables are more complicated that moderators. A variable (\(M\)) is said
+      to be a mediator if it partially or fully explains the relationship
+      between the predictor (\(X\)) and the response (\(Y\)). The easiest way to
+      explain this is visually.
     </p>
 
     <p>The unmediated and mediated model follow.</p>
@@ -150,56 +112,47 @@
     <img src="images/mediation.svg" class="image_center">
 
     <p>
-      In the first model, the unmediated model, the total relationship
-      between <math><mi>X</mi></math> and <math><mi>Y</mi></math> is captured
-      by <math><mi>a</mi></math>. This model allows no mediation.
+      In the first model, the unmediated model, the total relationship between
+      \(X\) and \(Y\) is captured by \(a\). This model allows no mediation.
     </p>
 
     <p>
       In the second model, the total effect is split into a <strong>direct
-      effect</strong> and an <strong>indirect
-      effect</strong>. <math><mi>d</mi></math> is the direct effect
-      and <math><mi>bc</mi></math> (the product of <math><mi>b</mi></math>
-      and <math><mi>c</mi></math>) is the indirect effect
-      from <math><mi>X</mi></math> to <math><mi>Y</mi></math> mediated
-      through <math><mi>M</mi></math>.
+      effect</strong> and an <strong>indirect effect</strong>. \(d\) is the
+      direct effect and \(bc\) (the product of \(b\) and \(c\)) is the indirect
+      effect from \(X\) to \(Y\) mediated through \(M\).
     </p>
 
     <p>
-      Depending on the significance (both statistical and practical)
-      of <math><mi>d</mi></math> and <math><mi>bc</mi></math>, we would have:
+      Depending on the significance (both statistical and practical) of \(d\)
+      and \(bc\), we would have:
     </p>
 
     <ul>
       <li>
-        If <math><mi>d</mi></math> is non-zero but <math><mi>bc</mi></math> is
-        zero, then we have no evidence of mediation.
+        If \(d\) is non-zero but \(bc\) is zero, then we have no evidence of
+        mediation.
       </li>
       <li>
-        If both <math><mi>d</mi></math> and <math><mi>bc</mi></math> are
-        non-zero then we have evidence of <strong>partial mediation</strong>.
-        (There is evidence of both a direct effect and an indirect effect.)
+        If both \(d\) and \(bc\) are non-zero then we have evidence
+        of <strong>partial mediation</strong>. (There is evidence of both a
+        direct effect and an indirect effect.)
       </li>
       <li>
-        If <math><mi>d</mi></math> is zero, but <math><mi>bc</mi></math> is
-        non-zero, then we have evidence of <strong>total mediation</strong>.
-        (The only evidence of a relationship between <math><mi>X</mi></math>
-        and <math><mi>Y</mi></math> is through the mediation
-        of <math><mi>M</mi></math>.)
+        If \(d\) is zero, but \(bc\) is non-zero, then we have evidence
+        of <strong>total mediation</strong>. (The only evidence of a
+        relationship between \(X\) and \(Y\) is through the mediation of \(M\).)
       </li>
       <li>
-        Finally, if both <math><mi>d</mi></math> and <math><mi>bc</mi></math>
-        are zero, there's no evidence of a relationship.
+        Finally, if both \(d\) and \(bc\) are zero, there's no evidence of a
+        relationship.
       </li>
     </ul>
 
-    <p> We
-      call <math><mrow><mi>d</mi><mo>+</mo></mrow><mrow><mi>bc</mi></mrow></math>
-      the <strong>total effect</strong> between <math><mi>X</mi></math>
-      and <math><mi>Y</mi></math>. In least squares regression (linear
-      regression), we have
-      that <math><mrow><mi>a</mi><mo>=</mo></mrow><mrow><mi>d</mi><mo>+</mo></mrow><mrow><mi>bc</mi></mrow></math>.
-      In all other models, that relationship may not hold.
+    <p>
+      We call \(d + bc\) the <strong>total effect</strong> between \(X\) and
+      \(Y\). In least squares regression (linear regression), we have that \(a =
+      d + bc\). In all other models, that relationship may not hold.
     </p>
   </section>
 
@@ -210,7 +163,8 @@
       <strong>Warning:</strong> While we <em>can</em> fit mediation via
       regression (called the Baron-Kenny approach), it is <strong>not</strong>
       recommended. Thinking of mediation as a series of linear regressions is
-      great for conceptualizing mediation, but not for estimation. Use either the
+      great for conceptualizing mediation, but not for estimation. Use either
+      the
       <a href="https://cran.r-project.org/package=lavaan">lavaan</a> or
       <a href="https://cran.r-project.org/package=mediation">mediation</a>
       packages in R or
@@ -223,103 +177,42 @@
       all paths above.
     </p>
 
-    <ol type="1">
+    <ol start="1">
       <li>
-        Test <math><mi>a</mi></math> to establish a relationship between
-        predictor (<math><mi>X</mi></math>) and response
-        (<math><mi>Y</mi></math>):
+        Test \(a\) to establish a relationship between predictor (\(X\)) and
+        response (\(Y\)):
       </li>
     </ol>
 
-    <p>
-    <math display="block" class="tml-display" style="display:block math;">
-      <mrow>
-        <mi>Y</mi>
-        <mo>=</mo>
-        <msubsup>
-          <mi>β</mi>
-          <mn>0</mn>
-          <mrow>
-            <mo form="prefix" stretchy="false" lspace="0em">(</mo>
-            <mn>1</mn>
-            <mo form="postfix" stretchy="false" rspace="0em">)</mo>
-          </mrow>
-        </msubsup>
-        <mo>+</mo>
-        <mi>a</mi>
-        <mi>X</mi>
-        <mo>+</mo>
-        <mi>ϵ</mi>
-      </mrow>
-    </math>
-    </p>
+    \[
+    Y = \beta_0^{(1)} + cX + \epsilon_1
+    \]
 
-    <ol type="2">
+    <ol start="2">
       <li>
-        Test <math><mi>b</mi></math> to establish correlation between predictor
-        (<math><mi>X</mi></math>) and moderator (<math><mi>M</mi></math>):
+        Test \(b\) to establish correlation between predictor
+        (\(X\)) and moderator (\(M\)):
       </li>
     </ol>
 
-    <p>
-      <math display="block" class="tml-display" style="display:block math;">
-        <mrow>
-          <mi>M</mi>
-          <mo>=</mo>
-          <msubsup>
-            <mi>β</mi>
-            <mn>0</mn>
-            <mrow>
-              <mo form="prefix" stretchy="false" lspace="0em">(</mo>
-              <mn>2</mn>
-              <mo form="postfix" stretchy="false" rspace="0em">)</mo>
-            </mrow>
-          </msubsup>
-          <mo>+</mo>
-          <mi>b</mi>
-          <mi>X</mi>
-          <mo>+</mo>
-          <mi>ϵ</mi>
-        </mrow>
-      </math>
-    </p>
+    \[
+    Z = \beta_0^{(2)} + aX + \epsilon_2
+    \]
 
-    <ol type="3">
+    <ol start="3">
       <li>
-        Test <math><mi>c</mi></math> to establish that the mediator
-        (<math><mi>M</mi></math>) affects the response
-        (<math><mi>Y</mi></math>). Include both mediator
-        (<math><mi>M</mi></math>) and predictor (<math><mi>X</mi></math>) to
+        Test \(c\) to establish that the mediator
+        (\(M\)) affects the response
+        (\(Y\)). Include both mediator
+        (\(M\)) and predictor (\(X\)) to
         establish that the relationship exists when controlling
-        for <math><mi>X</mi></math>.
+        for \(X\).
       </li>
     </ol>
 
-    <p>
-      <math display="block" class="tml-display" style="display:block math;">
-        <mrow>
-          <mi>Y</mi>
-          <mo>=</mo>
-          <msubsup>
-            <mi>β</mi>
-            <mn>0</mn>
-            <mrow>
-              <mo form="prefix" stretchy="false" lspace="0em">(</mo>
-              <mn>3</mn>
-              <mo form="postfix" stretchy="false" rspace="0em">)</mo>
-            </mrow>
-          </msubsup>
-          <mo>+</mo>
-          <mi>d</mi>
-          <mi>X</mi>
-          <mo>+</mo>
-          <mi>c</mi>
-          <mi>M</mi>
-          <mo>+</mo>
-          <mi>ϵ</mi>
-        </mrow>
-      </math>
-    </p>
+    \[
+    Y = \beta_0^{(3)} + dX + bM + \epsilon_3
+    \]
 
   </section>
   <section id="mediation_sources">
@@ -334,7 +227,7 @@
     </ul>
   </section>
   </div>
-  <nav class="section-nav">
+  <nav>
 	  <ol>
 		  <li class=""><a href="#moderation">Moderation</a>
         <ol>

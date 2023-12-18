@@ -208,13 +208,13 @@ body > nav {
 	box-sizing: border-box;
 }
 
-.section-nav ul, ol {
+nav ul, nav ol {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.section-nav li {
+nav li {
 	margin-left: 1rem;
 }
 
