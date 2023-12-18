@@ -77,12 +77,12 @@ p.warning
 }
 
 h1 {
-    font-size: 200%;
+    font-size: 225%;
     color: var(--green);
 }
 
 h2 {
-    font-size: 150%;
+    font-size: 175%;
     color: var(--cyan);
     font-style: italic;
 }

@@ -1,0 +1,421 @@
+<body class="statsnotes">
+  <div>
+    <h1>Log Transform Interpretation</h1>
+
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p>
+        Log transformations can be useful when a variable is very right-skewed, or
+        multiplicative effects are desired over additive. However, interpretation
+        can be challenging.
+      </p>
+
+      <p>
+        We are always discussing the natural log
+        (<math><mrow><mi>ln</mi></mrow></math>),
+        i.e. <math><msub><mtext>log</mtext><mi>e</mi></msub></math>.
+      </p>
+
+      <section id="introduction_change">
+        <h3>Multiplicative vs Percent Change</h3>
+        <p>
+          Note that multiplicative changes can be expressed as percent changes
+          and vice-versa. For example, multiplying a value
+          by <math><mn>1.3</mn></math> is equivalent to increasing the value
+          by <math><mrow><mn>30</mn><mi>%</mi></mrow></math>, or conversly,
+          decreasing a value by <math><mrow><mn>15</mn><mi>%</mi></mrow></math>
+          is equivalent to multiplying it by <math><mn>.85</mn></math>.
+        </p>
+      </section>
+    </section>
+    <section id="logged-outcome">
+      <h2>Logged Outcome</h2>
+      <p>
+        A <math><mn>1</mn></math> unit change in a predictor is associated with
+        a
+        <math><mrow><mtext>exp</mtext><mo form="prefix"
+        stretchy="false">(</mo><mover><mi>β</mi><mo stretchy="false"
+        class="tml-capshift"
+        style="math-style:normal;math-depth:0;">^</mo></mover><mo form="postfix"
+        stretchy="false">)</mo></mrow></math> mulitplicative change
+        in <math><mi>Y</mi></math>, or a <math><mrow><mo form="prefix"
+        stretchy="false">(</mo><mn>100</mn><mo form="prefix"
+        stretchy="false">(</mo><mtext>exp</mtext><mo form="prefix"
+        stretchy="false">(</mo><mover><mi>β</mi><mo stretchy="false"
+        class="tml-capshift"
+        style="math-style:normal;math-depth:0;">^</mo></mover><mo form="postfix"
+        stretchy="false">)</mo><mo>−</mo><mn>1</mn><mo form="postfix"
+        stretchy="false">)</mo><mi>%</mi><mo form="postfix"
+        stretchy="false">)</mo></mrow></math> change in <math><mi>Y</mi></math>.
+      </p>
+
+        <p>Examples:</p>
+        <ul>
+          <li>
+            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
+            style="math-style:normal;math-depth:0;">^</mo></mover></math>
+            is <math><mn>.2</mn></math>, a <math><mn>1</mn></math>-unit increase
+            in <math><mi>X</mi></math> is associated with
+            an <math><mrow><mtext>exp</mtext><mo form="prefix"
+            stretchy="false">(</mo><mi>.</mi><mn>2</mn><mo form="postfix"
+            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mn>1.22</mn></mrow></math>
+            multiplicative change in <math><mi>Y</mi></math>, or
+            a <math><mrow><mn>22</mn><mi>%</mi></mrow></math> increase.
+          </li>
+          <li>
+            If <math><mover><mi>β</mi><mo stretchy="false" class="tml-capshift"
+            style="math-style:normal;math-depth:0;">^</mo></mover></math>
+            is <math><mi>-.</mi><mn>4</mn></math>,
+            a <math><mn>1</mn></math>-unit increase in <math><mi>X</mi></math>
+            is associated with
+            an <math><mrow><mtext>exp</mtext><mo form="prefix"
+            stretchy="false">(</mo><mi>-.</mi><mn>4</mn><mo form="postfix"
+            stretchy="false">)</mo><mo>≈</mo></mrow><mrow><mi>.</mi><mn>67</mn></mrow></math>
+            multiplicative change in <math><mi>Y</mi></math>, or
+            a <math><mrow><mn>33</mn><mi>%</mi></mrow></math> decrease.
+          </li>
+        </ul>
+      <!--   <section id="theory" class="level2"> -->
+      <!--  =   <h2 class="anchored" data-anchor-id="theory">Theory</h2> -->
+      <!--     <p>Assume our regression equation is</p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ E(Y|X = x) = \beta_0 + \beta_1x. \]</span -->
+      <!--                                                      > -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       If we regress on the log of -->
+      <!--       <math><mi>Y</mi></math> instead, -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ E(\log(Y)|X = x) = \beta_0 + \beta_1x. \]</span -->
+      <!--                                                            > -->
+      <!--     </p> -->
+      <!--     <p>By Taylor expansion,</p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ \log(E(X)) \approx E(\log(X)). \]</span -->
+      <!--                                                    > -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       Therefore we can write -->
+      <!--       <span class="math display" -->
+      <!--             >\[\begin{align*} E(Y|X = x + 1) &amp; = -->
+      <!--         \textrm{exp}\left(\beta_0 + \beta_1(x + 1)\right) \\ &amp; = -->
+      <!--         \textrm{exp}\left(\beta_0 + \beta_1x + \beta_1\right) \\ &amp; = -->
+      <!--         \textrm{exp}\left(\beta_0 + \beta_1x\right)\textrm{exp}(\beta_1) -->
+      <!--         \\ &amp; = E(Y|X = x)\textrm{exp}(\beta_1) \end{align*}\]</span -->
+      <!--                                                                    > -->
+      <!--     </p> -->
+      <!--   </section> -->
+      <!--   <section id="example" class="level2"> -->
+      <!--     <h2 class="anchored" data-anchor-id="example">Example</h2> -->
+      <!--     <div class="cell"> -->
+      <!--       <div class="sourceCode cell-code" id="cb1"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span> -->
+      <!--             <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(disp) <span class="sc">~</span> drat, <span class="at">data =</span> mtcars))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code> -->
+      <!--             Call: -->
+      <!--             lm(formula = log(disp) ~ drat, data = mtcars) -->
+
+      <!--             Coefficients: -->
+      <!--             (Intercept)         drat -->
+      <!--             8.2782      -0.8323  </code></pre> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--     <p> -->
+      <!--       Therefore a 1-unit increase in <code>drat</code> is associated -->
+      <!--       with an -->
+      <!--       <math><mi>\textrm{exp}(`r round(m\)</span -->
+      <!--                                                              >coef[2], 3)<code>) = 0.435$ multiplicative change in</code>disp`, -->
+      <!--       corresponding to a 56.5% decrease. -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       To test this, we predict the ratio in predicted outcome with some -->
+      <!--       values of <code>drat</code>, and that value increased by 1. -->
+      <!--       <strong>Note</strong>: We exponentiate the predicted values to get -->
+      <!--       them on the outcome scale. -->
+      <!--     </p> -->
+      <!--     <div class="cell"> -->
+      <!--       <div class="sourceCode cell-code" id="cb3"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">5</span>)))<span class="sc">/</span><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code>        1 -->
+      <!--             0.4350567 </code></pre> -->
+      <!--       </div> -->
+      <!--       <div class="sourceCode cell-code" id="cb5"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">30</span>)))<span class="sc">/</span><span class="fu">exp</span>(<span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">drat =</span> <span class="dv">29</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code>        1 -->
+      <!--             0.4350567 </code></pre> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--   </section> -->
+      <!-- </section> -->
+      <!-- <section id="logged-predictor" class="level1"> -->
+      <!--   <h1>Logged Predictor</h1> -->
+      <!--   <p> -->
+      <!--     A <math><mi>k\%</mi></math> change in a predictor is -->
+      <!--     associated with -->
+      <!--     <span class="math inline" -->
+      <!--           >\(\hat{\beta}\log\left(1 + \frac{k}{100}\right)\)</span -->
+      <!--                                                               > -->
+      <!--     change in the outcome. -->
+      <!--   </p> -->
+      <!--   <p>Examples:</p> -->
+      <!--   <ul> -->
+      <!--     <li> -->
+      <!--       If <math><mi>\hat{\beta}</mi></math> is 2, a -->
+      <!--       <math><mi>10\%</mi></math> increase in -->
+      <!--       <math><mi>X</mi></math> is associated with a -->
+      <!--       <span class="math inline" -->
+      <!--             >\(2\log\left(1 + \frac{10}{100}\right) = 2\log(1.1) \approx -->
+      <!--         0.19\)</span -->
+      <!--                 > -->
+      <!--       increase in <math><mi>Y</mi></math>. -->
+      <!--     </li> -->
+      <!--     <li> -->
+      <!--       If <math><mi>\hat{\beta}</mi></math> is -1.5, a -->
+      <!--       <math><mi>20\%</mi></math> -->
+      <!--       <strong>de</strong>crease in -->
+      <!--       <math><mi>X</mi></math> is associated with a -->
+      <!--       <span class="math inline" -->
+      <!--             >\(-1.5\log\left(1 + \frac{-20}{100}\right) = -1.5\log(.8) -->
+      <!--         \approx 0.15\)</span -->
+      <!--                         > -->
+      <!--       increase in <math><mi>Y</mi></math>. -->
+      <!--     </li> -->
+      <!--   </ul> -->
+      <!--   <section id="theory-1" class="level2"> -->
+      <!--     <h2 class="anchored" data-anchor-id="theory-1">Theory</h2> -->
+      <!--     <p>Assume our regression equation is</p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ E(Y|X = x) = \beta_0 + \beta_1x. \]</span -->
+      <!--                                                      > -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       If we include -->
+      <!--       <math><mi>\log(X)</mi></math> instead, we have -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ E(Y|X = x) = \beta_0 + \beta_1\log(x). \]</span -->
+      <!--                                                            > -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       Consider when <math><mi>X = cX</mi></math> where -->
+      <!--       <math><mi>c</mi></math> is some constant -->
+      <!--       (e.g.&nbsp;2 for a doubling of -->
+      <!--       <math><mi>X</mi></math> or 1.3 for a 30% increase -->
+      <!--       in <math><mi>X</mi></math>). -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ E(Y|X = cx) = \beta_0 + \beta_1\log(cx). \]</span -->
+      <!--                                                              > -->
+      <!--     </p> -->
+      <!--     <p>Therefore if we look at the difference in expectation,</p> -->
+      <!--     <p> -->
+      <!--       <span class="math display" -->
+      <!--             >\[ E(Y|X = cx) - E(Y|X = x) = \beta_1(\log(cx) - \log(x)) = -->
+      <!--         \beta_1\log(c). \]</span -->
+      <!--                             > -->
+      <!--     </p> -->
+      <!--     <section id="approximation" class="level3"> -->
+      <!--       <h3 class="anchored" data-anchor-id="approximation"> -->
+      <!--         Approximation -->
+      <!--       </h3> -->
+      <!--       <p> -->
+      <!--         If your percent change is small (e.g.&nbsp;a few percent) then -->
+      <!--         you can approximate the change. This is because -->
+      <!--       </p> -->
+      <!--       <p> -->
+      <!--         <span class="math display">\[ log(1 + x) \approx x, \]</span> -->
+      <!--       </p> -->
+      <!--       <p> -->
+      <!--         when <math><mi>x</mi></math> is close to 0. So to -->
+      <!--         approximate what effect a 1% change in -->
+      <!--         <math><mi>X</mi></math>` would have, simply -->
+      <!--         multiple <math><mi>\hat{\beta}</mi></math> by -->
+      <!--         that value; <math><mi>0.1\hat{\beta}</mi></math>. -->
+      <!--         This works reliably well up to -->
+      <!--         <math><mi>\pm3\%</mi></math>, moderately up to -->
+      <!--         <math><mi>\pm5\%</mi></math> and gets much worse -->
+      <!--         beyond that. -->
+      <!--       </p> -->
+      <!--     </section> -->
+      <!--   </section> -->
+      <!--   <section id="example-1" class="level2"> -->
+      <!--     <h2 class="anchored" data-anchor-id="example-1">Example</h2> -->
+      <!--     <div class="cell"> -->
+      <!--       <div class="sourceCode cell-code" id="cb7"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span> -->
+      <!--             <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">lm</span>(drat <span class="sc">~</span> <span class="fu">log</span>(disp), <span class="at">data =</span> mtcars))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code> -->
+      <!--             Call: -->
+      <!--             lm(formula = drat ~ log(disp), data = mtcars) -->
+
+      <!--             Coefficients: -->
+      <!--             (Intercept)    log(disp) -->
+      <!--             7.2301      -0.6875  </code></pre> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--     <p> -->
+      <!--       Therefore a 25% increase in <code>disp</code> is associated with a -->
+      <!--       <math><mi>-0.688\log(1.25) = -0.153</mi></math> -->
+      <!--       change in <code>drat</code>. -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       To test this, we predict the difference in predicted outcome with -->
+      <!--       some values of <code>disp</code>, and that value increaed by 25%. -->
+      <!--     </p> -->
+      <!--     <div class="cell"> -->
+      <!--       <div class="sourceCode cell-code" id="cb9"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code>        1 -->
+      <!--             0.1534182 </code></pre> -->
+      <!--       </div> -->
+      <!--       <div class="sourceCode cell-code" id="cb11"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code>        1 -->
+      <!--             0.1534182 </code></pre> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--   </section> -->
+      <!-- </section> -->
+      <!-- <section id="both-logged" class="level1"> -->
+      <!--   <h1>Both Logged</h1> -->
+      <!--   <p> -->
+      <!--     A <math><mi>k\%</mi></math> change in a predictor is -->
+      <!--     associated with a -->
+      <!--     <span class="math inline" -->
+      <!--           >\(\left(1 + \frac{k}{100}\right)^{\hat{\beta}}\)</span -->
+      <!--                                                              > -->
+      <!--     multiplicative change in the outcome. -->
+      <!--   </p> -->
+      <!--   <p>Examples:</p> -->
+      <!--   <ul> -->
+      <!--     <li> -->
+      <!--       If <math><mi>\hat{\beta}</mi></math> is 2, a -->
+      <!--       <math><mi>10\%</mi></math> increase in -->
+      <!--       <math><mi>X</mi></math> is associated with a -->
+      <!--       <span class="math inline" -->
+      <!--             >\(\left(1 + \frac{10}{100}\right)^2 = 1.1^2 \approx 1.21 = -->
+      <!--         21\%\)</span -->
+      <!--                 > -->
+      <!--       increaes in <math><mi>Y</mi></math>. -->
+      <!--     </li> -->
+      <!--     <li> -->
+      <!--       If <math><mi>\hat{\beta}</mi></math> is -1.5, a -->
+      <!--       <math><mi>20\%</mi></math> -->
+      <!--       <strong>de</strong>crease in -->
+      <!--       <math><mi>X</mi></math> is associated with a -->
+      <!--       <span class="math inline" -->
+      <!--             >\(\left(1 + \frac{-20}{100}\right)^{-1.5} = .8^{-1.5} \approx -->
+      <!--         1.40 = 40\%\)</span -->
+      <!--                        > -->
+      <!--       increase in <math><mi>Y</mi></math>. -->
+      <!--     </li> -->
+      <!--   </ul> -->
+      <!--   <section id="theory-2" class="level2"> -->
+      <!--     <h2 class="anchored" data-anchor-id="theory-2">Theory</h2> -->
+      <!--     <p>To-do.</p> -->
+      <!--   </section> -->
+      <!--   <section id="example-2" class="level2"> -->
+      <!--     <h2 class="anchored" data-anchor-id="example-2">Example</h2> -->
+      <!--     <div class="cell"> -->
+      <!--       <div class="sourceCode cell-code" id="cb13"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span> -->
+      <!--             <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(drat) <span class="sc">~</span> <span class="fu">log</span>(disp), <span class="at">data =</span> mtcars))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code> -->
+      <!--             Call: -->
+      <!--             lm(formula = log(drat) ~ log(disp), data = mtcars) -->
+
+      <!--             Coefficients: -->
+      <!--             (Intercept)    log(disp) -->
+      <!--             2.2763      -0.1905  </code></pre> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--     <p> -->
+      <!--       Therefore a 25% increase in <code>disp</code> is associated with a -->
+      <!--       <math><mi>1.25^{`r round(m</mi></math>coef[2], -->
+      <!--       3)<code>} = 0.958$ multiplicative change in</code>drat`, -->
+      <!--       corresponding to a 4.2% decrease. -->
+      <!--     </p> -->
+      <!--     <p> -->
+      <!--       To test this, we predict the difference in predicted outcome with -->
+      <!--       some values of <code>disp</code>, and that value increaed by 25%. -->
+      <!--     </p> -->
+      <!--     <div class="cell"> -->
+      <!--       <div class="sourceCode cell-code" id="cb15"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">5</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code>         1 -->
+      <!--             0.04251857 </code></pre> -->
+      <!--       </div> -->
+      <!--       <div class="sourceCode cell-code" id="cb17"> -->
+      <!--         <pre -->
+      <!--           class="sourceCode r code-with-copy" -->
+      <!--           ><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span>)) <span class="sc">-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">disp =</span> <span class="dv">30</span><span class="sc">*</span><span class="fl">1.25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre> -->
+      <!--       </div> -->
+      <!--       <div class="cell-output cell-output-stdout"> -->
+      <!--         <pre><code>         1 -->
+      <!--             0.04251857 </code></pre> -->
+      <!--       </div> -->
+      <!--     </div> -->
+      <!--   </section> -->
+      <!-- </section> -->
+	</div>
+	<nav class="section-nav">
+		<ol>
+			<li class=""><a href="#introduction">Introduction</a>
+        <ol>
+          <li class=""><a href="#introduction_change">Multiplicative vs
+          Percentage change</a></li>
+        </ol>
+      </li>
+			<li class=""><a href="#logged-outcome">Logged Outcome</a>
+			  <ol>
+				  <li class=""><a href="#icc_r">ICC in R</a>
+            <ol>
+              <li class=""><a href="#icc_nlme">ICC in nlme</a></li>
+              <li class=""><a href="#icc_lme4">ICC in lme4</a></li>
+            </ol>
+          </li>
+          <li class=""><a href="#icc_sources">Sources</a></li>
+        </ol>
+      </li>
+    </ol>
+	</nav>
+</body>
