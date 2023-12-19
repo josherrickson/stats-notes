@@ -102,19 +102,18 @@
 <span class="keyword">library</span>(<span class="string">"lme4"</span>)
 <span class="keyword">data</span>(Orthondont)</pre>
 
-      </section>
-      <section id="icc_nlme">
-        <h4>With <code>nlme</code></h4>
+        <section id="icc_nlme">
+          <h4>With <code>nlme</code></h4>
 
-        <p>
-          Using the <code>nlme</code> package, we fit the model:
-        </p>
+          <p>
+            Using the <code>nlme</code> package, we fit the model:
+          </p>
 
 
-        <pre>fm1 <span class="operator">&lt;-</span> <span class="keyword">lme</span>(distance <span class="operator">~</span> <span class="numeric">1</span>, <span class="keyword">random</span> <span class="operator">= ~</span> <span class="numeric">1</span> | Subject, <span class="keyword">data</span> <span class="operator">=</span> Orthodont)
+          <pre>fm1 <span class="operator">&lt;-</span> <span class="keyword">lme</span>(distance <span class="operator">~</span> <span class="numeric">1</span>, <span class="keyword">random</span> <span class="operator">= ~</span> <span class="numeric">1</span> | Subject, <span class="keyword">data</span> <span class="operator">=</span> Orthodont)
 <span class="keyword">summary</span>(fm1)</pre>
 
-        <pre class="r_output"> Linear mixed-effects model fit by REML
+          <pre class="r_output"> Linear mixed-effects model fit by REML
   Data: Orthodont
        AIC      BIC    logLik
   521.3618 529.3803 -257.6809
@@ -135,32 +134,32 @@ Standardized Within-Group Residuals:
 Number of Observations: 108
 Number of Groups: 27</pre>
 
-        <p>
-          The between-effect standard deviation is reported as
-          the <code>Residual StdDev</code>. To obtain the ICC, we compute each
-          \(\sigma\):
-        </p>
+          <p>
+            The between-effect standard deviation is reported as
+            the <code>Residual StdDev</code>. To obtain the ICC, we compute each
+            \(\sigma\):
+          </p>
 
-        <pre>s2w <span class="operator"><-</span> <span class="keyword">getVarCov</span>(fm1)[[<span class="numeric">1</span>]]
+          <pre>s2w <span class="operator"><-</span> <span class="keyword">getVarCov</span>(fm1)[[<span class="numeric">1</span>]]
 s2b <span class="operator"><-</span> fm<span class="operator">1$</span>s^<span class="numeric">2</span>
 <span class="keyword">c</span>(sigma2_w <span class="operator">=</span> s2w, sigma2_b <span class="operator">=</span> s2b, icc <span class="operator">=</span> s2w<span class="operator">/</span>(s2w <span class="operator">+</span> s2b))</pre>
 
-        <pre class="r_output"> sigma2_w  sigma2_b       icc
+          <pre class="r_output"> sigma2_w  sigma2_b       icc
 3.7519762 4.9297832 0.4321677</pre>
 
-      </section>
-      <section id="icc_lme4">
-        <h4>With <code>lme4</code></h4>
+        </section>
+        <section id="icc_lme4">
+          <h4>With <code>lme4</code></h4>
 
-        <p>
-          Using the <code>lme4</code> package, we fit the model:
-        </p>
+          <p>
+            Using the <code>lme4</code> package, we fit the model:
+          </p>
 
 
-        <pre>fm2 <- <span class="keyword">lmer</span>(distance <span class="operator">~</span> (<span class="numeric">1</span> <span class="operator">|</span> Subject), <span class="keyword">data</span> <span class="operator">=</span> Orthodont)
+          <pre>fm2 <- <span class="keyword">lmer</span>(distance <span class="operator">~</span> (<span class="numeric">1</span> <span class="operator">|</span> Subject), <span class="keyword">data</span> <span class="operator">=</span> Orthodont)
 <span class="keyword">summary</span>(fm2)</pre>
 
-        <pre class="r_output"> Linear mixed model fit by REML ['lmerMod']
+          <pre class="r_output"> Linear mixed model fit by REML ['lmerMod']
 Formula: distance ~ (1 | Subject)
    Data: Orthodont
 
@@ -180,20 +179,21 @@ Fixed effects:
             Estimate Std. Error t value
 (Intercept)  24.0231     0.4297   55.91</pre>
 
-        <p>
-          The Variance column of the Random Effects table gives the within-subject
-          (Subject) and between-subject (Residual) variances.
-        </p>
+          <p>
+            The Variance column of the Random Effects table gives the within-subject
+            (Subject) and between-subject (Residual) variances.
+          </p>
 
 
-        <pre>s2w <span class="operator"><-</span> <span class="keyword">summary</span>(fm2)<span class="operator">$</span>varcor<span class="operator">$</span>Subject[1]</span>
+          <pre>s2w <span class="operator"><-</span> <span class="keyword">summary</span>(fm2)<span class="operator">$</span>varcor<span class="operator">$</span>Subject[1]</span>
 s2b <span class="operator"><-</span> <span class="keyword">summary</span>(fm2)<span class="operator">$</span>sigma<span class="operator">^</span><span class="numeric">2</span>
 <span class="keyword">c</span>(sigma2_w <span class="operator">=</span> s2w, sigma2_b <span class="operator">=</span> s2b, icc <span class="operator">=</span> s2w<span class="operator">/</span>(s2w <span class="operator">+</span> s2b))</pre>
 
-      <pre class="r_output"> sigma2_w  sigma2_b       icc
+          <pre class="r_output"> sigma2_w  sigma2_b       icc
 3.7519736 4.9297839 0.4321675</pre>
 
 
+          </section>
       </section>
       <section id="icc_sources">
         <h3>Sources</h3>
@@ -208,7 +208,7 @@ s2b <span class="operator"><-</span> <span class="keyword">summary</span>(fm2)<s
 	</div>
 	<nav class="section-nav">
 		<ol>
-			<li class=""><a href="#kappa">Cohens Kappa</a>
+			<li class=""><a href="#kappa">Cohens \(\kappa\)</a>
         <ol>
           <li class=""><a href="#kappa_sources">Sources</a></li>
         </ol>

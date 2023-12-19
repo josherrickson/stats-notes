@@ -24,14 +24,9 @@ window.addEventListener('DOMContentLoaded', () => {
     would get skipped.
   */
   let options = {
-    rootMargin: "-10% 0px -90% 0px",
+    rootMargin: "-20% 0px -80% 0px",
     threshold: 0,
   }
-
-  /*
-    Track the currently highlighted section - by default the top.
-  */
-  let currentSelection = sections[0].id
 
   function addActive(id) {
     document.querySelector(`nav li a[href="#${id}"]`)
@@ -45,17 +40,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
+      const id = entry.target.getAttribute("id")
       if (entry.isIntersecting) {
-        /*
-          If we have the same section intersecting, then `id` =
-          `currentSelection`, so this does nothing (remove and immediately
-          re-add). If we have a different section now intersecting, remove from
-          the currentSelection and add to the new one.
-          */
-        const id = entry.target.getAttribute("id")
-        removeActive(currentSelection)
         addActive(id)
-        currentSelection = id
+      } else {
+        removeActive(id)
       }
     })
   }, options)
