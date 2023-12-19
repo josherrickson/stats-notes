@@ -1,11 +1,36 @@
 window.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('section[id]')
+  /*
+    So the IntersectionObserver monitors, by default, the entire viewport
+    (visible window) and triggers `isIntersecting` whenever a given section
+    enters the viewport.
+
+    The "rootMargin" option gives 4 values (top, right, bottom, left) specifying
+    amendments. Positive values go **outside** the viewport, negative values go
+    **inside**. So a value of 100px means that margin is 100px **wider** than
+    the viewport. Similarly, a value of -20% means that that margin is 20%
+    **narrower**.
+
+    My setting here creates a very narrow band at 10% down the screen (10% down
+    from top, 90% up from bottom) to monitor.
+
+    The "threshold" option determines how much of the target must be inside the
+    band. Because the band is essentially 0-width, we must have threshold 0,
+    meaning if any part of the section touches it, it triggers. We could
+    alternatively make the observed space larger (e.g. "-10% 0px -50% 0px") and
+    up the threshold, but I couldn't get anything nice to work there.
+
+    I chose the top 10% because if I set it lower, often the "Introduction"
+    would get skipped.
+  */
   let options = {
-    root: document,
-    rootMargin: "-50% 0px",
+    rootMargin: "-10% 0px -90% 0px",
     threshold: 0,
   }
 
+  /*
+    Track the currently highlighted section - by default the top.
+  */
   let currentSelection = sections[0].id
 
   function addActive(id) {
@@ -21,17 +46,23 @@ window.addEventListener('DOMContentLoaded', () => {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-        removeActive(currentSelection);
-        addActive(id);
-        currentSelection = id;
+        /*
+          If we have the same section intersecting, then `id` =
+          `currentSelection`, so this does nothing (remove and immediately
+          re-add). If we have a different section now intersecting, remove from
+          the currentSelection and add to the new one.
+          */
+        const id = entry.target.getAttribute("id")
+        removeActive(currentSelection)
+        addActive(id)
+        currentSelection = id
       }
-    });
-  }, options);
+    })
+  }, options)
 
   // Track all sections that have an `id` applied
   sections.forEach((section) => {
-    observer.observe(section);
-  });
+    observer.observe(section)
+  })
 
-});
+})
