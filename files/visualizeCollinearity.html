@@ -64,6 +64,36 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
     <section id="simulation">
       <h2>Simulation</h2>
 
+
+      <label>
+        <input
+          type="radio"
+          name="collinearity_strength"
+          value="low"
+          id="low"
+          checked
+          onChange="updateChart()"
+          >
+        Low
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="collinearity_strength"
+          value="moderate"
+          id="moderate"
+          onChange="updateChart()"
+          >
+        Moderate
+      </label>
+
+      Chart:
+      <div>
+        <canvas id="myChart" width="400" height="300"></canvas>
+      </div>
+      End chart
+
       <div class="tabs">
         <div class="tab">
           <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
@@ -172,3 +202,5 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
 		  <li class=""><a href="#simulation">Simulation</a></li>
 		  <li class=""><a href="#why-is-this-a-problem">Why is this a Problem?</li>
     </ol>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
+    <script src="plot.js"></script>

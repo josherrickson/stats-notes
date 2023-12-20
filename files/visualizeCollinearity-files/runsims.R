@@ -15,15 +15,10 @@ for (i in 1:reps) {
   save[i,] <- c(coef(mod)[-1], cor(x1, x2))
 }
 save <- data.frame(save)
-names(save) <- c("b_1", "b_2")
+names(save) <- c("b_1", "b_2", "correlation")
+write(jsonlite::toJSON(save, dataframe = "rows", pretty = TRUE),
+      "lowcorr.json")
 
-ggplot(save, aes(x = b_1, y = b_2)) +
-  geom_point() +
-  geom_point(aes(x = 1, y = 1), col = "red", size = 3) +
-  ylab(bquote(hat(beta)[2])) +
-  xlab(bquote(hat(beta)[1])) +
-  theme(text = element_text(size=15))
-ggsave("../images/collinearity-low.svg")
 
 ## Moderate Collinearity
 
@@ -40,15 +35,10 @@ for (i in 1:reps) {
   save[i,] <- c(coef(mod)[-1], cor(x1, x2))
 }
 save <- data.frame(save)
-names(save) <- c("b_1", "b_2")
+names(save) <- c("b_1", "b_2", "correlation")
+write(jsonlite::toJSON(save, dataframe = "rows", pretty = TRUE),
+      "modcorr.json")
 
-ggplot(save, aes(x = b_1, y = b_2)) +
-  geom_point() +
-  geom_point(aes(x = 1, y = 1), col = "red", size = 3) +
-  ylab(bquote(hat(beta)[2])) +
-  xlab(bquote(hat(beta)[1])) +
-  theme(text = element_text(size=15))
-ggsave("../images/collinearity-mod.svg")
 
 ### High Collinearity
 
@@ -65,15 +55,9 @@ for (i in 1:reps) {
   save[i,] <- c(coef(mod)[-1], cor(x1, x2))
 }
 save <- data.frame(save)
-names(save) <- c("b_1", "b_2")
-
-ggplot(save, aes(x = b_1, y = b_2)) +
-  geom_point() +
-  geom_point(aes(x = 1, y = 1), col = "red", size = 3) +
-  ylab(bquote(hat(beta)[2])) +
-  xlab(bquote(hat(beta)[1])) +
-  theme(text = element_text(size=15))
-ggsave("../images/collinearity-high.svg")
+names(save) <- c("b_1", "b_2", "correlation")
+write(jsonlite::toJSON(save, dataframe = "rows", pretty = TRUE),
+      "highcorr.json")
 
 ## Extremely High Collinearity
 
@@ -90,12 +74,6 @@ for (i in 1:reps) {
   save[i,] <- c(coef(mod)[-1], cor(x1, x2))
 }
 save <- data.frame(save)
-names(save) <- c("b_1", "b_2")
-
-ggplot(save, aes(x = b_1, y = b_2)) +
-  geom_point() +
-  geom_point(aes(x = 1, y = 1), col = "red", size = 3) +
-  ylab(bquote(hat(beta)[2])) +
-  xlab(bquote(hat(beta)[1])) +
-  theme(text = element_text(size=15))
-ggsave("../images/collinearity-extreme.svg")
+names(save) <- c("b_1", "b_2", "correlation")
+write(jsonlite::toJSON(save, dataframe = "rows", pretty = TRUE),
+      "extremecorr.json")

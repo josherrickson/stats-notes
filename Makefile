@@ -22,7 +22,9 @@ clean:
 	rm -rf $(DEST_DIR)
 
 copy_files:
-	cp toc.js docs/
+	cp *.js docs/
 	cp style.css docs/
 	rm -rf docs/images
 	cp -r files/images docs/
+	mkdir -p docs/data
+	cp files/visualizeCollinearity-files/*.json docs/data
