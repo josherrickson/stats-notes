@@ -85,10 +85,8 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          value="low"
-          id="low"
           checked
-          onChange="updateChart()"
+          onChange="updatePlot('data/lowcorr.json')"
           >
         Low
       </label>
@@ -97,13 +95,28 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          value="moderate"
-          id="moderate"
-          onChange="updateChart()"
+          onChange="updatePlot('data/modcorr.json')"
           >
         Moderate
       </label>
 
+      <label>
+        <input
+          type="radio"
+          name="collinearity_strength"
+          onChange="updatePlot('data/highcorr.json')"
+          >
+        High
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="collinearity_strength"
+          onChange="updatePlot('data/extremecorr.json')"
+          >
+        Extreme
+      </label>
       Chart:
       <div>
         <canvas id="myChart" width="400" height="300"></canvas>
