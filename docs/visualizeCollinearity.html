@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visualizing Collinearity</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Mathjax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- Polyfill needed only for IE11 -->
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <!-- /Mathjax -->
+    <script src="toc.js"></script>
+  </head>
+<body class="statsnotes">
+  <div>
+    <section id="introduction">
+      <h1>Visualizing Collinearity</h1>
+      <p>
+        While there are many resources out there to describe the issues arising
+        with multicollinearity in independent variables, there’s a visualization
+        for the problem that I came across in a book once and haven’t found
+        replicated online. This replicates the visualization.
+      </p>
+    </section>
+    <section id="set-up">
+      <h2>Set-up</h2>
+      <p>
+        Let \(Y\) be a response and \(X_1\) and \(X_2\) be the predictors, such
+        that
+      </p>
+
+      \[
+      Y_i = \beta_0 + \beta_1X_{1i} + \beta_2X_{2i} + \epsilon_i
+      \]
+
+      <p>
+        for individual \(i\).
+      </p>
+
+      <p>
+        For simplicity, let’s say that
+      </p>
+
+      \[
+      \beta_0 = 0,\\ \beta_1 = 1,\\ \beta_2 = 1.
+      \]
+
+      <p>
+        I carry out a simulation by generating 1,000 simulations with a given
+        correlation between predictors and obtain their coefficients.
+      </p>
+
+  <pre>reps <span class="operator"><-</span> <span class="numeric">1000</span>
+n <span class="operator"><-</span> <span class="numeric">100</span>
+save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span class="keyword">nrow</span> <span class="operator">=</span> reps, <span class="keyword">ncol</span> <span class="operator">=</span> <span class="numeric">3</span>)
+
+<span class="keyword">for</span> (i <span class="keyword">in</span> <span class="numeric">1</span><span class="operator">:</span>reps) {
+  x1 <span class="operator"><-</span> <span class="keyword">rnorm</span>(n)
+  x2 <span class="operator"><-</span> <span class="keyword">rnorm</span>(n)
+  y <span class="operator"><-</span> x1 <span class="operator">+</span> x2 <span class="operator">+</span> <span class="keyword">rnorm</span>(n)
+
+  mod <span class="operator"><-</span> <span class="keyword">lm</span>(y <span class="operator">~</span> x1 <span class="operator">+</span> x2)
+  save[i, ] <span class="operator"><-</span> <span class="keyword">c</span>(<span class="keyword">coef</span>(mod)[<span class="numeric">-1</span>], <span class="keyword">cor</span>(x1, x2))
+}</pre>
+
+      <p>
+        The line <code>x2 &lt;- rnorm(n)</code> gets replaced with <code>x2
+        &lt;- x1 + rnorm(n, sd = _)</code>, where the <code>_</code> is replaced
+        with difference values to induce more correlation
+        between <code>x1</code> and <code>x2</code>.
+      </p>
+
+      <p>
+        Following these simulations, the coefficients are plotted against each out.
+      </p>
+    </section>
+    <section id="simulation">
+      <h2>Simulation</h2>
+
+      <div class="tabs">
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
+          <label for="tab-1" class="tab-label">Low Collinearity</label>
+          <div class="tab-content">
+
+            <p>
+              The average correlation between
+              \(X_1\) and
+              \(X_2\) is 0.002.
+            </p>
+
+            <img src="images/collinearity-low.svg" class="image_center">
+
+            <p>
+              The red dot represents the true coefficients. We see no
+              relationship between the estimated coefficients, and each are well
+              centered around the truth.
+            </p>
+
+          </div>
+        </div>
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
+          <label for="tab-2" class="tab-label">Moderate Collinearity</label>
+          <div class="tab-content">
+
+            <p>
+              The average correlation between \(X_1\) and \(X_2\) is 0.553.
+            </p>
+
+            <img src="images/collinearity-mod.svg" class="image_center">
+
+            <p>
+              While there is some semblance of a relationship, it is not very
+              strong.
+            </p>
+
+          </div>
+        </div>
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
+          <label for="tab-3" class="tab-label">High Collinearity</label>
+          <div class="tab-content">
+
+
+            <p>
+              The average correlation between \(X_1\) and \(X_2\) is 0.893.
+            </p>
+
+            <img src="images/collinearity-high.svg" class="image_center">
+
+            <p>
+              There’s a strong relationship now, such that if one coefficient is
+              incorrectly high, the other is incorrectly low.
+            </p>
+
+          </div>
+        </div>
+        <div class="tab">
+          <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
+          <label for="tab-4" class="tab-label">Extreme Collinearity</label>
+          <div class="tab-content">
+
+            <p>
+              The average correlation between \(X_1\) and \(X_2\) is 0.995.
+            </p>
+
+            <img src="images/collinearity-extreme.svg" class="image_center">
+
+            <p>
+              We now see a very strong relationship between the coefficients.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="why-is-this-a-problem">
+      <h2>Why is this a problem?</h2>
+      <p>
+        Consider the “extremely high correlation” results. With such high
+        correlation, essentially \(X_1 = X_2\), which is represented by the red
+        line (slope of -1). We can approximate our model:
+      </p>
+
+      \[
+      \begin{aligned} Y_i &amp;= \beta_0 + \beta_1X_{1i} + \beta_2X_{2i} +
+    \epsilon_i\\ &amp;\approx \beta_0 + (\beta_1 + \beta_2)X_{1i} + \epsilon_i\\
+    &amp;\approx \beta_0 + (\beta_1 + \beta_2)X_{2i} + \epsilon_i
+      \end{aligned}
+      \]
+
+      <p>
+        In other words, the model has that \(\beta_1 + \beta_2 = 2\) (since we
+        assumed above that both coefficients have values of 1.. So while all of
+        those models would have the same predictive power for \(Y\), they would
+        have drastically different interpretations depending on where along that
+        red line they fall.
+      </p>
+    </section>
+  </div>
+  <nav class="section-nav">
+	  <ol>
+		  <li class=""><a href="#introduction">Introduction</a></li>
+		  <li class=""><a href="#set-up">Set-up</a></li>
+		  <li class=""><a href="#simulation">Simulation</a></li>
+		  <li class=""><a href="#why-is-this-a-problem">Why is this a Problem?</li>
+    </ol>
+    <p style="text-align:center">
+      <a href="https://errickson.net">Home</a> | <a href="https://errickson.net/stats-notes">Back</a>
+    </p>
+	</nav>
+
+</body>
+</html>
