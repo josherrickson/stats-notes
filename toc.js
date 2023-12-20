@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     alternatively make the observed space larger (e.g. '-10% 0px -50% 0px') and
     up the threshold, but I couldn't get anything nice to work there.
 
-    I chose the top 10% because if I set it lower, often the 'Introduction'
+    I chose the top 20% because if I set it lower, often the 'Introduction'
     would get skipped.
   */
   let options = {
