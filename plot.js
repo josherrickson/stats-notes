@@ -16,12 +16,25 @@ function updatePlot(path) {
 
 
       const scatterData = {
-        datasets: [{
-          label: 'Scatter Plot',
-          data: data,
-          backgroundColor: 'rgba(75, 192, 192, 0.5)', // Adjust the color as needed
-          pointRadius: 8, // Adjust the point size as needed
-        }]
+        datasets: [
+          {
+            label: 'Additional Scatter Plot',
+            type: 'scatter',
+            data: [
+              { x: 1, y: 1 },
+              // Add more data points as needed
+            ],
+            backgroundColor: 'red', // Adjust the color as needed
+            pointRadius: 4, // Adjust the point size as needed
+          },
+          {
+            label: 'Scatter Plot',
+            type: 'scatter',
+            data: data,
+            backgroundColor: 'rgba(128, 128, 128, .5)', // Adjust the color as needed
+            pointRadius: 4, // Adjust the point size as needed
+          },
+        ],
       };
 
       const scatterOptions = {

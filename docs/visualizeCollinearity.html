@@ -86,7 +86,8 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           checked
-          onChange="updatePlot('data/lowcorr.json')"
+          onChange="updatePlot('data/lowcorr.json');
+                    updateCorrelation('low')"
           >
         Low
       </label>
@@ -95,7 +96,8 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          onChange="updatePlot('data/modcorr.json')"
+          onChange="updatePlot('data/modcorr.json');
+                    updateCorrelation('mod')"
           >
         Moderate
       </label>
@@ -104,7 +106,8 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          onChange="updatePlot('data/highcorr.json')"
+          onChange="updatePlot('data/highcorr.json');
+                    updateCorrelation('high')"
           >
         High
       </label>
@@ -113,92 +116,27 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          onChange="updatePlot('data/extremecorr.json')"
+          onChange="updatePlot('data/extremecorr.json');
+                    updateCorrelation('extreme')"
           >
         Extreme
       </label>
-      Chart:
+
+
       <div>
-        <canvas id="myChart" width="400" height="300"></canvas>
-      </div>
-      End chart
-
-      <div class="tabs">
-        <div class="tab">
-          <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
-          <label for="tab-1" class="tab-label">Low Collinearity</label>
-          <div class="tab-content">
-
-            <p>
-              The average correlation between
-              \(X_1\) and
-              \(X_2\) is 0.002.
-            </p>
-
-            <img src="images/collinearity-low.svg" class="image_center">
-
-            <p>
-              The red dot represents the true coefficients. We see no
-              relationship between the estimated coefficients, and each are well
-              centered around the truth.
-            </p>
-
-          </div>
+        <div style="float:left;width:50%">
+          <canvas id="myChart" width="400" height="300"></canvas>
         </div>
-        <div class="tab">
-          <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
-          <label for="tab-2" class="tab-label">Moderate Collinearity</label>
-          <div class="tab-content">
+        <div style="float:right;width:50%">
+          The average correlation between \(X_1\) and \(X_2\)
+          is <span id="x1x2corr">XXX</span>.
 
-            <p>
-              The average correlation between \(X_1\) and \(X_2\) is 0.553.
-            </p>
-
-            <img src="images/collinearity-mod.svg" class="image_center">
-
-            <p>
-              While there is some semblance of a relationship, it is not very
-              strong.
-            </p>
-
-          </div>
-        </div>
-        <div class="tab">
-          <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
-          <label for="tab-3" class="tab-label">High Collinearity</label>
-          <div class="tab-content">
-
-
-            <p>
-              The average correlation between \(X_1\) and \(X_2\) is 0.893.
-            </p>
-
-            <img src="images/collinearity-high.svg" class="image_center">
-
-            <p>
-              There’s a strong relationship now, such that if one coefficient is
-              incorrectly high, the other is incorrectly low.
-            </p>
-
-          </div>
-        </div>
-        <div class="tab">
-          <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
-          <label for="tab-4" class="tab-label">Extreme Collinearity</label>
-          <div class="tab-content">
-
-            <p>
-              The average correlation between \(X_1\) and \(X_2\) is 0.995.
-            </p>
-
-            <img src="images/collinearity-extreme.svg" class="image_center">
-
-            <p>
-              We now see a very strong relationship between the coefficients.
-            </p>
-          </div>
+          <script>
+            // Get the element by its id
+          </script>
         </div>
       </div>
+
     </section>
     <section id="why-is-this-a-problem">
       <h2>Why is this a problem?</h2>
@@ -233,6 +171,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
     </ol>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
     <script src="plot.js"></script>
+    <script src="corrtext.js"></script>
     <p style="text-align:center">
       <a href="https://errickson.net">Home</a> | <a href="https://errickson.net/stats-notes">Back</a>
     </p>
