@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   // Get radio buttons and text containers
   const radioButtons = document.

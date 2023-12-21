@@ -33,7 +33,7 @@
       \]
 
       <p>
-        I carry out a simulation by generating 1,000 simulations with a given
+        I carry out a simulation by generating 1,000 data-sets with a specific
         correlation between predictors and obtain their coefficients.
       </p>
 
@@ -56,13 +56,9 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         with difference values to induce more correlation
         between <code>x1</code> and <code>x2</code>.
       </p>
-
-      <p>
-        Following these simulations, the coefficients are plotted against each out.
-      </p>
     </section>
     <section id="simulation">
-      <h2>Simulation</h2>
+      <h2>Simulation Results</h2>
 
 
       <label>
@@ -71,7 +67,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           name="collinearity_strength"
           value="low"
           checked
-          onChange="updatePlot(data/lowcorr.json')"
+          onChange="updatePlot('data/lowcorr.json')"
           >
         Low
       </label>
@@ -81,7 +77,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           value="mod"
-          onChange="updatePlot(data/modcorr.json')"
+          onChange="updatePlot('data/modcorr.json')"
           >
         Moderate
       </label>
@@ -91,7 +87,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           value="high"
-          onChange="updatePlot(data/higcorr.json')"
+          onChange="updatePlot('data/highcorr.json')"
           >
         High
       </label>
@@ -101,7 +97,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           value="extreme"
-          onChange="updatePlot(data/extcorr.json')"
+          onChange="updatePlot('data/extremecorr.json')"
           >
         Extreme
       </label>
@@ -116,60 +112,69 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
                      margin-top: 40px;">
 
             <p>
-              The red dot represents the data-generating coefficients \((1,
-              1)\). Note that bias is not a concern; the true coefficients are
-              on average for each level of collinearity.
+              Each point represents the estimated coefficients for a single
+              simulated data set. The red dot represents the data-generating
+              coefficients \((1, 1)\). Note that bias is not a concern; the true
+              coefficients are on average for each level of collinearity.
             </p>
 
             <p>
-              The average correlation between \(X_1\) and \(X_2\)
-              is <span id="x1x2corr">0.002</span>.
+              In this simulation, the average correlation between \(X_1\) and
+              \(X_2\) is <span id="x1x2corr">0.002</span>.
             </p>
 
 
             <div id="lowText" class="text-container">
-              We see no relationship between the estimated coefficients, and
-              each are well centered around the truth.
+              With low correlation, we see no relationship between the estimated
+              coefficients.
             </div>
             <div id="modText" class="text-container" style="display:none;">
-              While there is some semblance of a relationship, it is not very
-              strong.
+              While we are starting to see a correlation between the
+              coefficients, it is not that strong yet.
             </div>
             <div id="highText" class="text-container" style="display:none;">
-              There’s a strong relationship now, such that if one coefficient is
-              incorrectly high, the other is incorrectly low.
+              With correlation around .9, we are seeing very strong
+              collinearity: if \(\hat{X_1}\) is low, then we would expect
+              \(\hat{X_2}\) to be high.
             </div>
             <div id="extremeText" class="text-container" style="display:none;">
-              We now see a very strong relationship between the coefficients.
+              This relationship is incredibly strong.
             </div>
 
           </td>
         </tr>
       </table>
 
-
     </section>
     <section id="why-is-this-a-problem">
       <h2>Why is this a problem?</h2>
       <p>
+        So this simulation shows that at correlations around .9 or higher
+        between \(X_1\) and \(X_2\), there is negative correlation between
+        \(\hat{X_1}\) and \(\hat{X_2}\). Why is this a problem?
+      </p>
+
+      <p>
         Consider the “extremely high correlation” results. With such high
-        correlation, essentially \(X_1 = X_2\), which is represented by the red
-        line (slope of -1). We can approximate our model:
+        correlation, we have that \(X_1 \approx X_2\). We can use this
+        approximate equality to rewrite the model:
       </p>
 
       \[
       \begin{aligned} Y_i &amp;= \beta_0 + \beta_1X_{1i} + \beta_2X_{2i} +
-    \epsilon_i\\ &amp;\approx \beta_0 + (\beta_1 + \beta_2)X_{1i} + \epsilon_i\\
-    &amp;\approx \beta_0 + (\beta_1 + \beta_2)X_{2i} + \epsilon_i
+      \epsilon_i\\ &amp;\approx \beta_0 + (\beta_1 + \beta_2)X_{1i} +
+      \epsilon_i\\ &amp;\approx \beta_0 + (\beta_1 + \beta_2)X_{2i} + \epsilon_i
       \end{aligned}
       \]
 
       <p>
         In other words, the model has that \(\beta_1 + \beta_2 = 2\) (since we
-        assumed above that both coefficients have values of 1.. So while all of
+        assumed above that both coefficients have values of 1). So while all of
         those models would have the same predictive power for \(Y\), they would
-        have drastically different interpretations depending on where along that
-        red line they fall.
+        have drastically different interpretations. For example, we could obtain
+        \(\hat{X_1} = -1\) and \(\hat{X_2} = 3\), which not only over-emphasizes
+        the relationship betwen \(X_2\) and \(Y\), but suggests a inverse
+        relationship between \(X_1\) and \(Y\)!
       </p>
     </section>
   </div>
