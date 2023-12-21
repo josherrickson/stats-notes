@@ -71,7 +71,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           name="collinearity_strength"
           value="low"
           checked
-          onChange="updateAllCorrelation('low')"
+          onChange="updatePlot(data/lowcorr.json')"
           >
         Low
       </label>
@@ -81,7 +81,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           value="mod"
-          onChange="updateAllCorrelation('mod')"
+          onChange="updatePlot(data/modcorr.json')"
           >
         Moderate
       </label>
@@ -91,7 +91,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           value="high"
-          onChange="updateAllCorrelation('high')"
+          onChange="updatePlot(data/higcorr.json')"
           >
         High
       </label>
@@ -101,7 +101,7 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
           type="radio"
           name="collinearity_strength"
           value="extreme"
-          onChange="updateAllCorrelation('extreme')"
+          onChange="updatePlot(data/extcorr.json')"
           >
         Extreme
       </label>
@@ -126,9 +126,23 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
               is <span id="x1x2corr">0.002</span>.
             </p>
 
-            <p>
-              <span id="x1x2corr_text"> </span>
-            </p>
+
+            <div id="lowText" class="text-container">
+              We see no relationship between the estimated coefficients, and
+              each are well centered around the truth.
+            </div>
+            <div id="modText" class="text-container" style="display:none;">
+              While there is some semblance of a relationship, it is not very
+              strong.
+            </div>
+            <div id="highText" class="text-container" style="display:none;">
+              There’s a strong relationship now, such that if one coefficient is
+              incorrectly high, the other is incorrectly low.
+            </div>
+            <div id="extremeText" class="text-container" style="display:none;">
+              We now see a very strong relationship between the coefficients.
+            </div>
+
           </td>
         </tr>
       </table>
