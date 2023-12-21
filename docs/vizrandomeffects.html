@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Random Effects The visualization function Single random effect Cross random effects Nested random effects Equivalency of cross and nested random effects Summary</title>
+    <title>Random Effects The visualization function Single random effect Crossed random effects Nested random effects Equivalency of cross and nested random effects Summary</title>
     <link rel="stylesheet" href="style.css">
     <!-- Mathjax -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -28,7 +28,7 @@
         diagonal.
       </p>
 
-      <section id="nested-versus-crossed" class="level2">
+      <section id="nested-versus-crossed">
         <h2 class>Nested versus Crossed</h2>
 
         <p>
@@ -132,14 +132,16 @@ rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, P
         (as we expect).
       </p>
     </section>
-    <section id="cross-random-effects">
-      <h1>Cross random effects</h1>
+    <section id="crossed-random-effects">
+      <h1>Crossed random effects</h1>
       <p>
         Now let’s refit the above model, including the crossed random effets. In
         <code>lmer</code>, we simply add a second random intercept.
       </p>
 
-      <pre></pre>
+      <pre>mod2 <span class="operator"><-</span> <span class="keyword">lmer</span>(diameter <span class="operator">~</span> <span class="numeric">1</span> <span class="operator">+</span> (<span class="numeric">1</span> <span class="operator">|</span> sample) <span class="operator">+</span> (<span class="numeric">1</span> <span class="operator">|</span> plate), <span class="keyword">data</span> <span class="operator">=</span> Penicillin)
+rc2 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod2, Penicillin)
+<span class="keyword">image</span>(rc2)</pre>
 
       <img src="images/rc2.svg" class="image_center">
 
@@ -148,27 +150,20 @@ rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, P
         high level, so let’s zoom in.
       </p>
 
-      <pre></pre>
+      <pre><span class="keyword">image</span>(rc2[<span class="numeric">1</span><span class="operator">:</span><span class="numeric">12</span>, <span class="numeric">1</span><span class="operator">:</span><span class="numeric">12</span>])</pre>
 
-      <div class="cell-output-display">
-        <p>
-          <img
-            src="vizrandomeffects_files/figure-html/unnamed-chunk-5-1.png"
-            class="img-fluid"
-            width="672"
-          />
-        </p>
-        <p>
-          The diagonal blocks represents the correlation across plates - here we
-          see the first 2 (of total 24). The diagonal lines represent the sample
-          correlations. This subset of covariance matrix is represented by this
-          data:
-        </p>
+      <img src="images/rc2_zoom.svg", class="image_center">
 
-        <pre></pre>
+      <p>
+        The diagonal blocks represents the correlation across plates - here we
+        see the first 2 (of total 24). The diagonal lines represent the sample
+        correlations. This subset of covariance matrix is represented by this
+        data:
+      </p>
 
-        <div class="cell-output cell-output-stdout">
-          <pre><code>   diameter plate sample
+      <pre><span class="keyword">head</span>(Penicillin, <span class="numeric">12</span>)</pre>
+
+      <pre class="r_output">   diameter plate sample
 1        27     a      A
 2        23     a      B
 3        26     a      C
@@ -180,27 +175,29 @@ rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, P
 9        26     b      C
 10       23     b      D
 11       23     b      E
-12       21     b      F</code></pre>
-        </div>
-      </div>
+12       21     b      F</pre>
+
       <p>
         We see that observations 1 and 7 share the same <code>sample</code> “A”,
         2 and 8 share the same <code>sample</code> “B”, etc. These entries are
         non-zero in the covariance matrix.
       </p>
+
     </section>
+
     <section id="nested-random-effects">
       <h1>Nested random effects</h1>
+
       <p>
         Now lets view a nested random effect. We’ll switch to the
         <code>Oxide</code> data from “nlme”.
       </p>
 
-      <pre></pre>
+      <pre><span class="keyword">data</span>(Oxide, <span class="keyword">package</span> <span class="operator">=</span> <span class="string">"nlme"</span>)
+<span class="keyword">head</span>(Oxide, <span class="numeric">12</span>)</pre>
 
-      <div class="cell-output cell-output-stdout">
-        <pre><code>Grouped Data: Thickness ~ 1 | Lot/Wafer
-   Source Lot Wafer Site Thickness
+      <pre class="r_output">Grouped Data: Thickness ~ 1 | Lot/Wafer
+Source Lot Wafer Site Thickness
 1       1   1     1    1      2006
 2       1   1     1    2      1999
 3       1   1     1    3      2007
@@ -212,72 +209,70 @@ rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, P
 9       1   1     3    3      2007
 10      1   2     1    1      1991
 11      1   2     1    2      1990
-12      1   2     1    3      1988</code></pre>
-      </div>
+12      1   2     1    3      1988</pre>
+
       <p>
         We’ll ignore the <code>Source</code> (there are only two) and instead
         focus on lots and wafers. There are 8 different lots, and within each
         lot there are 3 wafers. Three measurements are made on each Wafer (the
         <code>Site</code> variable) of the <code>Thickness</code>.
       </p>
-      <p>Here <code>Wafer</code> is nested inside <code>Lot</code>.</p>
 
-      <pre></pre>
+      <p>
+        Here <code>Wafer</code> is nested inside <code>Lot</code>.
+      </p>
 
-      <div class="cell-output-display">
-        <p>
-          <img
-            src="vizrandomeffects_files/figure-html/unnamed-chunk-8-1.png"
-            class="img-fluid"
-            width="672"
-          />
-        </p>
-      </div>
+      <pre>mod3 <span class="operator"><-</span> <span class="keyword">lmer</span>(Thickness <span class="operator">~</span> <span class="numeric">1</span> <span class="operator">+</span> (<span class="numeric">1</span> <span class="operator">|</span> Lot <span class="operator">/</span> Wafer), <span class="keyword">data</span> <span class="operator">=</span> Oxide)
+rc3 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod3, Oxide)
+<span class="keyword">image</span>(rc3)</pre>
+
+      <img src="images/rc3.svg" class="image_center">
+
       <p>
         This is much cleaner as opposed to the crossed example. Each of the 8
         larger blocks represents the correlations within each Lot, and the 3
         smaller darker blocks within represent the additional correlation within
         each Wafer.
       </p>
+
       <p>
         What would the covariance matrix look like if we had crossed effects
         rather than nested?
       </p>
 
-      <pre></pre>
+      <pre>mod3b <span class="operator"><-</span> <span class="keyword">lmer</span>(Thickness <span class="operator">~</span> <span class="numeric">1</span> <span class="operator">+</span> (<span class="numeric">1</span> <span class="operator">|</span> Lot) <span class="operator">+</span> (<span class="numeric">1</span> <span class="operator">|</span> Wafer), <span class="keyword">data</span> <span class="operator">=</span> Oxide)
+rc3b <span class="operator"><-</span> <span class="keyword">rescov</span>(mod3b, Oxide)
+<span class="keyword">image</span>(rc3b)</pre>
 
-      <div class="cell-output-display">
-        <p>
-          <img
-            src="vizrandomeffects_files/figure-html/unnamed-chunk-9-1.png"
-            class="img-fluid"
-            width="672"
-          />
-        </p>
-      </div>
+      <img src="images/rc3b.svg" class="image_center">
+
       <p>
         Because the wafers within each lot are named the same, we have spurious
         correlations.
       </p>
+
     </section>
-    <section id="equivalency-of-cross-and-nested-random-effects">
+
+    <section id="equivalency">
       <h1>Equivalency of cross and nested random effects</h1>
+
       <p>
         As mentioned above, nested effects are an attribute of the data, not the
         model. We can include nested random effects using the cross effects
         syntax. In other words, for a nested structure, there is an equivalent
         crossed structure. (The reverse is <strong>not</strong> true.)
       </p>
+
       <p>
         The key is that the Wafer levels must be unique <em>in the data</em>,
         not just within each lot. Let’s generate a unique version of wafer.
       </p>
 
-      <pre></pre>
+      <pre>Oxide <span class="operator"><-</span> mutate(Oxide, Wafer2 <span class="operator">=</span> <span class="keyword">as.numeric</span>(<span class="keyword">paste0</span>(Lot, Wafer)))
+<span class="keyword">head</span>(Oxide, <span class="numeric">12</span>)</pre>
 
-      <div class="cell-output cell-output-stdout">
-        <pre><code>Grouped Data: Thickness ~ 1 | Lot/Wafer
-   Source Lot Wafer Site Thickness Wafer2
+      <pre class="r_output">Grouped Data: Thickness ~ 1 | Lot/Wafer
+Source Lot Wafer Site Thickness Wafer2
 1       1   1     1    1      2006     11
 2       1   1     1    2      1999     11
 3       1   1     1    3      2007     11
@@ -289,16 +284,16 @@ rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, P
 9       1   1     3    3      2007     13
 10      1   2     1    1      1991     21
 11      1   2     1    2      1990     21
-12      1   2     1    3      1988     21</code></pre>
-      </div>
+12      1   2     1    3      1988     21</pre>
+
       <p>Let’s check that this didn’t break the nested structure.</p>
 
-      <pre></pre>
+      <pre>mod4 <span class="operator"><-</span> <span class="keyword">lmer</span>(Thickness <span class="operator">~</span> <span class="numeric">1</span> <span class="keyword">+</span> (<span class="numeric">1</span> <span class="operator">|</span> Lot <span class="operator">/</span> Wafer2), <span class="keyword">data</span> <span class="operator">=</span> Oxide)
+<span class="keyword">summary</span>(mod3)</pre>
 
-      <div class="cell-output cell-output-stdout">
-        <pre><code>Linear mixed model fit by REML ['lmerMod']
+        <pre>Linear mixed model fit by REML ['lmerMod']
 Formula: Thickness ~ 1 + (1 | Lot/Wafer)
-   Data: Oxide
+Data: Oxide
 
 REML criterion at convergence: 454
 
@@ -315,15 +310,13 @@ Number of obs: 72, groups:  Wafer:Lot, 24; Lot, 8
 
 Fixed effects:
             Estimate Std. Error t value
-(Intercept) 2000.153      4.232   472.6</code></pre>
-      </div>
+(Intercept) 2000.153      4.232   472.6</pre>
 
-      <pre></pre>
+        <pre><span class="keyword">summary</span>(mod4)</pre>
 
-      <div class="cell-output cell-output-stdout">
-        <pre><code>Linear mixed model fit by REML ['lmerMod']
+        <pre>Linear mixed model fit by REML ['lmerMod']
 Formula: Thickness ~ 1 + (1 | Lot/Wafer2)
-   Data: Oxide
+Data: Oxide
 
 REML criterion at convergence: 454
 
@@ -340,20 +333,20 @@ Number of obs: 72, groups:  Wafer2:Lot, 24; Lot, 8
 
 Fixed effects:
             Estimate Std. Error t value
-(Intercept) 2000.153      4.232   472.6</code></pre>
-      </div>
+(Intercept) 2000.153      4.232   472.6</pre>
+
       <p>
         We saw before that adding crossed random effects with
         <code>Lot</code> and <code>Wafer</code> was not the same as nested.
         However, with <code>Lot</code> and <code>Wafer2</code>…
       </p>
 
-      <pre></pre>
+      <pre>mod4b <span class="operator"><-</span> <span class="keyword">lmer</span>(Thickness <span class="operator">~</span> <span class="numeric">1</span> <span class="numeric">+</span> (<span class="numeric">1</span> <span class="operator">|</span> Lot) <span class="numeric">+</span> (<span class="numeric">1</span> <span class="operator">|</span> Wafer2), <span class="keyword">data</span> = Oxide)
+<span class="keyword">summary</span>(mod4b)</pre>
 
-      <div class="cell-output cell-output-stdout">
-        <pre><code>Linear mixed model fit by REML ['lmerMod']
+      <pre>Linear mixed model fit by REML ['lmerMod']
 Formula: Thickness ~ 1 + (1 | Lot) + (1 | Wafer2)
-   Data: Oxide
+Data: Oxide
 
 REML criterion at convergence: 454
 
@@ -370,66 +363,57 @@ Number of obs: 72, groups:  Wafer2, 24; Lot, 8
 
 Fixed effects:
             Estimate Std. Error t value
-(Intercept) 2000.153      4.232   472.6</code></pre>
-      </div>
+(Intercept) 2000.153      4.232   472.6</pre>
 
-      <pre></pre>
+      <pre>rc4b <span class="operator"><-</span> <span class="keyword">rescov</span>(mod4b, Oxide)
+<span class="keyword">image</span>(rc4b)</pre>
 
-      <div class="cell-output-display">
-        <p>
-          <img
-            src="vizrandomeffects_files/figure-html/unnamed-chunk-12-1.png"
-            class="img-fluid"
-            width="672"
-          />
-        </p>
-      </div>
+      <img src="images/rc4b.svg" class="image_center">
+
     </section>
     <section id="summary">
       <h1>Summary</h1>
+
       <p>
         As long as the the levels of the nested variable are unique
         <em>across the data</em> as opposed to unique within each of the nesting
         variable, nested effects and crossed effects are identical. There’s a
-        very nice visualization of this found in this thread:
-        <a
-          href="https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified"
-          class="uri"
-          >https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified</a
-        >
+        very nice visualization of this found in
+        this <a href="https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified">Stackoverflow
+        thread</a>.
       </p>
+
       <p>
         With this naming convention, nested and fixed effects will be
         <strong>different</strong>:
       </p>
-      <p><img src="images/sem_different.png" width=800px></p>
+
+      <img src="images/sem_different.png" style="width:100%">
+
       <p>
         With this naming convention, nested and fixed effects will be
         <strong>equivalent</strong>:
       </p>
-      <p><img src="images/sem_equivalent.png" width=800px></p>
-    </section>
-    <section
-      id="footnotes"
-      class="footnotes footnotes-end-of-document"
-      role="doc-endnotes"
-    >
-      <hr />
-      <ol>
-        <li id="fn1">
-          <p>
-            “Crossed” simply means non-nested.<a
-              href="#fnref1"
-              class="footnote-back"
-              role="doc-backlink"
-              >↩︎</a
-            >
-          </p>
-        </li>
-      </ol>
+
+      <img src="images/sem_equivalent.png" style="width:100%">
+
     </section>
   </div>
-</body>
+
+  <nav class="section-nav">
+	  <ol>
+		  <li class=""><a href="#random-effects">Introduction</a>
+        <ol>
+          <li class=""><a href="#nested-versus-crossed">Nested vs Crossed</a></li>
+        </ol>
+      </li>
+		  <li class=""><a href="#the-visualization-function">The Visualization Function</a></li>
+		  <li class=""><a href="#single-random-effect">Single Random Effect</a></li>
+		  <li class=""><a href="#crossed-random-effects">Crossed Random Effects</a></li>
+		  <li class=""><a href="#nested-random-effects">Nested Random Effects</a></li>
+		  <li class=""><a href="#equivalency">Equivalency of cross and nested random effects</a></li>
+		  <li class=""><a href="#summary">Summary</a></li>
+    </ol>
     <p style="text-align:center">
       <a href="https://errickson.net">Home</a> | <a href="https://errickson.net/stats-notes">Back</a>
     </p>
