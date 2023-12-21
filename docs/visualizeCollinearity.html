@@ -85,9 +85,9 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
+          value="low"
           checked
-          onChange="updatePlot('data/lowcorr.json');
-                    updateCorrelation('low')"
+          onChange="updateAllCorrelation('low')"
           >
         Low
       </label>
@@ -96,8 +96,8 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          onChange="updatePlot('data/modcorr.json');
-                    updateCorrelation('mod')"
+          value="mod"
+          onChange="updateAllCorrelation('mod')"
           >
         Moderate
       </label>
@@ -106,8 +106,8 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          onChange="updatePlot('data/highcorr.json');
-                    updateCorrelation('high')"
+          value="high"
+          onChange="updateAllCorrelation('high')"
           >
         High
       </label>
@@ -116,26 +116,32 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
         <input
           type="radio"
           name="collinearity_strength"
-          onChange="updatePlot('data/extremecorr.json');
-                    updateCorrelation('extreme')"
+          value="extreme"
+          onChange="updateAllCorrelation('extreme')"
           >
         Extreme
       </label>
 
+      The red dot represents the true coefficients.
+      <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+          <td style="padding: 0; vertical-align: top; width: 60%;">
+            <canvas id="myChart" width="600" height="450"></canvas>
+          </td>
+          <td style="padding: 0; vertical-align: top; width: 40%;
+                     margin-top: 40px;">
+            <p>
+              The average correlation between \(X_1\) and \(X_2\)
+              is <span id="x1x2corr">0.002</span>.
+            </p>
 
-      <div>
-        <div style="float:left;width:50%">
-          <canvas id="myChart" width="400" height="300"></canvas>
-        </div>
-        <div style="float:right;width:50%">
-          The average correlation between \(X_1\) and \(X_2\)
-          is <span id="x1x2corr">XXX</span>.
+            <p>
+              <span id="x1x2corr_text"> </span>
+            </p>
+          </td>
+        </tr>
+      </table>
 
-          <script>
-            // Get the element by its id
-          </script>
-        </div>
-      </div>
 
     </section>
     <section id="why-is-this-a-problem">
