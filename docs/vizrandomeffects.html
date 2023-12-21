@@ -96,22 +96,29 @@
 8        23     b      B
 9        26     b      C
 10       23     b      D</pre>
-      </div>
+
       <p>
         This data is measuring Penicillin over a number of different trials.
         There are 24 plates and 6 samples, each plate having 1 replicate from
         each sample. (This is a fully crossed design, but it need not be.)
       </p>
+
       <p>
         For the time being, let’s ignore the plate level effects, and fit a
         model with a random intercept only for sample.
       </p>
+
       <p>
         In this data there are no covariates to enter as fixed effects, but
         their existence would not impede things.
       </p>
 
-      <pre></pre>
+      <pre>Penicillin <span class="operator"><-</span> Penicillin[<span class="keyword">order</span>(Penicillin<span class="operator">$</span>sample), ]
+mod1 <span class="operator"><-</span> <span class="keyword">lmer</span>(diameter <span class="operator">~</span> <span class="numeric">1</span> <span class="operator">+</span> (<span class="numeric">1</span> <span class="operator">|</span> sample), <span class="keyword">data</span> <span class="operator">=</span> Penicillin)
+rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, Penicillin)
+<span class="keyword">image</span>(rc1)</pre>
+
+      <img src="images/rc1.svg" class="image_center">
 
       <p>
         (The data is re-ordered by <code>sample</code> to improve visualization.
@@ -134,13 +141,7 @@
 
       <pre></pre>
 
-      <p>
-        <img
-          src="vizrandomeffects_files/figure-html/unnamed-chunk-4-1.png"
-          class="img-fluid"
-          width="672"
-        />
-      </p>
+      <img src="images/rc2.svg" class="image_center">
 
       <p>
         We see an additional pattern here. It can be hard to interpret at such a
@@ -401,12 +402,12 @@ Fixed effects:
         With this naming convention, nested and fixed effects will be
         <strong>different</strong>:
       </p>
-      <p><img src="images/sem_different.png" class="img-fluid" /></p>
+      <p><img src="images/sem_different.png" width=800px></p>
       <p>
         With this naming convention, nested and fixed effects will be
         <strong>equivalent</strong>:
       </p>
-      <p><img src="images/sem_equivalent.png" class="img-fluid" /></p>
+      <p><img src="images/sem_equivalent.png" width=800px></p>
     </section>
     <section
       id="footnotes"
