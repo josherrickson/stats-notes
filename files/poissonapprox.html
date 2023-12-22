@@ -64,14 +64,22 @@ end</pre>
     </section>
     <section id="results">
       <h2 style={'margin:0px'}>Results</h2>
-      <div class="sticky-container">
-        <div class="sticky-header">
-            <div class="sticky-tab" id="tab10perc">10% Success</div>
-            <div class="sticky-tab" id="tab5perc">5% Success</div>
-            <div class="sticky-tab" id="tab3perc">3% Success</div>
-            <div class="sticky-tab" id="tab1perc">1% Success</div>
+      <div class="poisson-results-container">
+        <div class="poisson-results-header">
+          <div class="poisson-results-tab poisson-active-tab" id="tab10perc">
+            10% Success
+          </div>
+          <div class="poisson-results-tab" id="tab5perc">
+            5% Success
+          </div>
+          <div class="poisson-results-tab" id="tab3perc">
+            3% Success
+          </div>
+          <div class="poisson-results-tab" id="tab1perc">
+            1% Success
+          </div>
         </div>
-        <div class="content">
+        <div>
 
           <p>
             Now we can run it with a few different inputs. We'll
@@ -158,17 +166,17 @@ Mean estimation                          Number of obs = 1,000
           <pre>. twoway kdensity b_logit || kdensity b_pois, ///
 >     xline(.4) legend(label(1 "Logistic") label(2 "Poisson"))</pre>
 
-          <div id="p-image-10" class="prop-image-container">
-            <img src="images/poisson1.svg" class="image_center">
+          <div id="p-image-div-10" class="prop-image-container" style="display:block">
+            <img src="images/poisson10.svg" class="image_center"" id ="p-image-10">
           </div>
-          <div id="p-image-5" class="prop-image-container" style="display:none;">
-            <img src="images/poisson2.svg" class="image_center">
+          <div id="p-image-div-5" class="prop-image-container" style="display:none;">
+            <img src="images/poisson5.svg" class="image_center"" id ="p-image-5">
           </div>
-          <div id="p-image-3" class="prop-image-container" style="display:none;">
-            <img src="images/poisson3.svg" class="image_center">
+          <div id="p-image-div-3" class="prop-image-container" style="display:none;">
+            <img src="images/poisson3.svg" class="image_center"" id ="p-image-3">
           </div>
-          <div id="p-image-1" class="prop-image-container" style="display:none;">
-            <img src="images/poisson4.svg" class="image_center">
+          <div id="p-image-div-1" class="prop-image-container" style="display:none;">
+            <img src="images/poisson1.svg" class="image_center" id ="p-image-1">
           </div>
 
           <p>

@@ -246,33 +246,44 @@ Sticky section for Poisson approx
 **********************************************************************/
 
 /* Style for the container that holds the sticky header and content */
-.sticky-container {
+.poisson-results-container {
     position: relative;
     max-width: 100%; /* Set your desired width */
     margin: 0 auto;
 }
 
 /* Style for the sticky header */
-.sticky-header {
+.poisson-results-header {
     position: sticky;
     top: 0;
-    background-color: #f1f1f1;
+    background-color: inherit;
     padding: 15px;
     z-index: 100;
+    justify-content: center;
     display: flex;
-    justify-content: space-between;
     font-weight: bold;
 }
 
-.sticky-tab {
+.poisson-results-tab {
     padding: 10px 15px;
     cursor: pointer;
-    border: 1px solid #ccc;
+    border: 1px solid var(--base0);
     border-radius: 5px;
     margin-right: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease;
+    background-color: var(--base1);
 }
 
-.sticky-tab:hover {
-    background-color: #ddd;
+@media (prefers-color-scheme: dark) {
+    .poisson-results-tab {
+        background-color: var(--base01);
+    }
+}
+
+.poisson-results-tab:hover {
+    background-color: var(--yellow);
+}
+
+.poisson-active-tab {
+    background-color: var(--orange) !important;
 }
