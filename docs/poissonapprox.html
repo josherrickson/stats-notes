@@ -79,145 +79,196 @@ end</pre>
 
     </section>
     <section id="results">
-      <h2>Results</h2>
-      <p>
-          Now we can run it with a few different settings. Specifically, we’re
-          interested in how close to 0 the mean must be for the Poisson
-          coefficient to approximate the logistic coefficient.
-      </p>
+      <h2 style={'margin:0px'}>Results</h2>
+      <div class="sticky-container">
+        <div class="sticky-header">
+            <div class="sticky-tab" id="tab10perc">10% Success</div>
+            <div class="sticky-tab" id="tab5perc">5% Success</div>
+            <div class="sticky-tab" id="tab3perc">3% Success</div>
+            <div class="sticky-tab" id="tab1perc">1% Success</div>
+        </div>
+        <div class="content">
 
-        <div class="tabset-margin-container"></div>
-        <div class="panel-tabset">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link active"
-                id="tabset-1-1-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#tabset-1-1"
-                role="tab"
-                aria-controls="tabset-1-1"
-                aria-selected="true"
-                >10% success</a
-              >
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="tabset-1-2-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#tabset-1-2"
-                role="tab"
-                aria-controls="tabset-1-2"
-                aria-selected="false"
-                >5% success</a
-              >
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="tabset-1-3-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#tabset-1-3"
-                role="tab"
-                aria-controls="tabset-1-3"
-                aria-selected="false"
-                >3% success</a
-              >
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="tabset-1-4-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#tabset-1-4"
-                role="tab"
-                aria-controls="tabset-1-4"
-                aria-selected="false"
-                >1% success</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div
-              id="tabset-1-1"
-              class="tab-pane active"
-              role="tabpanel"
-              aria-labelledby="tabset-1-1-tab"
-              >
+          <p>
+            Now we can run it with a few different inputs. We'll
+            let <code>b1</code> \(= .4\) with <code>n</code> \(= 10,000\).
+            (<code>n</code> needs to be large enough such that we have a
+            nontrivial amount of successes.) Choose from the tabs above
+            the <code>p</code> to see how the results vary as a probability of a
+            positive outcomes approaches \(0\).
+          </p>
 
-              <pre></pre>
+          <p>
+            Run the simulation. We save the estimated proportion of successes
+            (<code>pp</code>)to ensure the simulation worked as intended, as
+            well as the estimated coefficients from the Poisson model
+            (<code>b_pois</code>) and logistic model (<code>b_logit</code>).
+          </p>
 
-              <p>
-                First we’ll ensure the code is working and that P(success) is
-                10% as requested.
-              </p>
+          <pre>. simulate pp=r(pp) b_pois=r(b_pois) b_logit=r(b_logit), ///
+>     reps(1000) nodots: binsim 10000 <span id="sim_prop_1">.1</span> .4
 
-              <pre></pre>
+      Command: binsim 10000 <span id="sim_prop_2">.1</span> .4
+           pp: r(pp)
+       b_pois: r(b_pois)
+      b_logit: r(b_logit)
+</pre>
 
-              <p>Now we can look at the kernel densities</p>
+          <p>
+            First we’ll ensure the code is working and that proportion of
+            positive outcomes is approximately <span id="sim_prop_3">.1</span>.
+          </p>
 
-              <pre></pre>
+          <div id="p-m-c-10" class="prop-mean-container">
+            <pre>. mean pp
 
-              <p><img src="graphs/poisson1.svg" class="img-fluid" /></p>
-              <p>
-                The Poisson coefficient is strongly negatively biased. We can
-                estimate the bias as a percent of the true coefficient.
-              </p>
+Mean estimation                          Number of obs = 1,000
 
-              <pre></pre>
-
-              <div
-              id="tabset-1-2"
-              class="tab-pane"
-              role="tabpanel"
-              aria-labelledby="tabset-1-2-tab"
-                >
-
-                <pre></pre>
-
-              <p><img src="graphs/poisson2.svg" class="img-fluid" /></p>
-              <p>Still see a negative bias.</p>
-            </div>
-            <div
-              id="tabset-1-3"
-              class="tab-pane"
-              role="tabpanel"
-              aria-labelledby="tabset-1-3-tab"
-            >
-
-              <pre></pre>
-
-              <p><img src="graphs/poisson3.svg" class="img-fluid" /></p>
-              <p>The bias is minimal but still present.</p>
-            </div>
-            <div
-              id="tabset-1-4"
-              class="tab-pane"
-              role="tabpanel"
-              aria-labelledby="tabset-1-4-tab"
-            >
-
-              <pre></pre>
-
-              <p><img src="graphs/poisson4.svg" class="img-fluid" /></p>
-              <p>The bias has all but disappeared.</p>
-            </div>
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+          pp |   .1057365   .0000978      .1055445    .1059285
+--------------------------------------------------------------</pre>
           </div>
-      <section id="conclusion">
-        <h2>Conclusion</h2>
-        <p>
-          I wouldn’t recommend using Poisson over Logistic unless P(Success) was
-          1% or less.
-        </p>
-        <p>
-          There’s an interesting artifact to explore, namely that the percent
-          bias is consistently about 15-20% larger than the true beta.
-        </p>
-      </section>
+          <div id="p-m-c-5" class="prop-mean-container" style="display:none;">
+            <pre>. mean pp
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+          pp |   .0535497   .0000704      .0534115    .0536879
+--------------------------------------------------------------</pre>
+          </div>
+          <div id="p-m-c-3" class="prop-mean-container" style="display:none;">
+            <pre>. mean pp
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+          pp |   .0322263   .0000573      .0321139    .0323387
+--------------------------------------------------------------</pre>
+          </div>
+          <div id="p-m-c-1" class="prop-mean-container" style="display:none;">
+            <pre>. mean pp
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+          pp |   .0108073   .0000342      .0107402    .0108744
+--------------------------------------------------------------</pre>
+          </div>
+
+
+
+          <p>
+              Now we can examine the distributions of the two estimated
+              coefficients. If Poisson is truly a good approximation, then the
+              two distributions should be nearly identical.</p>
+
+          <pre>. twoway kdensity b_logit || kdensity b_pois, ///
+>     xline(.4) legend(label(1 "Logistic") label(2 "Poisson"))</pre>
+
+          <div id="p-image-10" class="prop-image-container">
+            <img src="images/poisson1.svg" class="image_center">
+          </div>
+          <div id="p-image-5" class="prop-image-container" style="display:none;">
+            <img src="images/poisson2.svg" class="image_center">
+          </div>
+          <div id="p-image-3" class="prop-image-container" style="display:none;">
+            <img src="images/poisson3.svg" class="image_center">
+          </div>
+          <div id="p-image-1" class="prop-image-container" style="display:none;">
+            <img src="images/poisson4.svg" class="image_center">
+          </div>
+
+          <p>
+            We can estimate the proportion of bias.
+          </p>
+
+          <div id="p-bias-10" class="prop-bias-container">
+            <pre>. gen error = abs(b_logit - b_pois)/b_logit
+
+. mean error
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+       error |   .1195278   .0001314      .1192699    .1197857
+--------------------------------------------------------------</pre>
+          </div>
+          <div id="p-bias-5" class="prop-bias-container" style="display:none;">
+            <pre>. gen error = abs(b_logit - b_pois)/b_logit
+
+. mean error
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+       error |   .0616367   .0001023      .0614361    .0618374
+--------------------------------------------------------------</pre>
+          </div>
+          <div id="p-bias-3" class="prop-bias-container" style="display:none;">
+            <pre>. gen error = abs(b_logit - b_pois)/b_logit
+
+. mean error
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+       error |   .0375324   .0000839      .0373677    .0376971
+--------------------------------------------------------------</pre>
+          </div>
+          <div id="p-bias-1" class="prop-bias-container" style="display:none;">
+            <pre>. gen error = abs(b_logit - b_pois)/b_logit
+
+. mean error
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+       error |   .0375324   .0000839      .0373677    .0376971
+--------------------------------------------------------------</pre>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="conclusion">
+      <h2>Conclusion</h2>
+      <p>
+        I wouldn’t recommend using Poisson over Logistic unless P(Success) was
+        1% or less.
+      </p>
+      <p>
+        There’s an interesting artifact to explore, namely that the percent
+        bias is consistently about 15-20% larger than the true beta.
+      </p>
+    </section>
     </section>
   </div>
-</body>
+  <nav class="section-nav">
+	  <ol>
+		  <li class=""><a href="#introduction">Introduction</a></li>
+		  <li class=""><a href="#simulation">Simulation</a></li>
+		  <li class=""><a href="#results">Results</a></li>
+		  <li class=""><a href="#conclusion">Conclusion</li>
+    </ol>
+    <script src="poisson_tabs.js"></script></a>
     <p style="text-align:center">
       <a href="https://errickson.net">Home</a> | <a href="https://errickson.net/stats-notes">Back</a>
     </p>
