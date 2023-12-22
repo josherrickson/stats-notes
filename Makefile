@@ -35,4 +35,3 @@ copy_files:
 	cp -r files/images docs/
 	mkdir -p docs/data
 	cp files/visualizeCollinearity-files/*.json docs/data
-	cp files/vizrandomeffects_files/images/* docs/images
