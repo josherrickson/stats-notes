@@ -2,7 +2,7 @@
   <div>
     <section id="introduction">
 
-      <h1>Introduction</h1>
+      <h1>Stata’s <code>xtreg</code> versus <code>mixed</code>/<code>regress</code></h1>
 
       <p>
         In Stata, panel data (repeated measures) can be modeled using
@@ -21,7 +21,7 @@
     </section>
     <section id="data">
 
-      <h1>Data</h1>
+      <h2>Data</h2>
 
       <p>
         We’ll use the "nlswork" data:
@@ -65,7 +65,7 @@ Panel variable: idcode (unbalanced) </pre>
     </section>
 
     <section id="theory">
-      <h1>Theory</h1>
+      <h2>Theory</h2>
 
       <p>
         Within the panel/<code>xt</code> framework, there are three separate
@@ -120,7 +120,7 @@ xtreg <model>, re</pre>
       </ul>
 
       <section id="the-math">
-        <h2>The Math</h2>
+        <h3>The Math</h3>
 
         <p>
           Picture a typical mixed model setup:
@@ -180,7 +180,7 @@ xtreg <model>, re</pre>
 
       </section>
       <section id="assumptions">
-        <h2>Assumptions</h2>
+        <h3>Assumptions</h3>
 
         <p>
           There is one key different assumption between the models: The random
@@ -197,7 +197,7 @@ xtreg <model>, re</pre>
       </section>
     </section>
     <section id="xtsum">
-      <h1><code>xtsum</code>: Estimating between/within/overall variance</h1>
+      <h2><code>xtsum</code>: Estimating between/within/overall variance</h2>
 
       <p>
         The <code>xtsum</code> command can be used to estimate the variance of a
@@ -219,7 +219,7 @@ ln_wage  overall |  1.674907   .4780935          0   5.263916 |     N =   28534
       </p>
 
       <section id="xtsum-overall-variation">
-        <h2>Overall variation</h2>
+        <h3>Overall variation</h3>
 
         <p>
           Easily done:
@@ -233,7 +233,7 @@ ln_wage  overall |  1.674907   .4780935          0   5.263916 |     N =   28534
 
       </section>
       <section id="xtsum-within-variation">
-        <h2>Within variation</h2>
+        <h3>Within variation</h3>
 
         <p>
           Taking our cue from the notes in <a href="#the-theory">the theory</a>,
@@ -277,7 +277,7 @@ ln_wage  overall |  1.674907   .4780935          0   5.263916 |     N =   28534
 
       </section>
       <section id="xtsum-between-variation">
-        <h2>Between variation</h2>
+        <h3>Between variation</h3>
         <p>
           We simply collapse by id.
         </p>
@@ -303,13 +303,13 @@ ln_wage  overall |  1.674907   .4780935          0   5.263916 |     N =   28534
       </section>
     </section>
     <section id="fitting-the-models">
-      <h1>Fitting the models</h1>
+      <h2>Fitting the models</h2>
       <p>Let’s use the following as our model:</p>
 
       <pre>ln_wage ~ grade + age + ttl_exp + tenure + not_smsa + south</pre>
 
       <section id="fitting-xtreg-fe">
-        <h2><code>xtreg, fe</code>: Fixed Effect model (Within variance)</h2>
+        <h3><code>xtreg, fe</code>: Fixed Effect model (Within variance)</h3>
 
         <pre>. xtreg ln_wage grade age ttl_exp tenure not_smsa south, fe
 note: grade omitted because of collinearity.
@@ -431,7 +431,7 @@ F test that all u_i=0: F(88, 473) = 9.01                     Prob > F = 0.0000
 
       </section>
       <section id="fitting-xtreg-be">
-        <h2><code>xtreg, be</code>: Between Effect model (Between variance)</h2>
+        <h3><code>xtreg, be</code>: Between Effect model (Between variance)</h3>
 
         <pre>. xtreg ln_wage grade age ttl_exp tenure not_smsa south, be
 
@@ -502,7 +502,7 @@ sd(u_i + avg(e_i.)) = .3068161                  Prob > F          =     0.0000
 
       </section>
       <section id="fitting-xtreg-re">
-        <h2><code>xtreg, re</code>: Random Effect model (Both variances)</h2>
+        <h3><code>xtreg, re</code>: Random Effect model (Both variances)</h3>
 
         <pre>. xtreg ln_wage grade age ttl_exp tenure not_smsa south, re
 
