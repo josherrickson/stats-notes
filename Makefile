@@ -5,7 +5,14 @@ HTML_FILES := $(wildcard $(SRC_DIR)/*.html)
 HTML_DEST_FILES := $(patsubst $(SRC_DIR)/%.html, $(DEST_DIR)/%.html, $(HTML_FILES))
 
 .PHONY: all
-all: $(HTML_DEST_FILES) copy_files
+all: $(HTML_DEST_FILES) copy_files docs/index.html
+
+docs/index.html: index.html header.html footer.html
+	mkdir -p docs
+	cp header.html header-tmp.html
+	sed -i '' -e 's_TITLE_JE Statisics Notes_' header-tmp.html
+	cat header-tmp.html index.html footer.html > $@
+	rm header-tmp.html
 
 $(DEST_DIR)/%.html: $(SRC_DIR)/%.html header.html footer.html
 	mkdir -p docs
