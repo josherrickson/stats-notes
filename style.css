@@ -287,3 +287,12 @@ Sticky section for Poisson approx
 .poisson-active-tab {
     background-color: var(--orange) !important;
 }
+
+/**********************************************************************
+Index search
+**********************************************************************/
+
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+    }
