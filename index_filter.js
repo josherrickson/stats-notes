@@ -20,8 +20,10 @@ function highlightOccurrences() {
        const newString = htmlString.map((s) => {
          // Add span if not currently a tag
          if (s.charAt(0) != "<") {
-           return s.replaceAll(toReplace,
-                               `<span class="highlight">${toReplace}</span>`)
+           // 'g' means match all; 'i' means ignore case
+           let regex = new RegExp(`(${toReplace})`, 'gi');
+           return s.replaceAll(regex,
+                               `<span class="highlight">$1</span>`)
          } else {
            // Return tags directly.
            return s

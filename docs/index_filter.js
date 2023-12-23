@@ -5,8 +5,7 @@
  // Add an event listener to the input
  filterInput.addEventListener('input', highlightOccurrences);
 
- //x.innerHTML = x.innerHTML.replace(toReplace, `<span class="highlight">${toReplace}</span>`)
- function highlightOccurrences() {
+function highlightOccurrences() {
    content.forEach((x) => {
      const toReplace = filterInput.value.trim()
 
@@ -14,13 +13,19 @@
      const regexRemoveHighlight = /<span class=\"highlight\">([^<]*)<\/span>/g;
      x.innerHTML = x.innerHTML.replace(regexRemoveHighlight, '$1');
 
+     // If the user has input anything
      if (toReplace.length != 0) {
        const htmlString = x.innerHTML.match(/<[^>]*>|[^<]+/g)
 
        const newString = htmlString.map((s) => {
+         // Add span if not currently a tag
          if (s.charAt(0) != "<") {
-           return s.replaceAll(toReplace, `<span class="highlight">${toReplace}</span>`)
+           let regex = new RegExp(`(${toReplace})`, 'gi');
+           console.log(regex)
+           return s.replaceAll(regex,
+                               `<span class="highlight">$1</span>`)
          } else {
+           // Return tags directly.
            return s
          }
        })
