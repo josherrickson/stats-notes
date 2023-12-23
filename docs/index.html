@@ -129,17 +129,19 @@
      const regexRemoveHighlight = /<span class=\"highlight\">([^<]*)<\/span>/g;
      x.innerHTML = x.innerHTML.replace(regexRemoveHighlight, '$1');
 
-     const htmlString = x.innerHTML.match(/<[^>]*>|[^<]+/g)
+     if (toReplace.length != 0) {
+       const htmlString = x.innerHTML.match(/<[^>]*>|[^<]+/g)
 
-     const newString = htmlString.map((s) => {
-       if (s.charAt(0) != "<") {
-         return s.replaceAll(toReplace, `<span class="highlight">${toReplace}</span>`)
-       } else {
-         return s
-       }
-     })
+       const newString = htmlString.map((s) => {
+         if (s.charAt(0) != "<") {
+           return s.replaceAll(toReplace, `<span class="highlight">${toReplace}</span>`)
+         } else {
+           return s
+         }
+       })
 
-     x.innerHTML = newString.join('')
+       x.innerHTML = newString.join('')
+     }
    })
  }
 </script>

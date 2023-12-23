@@ -292,7 +292,12 @@ Sticky section for Poisson approx
 Index search
 **********************************************************************/
 
+.highlight {
+    background-color: var(--yellow);
+}
+
+@media (prefers-color-scheme: dark) {
     .highlight {
-      background-color: yellow;
-      font-weight: bold;
+        background-color: var(--violet)
     }
+}
