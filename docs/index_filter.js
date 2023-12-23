@@ -1,12 +1,12 @@
  // Get the input element and the content container
  const filterInput = document.getElementById('filterInput');
- const content = document.querySelectorAll('.index_li')
+ const subjectList = document.querySelectorAll('.index_li')
 
  // Add an event listener to the input
  filterInput.addEventListener('input', highlightOccurrences);
 
 function highlightOccurrences() {
-   content.forEach((x) => {
+   subjectList.forEach((x) => {
      const toReplace = filterInput.value.trim()
 
      // First remove any existing highlighting
@@ -20,8 +20,8 @@ function highlightOccurrences() {
        const newString = htmlString.map((s) => {
          // Add span if not currently a tag
          if (s.charAt(0) != "<") {
+           // 'g' means match all; 'i' means ignore case
            let regex = new RegExp(`(${toReplace})`, 'gi');
-           console.log(regex)
            return s.replaceAll(regex,
                                `<span class="highlight">$1</span>`)
          } else {
@@ -34,3 +34,26 @@ function highlightOccurrences() {
      }
    })
  }
+
+
+// Add an event listener to the input
+filterInput.addEventListener('input', filterList);
+
+function filterList() {
+  // Get the user input and convert it to lowercase for case-insensitive matching
+  const filterValue = filterInput.value.trim();
+
+  subjectList.forEach((sl) => {
+    // Get the text subjectList of the current list item and convert it to lowercase
+    const listItemText = sl.textContent
+
+    // Check if the list item contains the user input
+    if (listItemText.includes(filterValue)) {
+      // If it does, display the list item
+      sl.style.display = ''
+    } else {
+      // If it doesn't, hide the list item
+      sl.style.display = 'none'
+    }
+  })
+}
