@@ -22,7 +22,7 @@
     --code_light: #f8f8f2;
 
     /* This enables the use of dark themes */
-     color-scheme: light dark;
+    color-scheme: light dark;
 }
 
 body {
@@ -69,20 +69,20 @@ a:hover code {
 
 p.warning
 {
-     background-color: #FEADAD;
-     border-left: solid 4px var(--red);
-     line-height: 18px;
-     overflow: hidden;
-     padding: 10px 60px;
+    background-color: #FEADAD;
+    border-left: solid 4px var(--red);
+    line-height: 18px;
+    overflow: hidden;
+    padding: 10px 60px;
 }
 
 p.note
 {
-     background-color: #A7CEFA;
-     border-left: solid 4px var(--blue);
-     line-height: 18px;
-     overflow: hidden;
-     padding: 10px 60px;
+    background-color: #A7CEFA;
+    border-left: solid 4px var(--blue);
+    line-height: 18px;
+    overflow: hidden;
+    padding: 10px 60px;
 }
 
 h1 {
@@ -108,11 +108,15 @@ h4 {
 }
 
 .image_center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
 
+.centered {
+    width: 50%; /* Adjust the width as needed */
+    margin: 0 auto;
 }
 
 /**********************************************************************
@@ -132,8 +136,8 @@ pre {
 
 @media (prefers-color-scheme: dark) {
     pre {
-    background-color: var(--code_dark);
-    color: var(--code_light);
+        background-color: var(--code_dark);
+        color: var(--code_light);
     }
 }
 
@@ -188,9 +192,9 @@ html {
 
 /* 2. Make nav sticky */
 body > nav {
-	position: sticky;
-	top: 2rem;
-	align-self: start;
+	  position: sticky;
+	  top: 2rem;
+	  align-self: start;
 }
 
 /* 3. ScrollSpy active styles (see JS tab for activation) */
@@ -201,39 +205,39 @@ body > nav {
 
 /* Sidebar Navigation */
 .section-nav {
-	padding-left: 0;
-	/* border-left: 1px solid #efefef; */
+	  padding-left: 0;
+	  /* border-left: 1px solid #efefef; */
 }
 
 .section-nav :not(p) a {
-	text-decoration: none;
-	display: block;
-	padding: .125rem 0;
-	transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
+	  text-decoration: none;
+	  display: block;
+	  padding: .125rem 0;
+	  transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
 }
 
 /** Poor man's reset **/
 * {
-	box-sizing: border-box;
+	  box-sizing: border-box;
 }
 
 nav ul, nav ol {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	  list-style: none;
+	  margin: 0;
+	  padding: 0;
 }
 
 nav li {
-	margin-left: 1rem;
+	  margin-left: 1rem;
 }
 
 /** page layout **/
 body.statsnotes {
-	display: grid;
-	grid-template-columns: 1fr 15em;
-	max-width: 100em;
-	width: 90%;
-	margin: 0 auto;
+	  display: grid;
+	  grid-template-columns: 1fr 15em;
+	  max-width: 100em;
+	  width: 90%;
+	  margin: 0 auto;
 }
 
 /** enlarge the sections for this demo, so that we have a long scrollable page **/
