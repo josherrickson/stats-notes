@@ -293,11 +293,11 @@ Index search
 **********************************************************************/
 
 .highlight {
-    background-color: var(--cyan);
+    background-color: yellow;
 }
 
 @media (prefers-color-scheme: dark) {
     .highlight {
-        background-color: var(--violet)
+        color: var(--base02)
     }
 }
