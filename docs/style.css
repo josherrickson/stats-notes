@@ -85,6 +85,16 @@ p.note
     padding: 10px 60px;
 }
 
+@media (prefers-color-scheme: dark) {
+    p.note {
+        background-color: #004FA8;
+    }
+
+    p.warning {
+        background-color: #AB1616;
+    }
+}
+
 h1 {
     font-size: 225%;
     color: var(--green);
@@ -258,7 +268,19 @@ body.statsnotes {
         order: 2;
         border: 2px;
         border-radius: 5%;
+    }
+
+}
+
+@media screen and (max-width: 767px) and (not (prefers-color-scheme: dark)) {
+    body.statsnotes > .section-nav {
         background-color: var(--base3);
+    }
+}
+
+@media screen and (max-width: 767px) and (prefers-color-scheme: dark) {
+    body.statsnotes > .section-nav {
+        background-color: var(--base03) ;
     }
 }
 
