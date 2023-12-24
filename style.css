@@ -241,10 +241,23 @@ body.statsnotes {
 	  margin: 0 auto;
 }
 
-/** enlarge the sections for this demo, so that we have a long scrollable page **/
-/* section { */
-/* 	padding-bottom: 20rem; */
-/* } */
+/* Media query for smaller screens */
+@media screen and (max-width: 767px) {
+  body.statsnotes {
+    display: flex;
+    flex-direction: column; /* Stack items vertically on smaller screens */
+  }
+
+  body.statsnotes > .content {
+    order: 2; /* Move main content above aside in the source order */
+  }
+
+  body.statsnotes > .section-nav {
+    width: 100%; /* Take full width on small screens */
+    margin-top: 1rem; /* Add spacing between main and aside on small screens */
+    order: 1;
+  }
+}
 
 /**********************************************************************
 Sticky section for Poisson approx
