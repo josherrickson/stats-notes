@@ -266,6 +266,10 @@ body.statsnotes {
 Show/Hide TOC button
 **********************************************************************/
 
+body.statsnotes > .showhide {
+    display: none;
+}
+
 @media screen and (max-width: 767px) {
     body.statsnotes > .showhide {
         position: fixed;
