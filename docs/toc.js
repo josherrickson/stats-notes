@@ -56,18 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 })
 
-// TOC showhide button Listener
-document.addEventListener('DOMContentLoaded', () => {
-  const showhideTOCButton = document.getElementById('showhideTOC')
+function toggleTOC() {
   const navSection = document.querySelector('.section-nav')
-
-  showhideTOCButton.addEventListener('click', () => {
-    if (navSection.style.display === '') {
-      showhideTOCButton.innerHTML = 'Show TOC'
-      navSection.style.display = 'none'
-    } else {
-      showhideTOCButton.innerHTML = 'Hide TOC'
-      navSection.style.display = ''
-    }
-  })
-})
+  navSection.classList.toggle('hidden')
+}

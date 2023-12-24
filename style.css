@@ -278,6 +278,9 @@ body.statsnotes > .showhide {
     }
 
 }
+.hidden {
+    visibility: hidden;
+}
 
 /**********************************************************************
 Sticky section for Poisson approx
