@@ -342,6 +342,7 @@ Sticky section for Poisson approx
     margin-right: 5px;
     transition: background-color 0.1s ease;
     background-color: var(--base1);
+    max-width: 25%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -369,5 +370,33 @@ Index search
 @media (prefers-color-scheme: dark) {
     .highlight {
         color: var(--base02)
+    }
+}
+
+/**********************************************************************
+visualize collinearity plot flexbox stuff
+**********************************************************************/
+
+.collinearity_graph_container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em;
+}
+
+.collinearity_graph {
+    margin-right: 1em;
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.collinearity_graph_text {
+    flex: 1;
+}
+
+/* If the total window width is below this, switch from side-by-side to stacked.
+   Letting flexbox decide by itself was allowing the text to squish too much. */
+@media (max-width: 1000px) {
+    .collinearity_graph {
+        max-width: 100%;
     }
 }

@@ -39,7 +39,9 @@ function updatePlot(path) {
 
       const scatterOptions = {
         devicePixelRatio: 4, // fixes blurry-on-firefox issue
-        responsive: false,
+        responsive: true,
+//        maintainAspectRatio: false,
+        aspectRatio: 1,
         events: [],
         plugins: { legend: { display: false }, },
         scales: {

@@ -103,48 +103,40 @@ save <span class="operator"><-</span> <span class="keyword">matrix</span>(<span 
       </label>
 
 
-      <table style="border-collapse: collapse; width: 100%;">
-        <tr>
-          <td style="padding: 0; vertical-align: top; width: 60%;">
-            <canvas id="myChart" width="600" height="450"></canvas>
-          </td>
-          <td style="padding: 0; vertical-align: top; width: 40%;
-                     margin-top: 40px;">
+      <div class="collinearity_graph_container">
+        <canvas class="collinearity_graph" id="myChart"></canvas>
+        <div class="collinearity_graph_text">
+          <p>
+            Each point represents the estimated coefficients for a single
+            simulated data set. The red dot represents the data-generating
+            coefficients \((1, 1)\). Note that bias is not a concern; the true
+            coefficients are on average for each level of collinearity.
+          </p>
 
-            <p>
-              Each point represents the estimated coefficients for a single
-              simulated data set. The red dot represents the data-generating
-              coefficients \((1, 1)\). Note that bias is not a concern; the true
-              coefficients are on average for each level of collinearity.
-            </p>
-
-            <p>
-              In this simulation, the average correlation between \(X_1\) and
-              \(X_2\) is <span id="x1x2corr">0.002</span>.
-            </p>
+          <p>
+            In this simulation, the average correlation between \(X_1\) and
+            \(X_2\) is <span id="x1x2corr">0.002</span>.
+          </p>
 
 
-            <div id="lowText" class="text-container">
-              With low correlation, we see no relationship between the estimated
-              coefficients.
-            </div>
-            <div id="modText" class="text-container" style="display:none;">
-              While we are starting to see a correlation between the
-              coefficients, it is not that strong yet.
-            </div>
-            <div id="highText" class="text-container" style="display:none;">
-              With correlation around .9, we are seeing very strong
-              collinearity: if \(\hat{X_1}\) is low, then we would expect
-              \(\hat{X_2}\) to be high.
-            </div>
-            <div id="extremeText" class="text-container" style="display:none;">
-              This relationship is incredibly strong.
-            </div>
-
-          </td>
-        </tr>
-      </table>
-
+          <div id="lowText" class="text-container">
+            With low correlation, we see no relationship between the estimated
+            coefficients.
+          </div>
+          <div id="modText" class="text-container" style="display:none;">
+            While we are starting to see a correlation between the
+            coefficients, it is not that strong yet.
+          </div>
+          <div id="highText" class="text-container" style="display:none;">
+            With correlation around .9, we are seeing very strong
+            collinearity: if \(\hat{X_1}\) is low, then we would expect
+            \(\hat{X_2}\) to be high.
+          </div>
+          <div id="extremeText" class="text-container" style="display:none;">
+            This relationship is incredibly strong.
+          </div>
+        </div>
+      </div>
     </section>
     <section id="why-is-this-a-problem">
       <h2>Why is this a problem?</h2>
