@@ -273,7 +273,7 @@ body.statsnotes > .showhide {
 @media screen and (max-width: 767px) {
     body.statsnotes > .showhide {
         position: fixed;
-        display: ;
+        display: block;
         order: 1;
     }
 
