@@ -59,4 +59,11 @@ window.addEventListener('DOMContentLoaded', () => {
 function toggleTOC() {
   const navSection = document.querySelector('.section-nav')
   navSection.classList.toggle('hidden')
+
+  const button = document.getElementById('showhideTOCButton')
+  if ( navSection.classList.contains('hidden') ) {
+    button.innerHTML = 'Show TOC'
+  } else {
+    button.innerHTML = 'Hide TOC'
+  }
 }
