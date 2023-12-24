@@ -131,7 +131,8 @@ pre {
     padding: 10px;
     background-color: var(--code_light);
     color: var(--code_dark);
-    /* white-space: pre-line; */
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 @media (prefers-color-scheme: dark) {
