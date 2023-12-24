@@ -124,6 +124,12 @@ h4 {
     width: 60%;
 }
 
+@media screen and (max-width: 767px) {
+    .image_center {
+        width: 90% !important;
+    }
+}
+
 .centered {
     width: 50%; /* Adjust the width as needed */
     margin: 0 auto;
