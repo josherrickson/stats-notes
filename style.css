@@ -264,6 +264,15 @@ body.statsnotes {
 	  margin: 0 auto;
 }
 
+
+#header_content {
+    display: block;
+}
+
+#header_nav {
+    display: none;
+}
+
 /* Media query for smaller screens */
 @media screen and (max-width: 767px) {
     body.statsnotes {
@@ -285,7 +294,16 @@ body.statsnotes {
         border-radius: 5%;
     }
 
+    #header_content {
+        display: none;
+    }
+
+    #header_nav {
+        display: block;
+    }
 }
+
+
 
 @media screen and (max-width: 767px) and (not (prefers-color-scheme: dark)) {
     body.statsnotes > .section-nav {
