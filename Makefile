@@ -18,7 +18,8 @@ $(DEST_DIR)/%.html: $(SRC_DIR)/%.html header.html footer.html
 	mkdir -p docs
 	cp header.html header-tmp.html
 	cp $< tmp.html
-	$(eval TITLE := $(shell sed -n '/<h1>\(.*\)<\/h1>/s//\1/p' $< | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$$//' | sed 's/<\/code>//g; s/<code>//g'))
+	$(eval TITLE := $(shell sed -n '/<h1[^>]*>\(.*\)<\/h1>/s//\1/p' $< | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$$//' | sed 's/<\/code>//g; s/<code>//g'))
+	echo $(info $$TITLE is [${TITLE}])
 	sed -i '' -e 's_TITLE_$(TITLE)_' header-tmp.html
 	cat header-tmp.html tmp.html footer.html > $@
 	rm header-tmp.html tmp.html
