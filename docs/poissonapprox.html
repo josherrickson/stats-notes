@@ -82,7 +82,7 @@ end</pre>
       <h2 style={'margin:0px'}>Results</h2>
       <div class="poisson-results-container">
         <div class="poisson-results-header">
-          <div style="margin-top: auto">
+          <div style="margin-top:auto;padding-right:1%">
             Prevalence:
           </div>
           <div class="poisson-results-tab poisson-active-tab" id="tab10perc">
@@ -97,16 +97,18 @@ end</pre>
           <div class="poisson-results-tab" id="tab1perc">
             1%
           </div>
+          <div class="poisson-results-tab" id="tab.5perc">
+            .5%
+          </div>
         </div>
         <div>
 
           <p>
-            Now we can run it with a few different inputs. We'll
-            let <code>b1</code> \(= .4\) with <code>n</code> \(= 10,000\).
+            We'll let <code>b1</code> \(= .4\) with <code>n</code> \(= 10,000\).
             (<code>n</code> needs to be large enough such that we have a
             nontrivial amount of successes.) Choose from the tabs above
-            the <code>p</code> to see how the results vary as a probability of a
-            positive outcomes approaches \(0\).
+            the <code>p</code> to see how the results vary as the prevalence
+            approaches \(0\).
           </p>
 
           <p>
@@ -174,6 +176,17 @@ Mean estimation                          Number of obs = 1,000
           pp |   .0108073   .0000342      .0107402    .0108744
 --------------------------------------------------------------</pre>
           </div>
+         <div id="p-m-c-.5" class="prop-mean-container" style="display:none;">
+            <pre>. mean pp
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+          pp |   .0053893   .0000223      .0053454    .0054332
+--------------------------------------------------------------</pre>
+          </div>
 
 
 
@@ -196,6 +209,9 @@ Mean estimation                          Number of obs = 1,000
           </div>
           <div id="p-image-div-1" class="prop-image-container" style="display:none;">
             <img src="images/poisson1.svg" class="image_center" id ="p-image-1">
+          </div>
+          <div id="p-image-div-.5" class="prop-image-container" style="display:none;">
+            <img src="images/poisson.5.svg" class="image_center" id ="p-image-.5">
           </div>
 
           <p>
@@ -254,6 +270,19 @@ Mean estimation                          Number of obs = 1,000
        error |   .0127062   .0000505      .0126072    .0128053
 --------------------------------------------------------------</pre>
           </div>
+          <div id="p-bias-.5" class="prop-bias-container" style="display:none;">
+            <pre>. gen error = abs(b_logit - b_pois)/b_logit
+
+. mean error
+
+Mean estimation                          Number of obs = 1,000
+
+--------------------------------------------------------------
+             |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+       error |   .0064606   .0000391      .0063839    .0065374
+--------------------------------------------------------------</pre>
+          </div>
 
         </div>
       </div>
@@ -262,12 +291,9 @@ Mean estimation                          Number of obs = 1,000
     <section id="conclusion">
       <h2>Conclusion</h2>
       <p>
-        I wouldn’t recommend using Poisson over Logistic unless P(Success) was
-        1% or less.
-      </p>
-      <p>
-        There’s an interesting artifact to explore, namely that the percent
-        bias is consistently about 15-20% larger than the true beta.
+        When the prevalence is very low, Poisson is not a bad approximation, but
+        I wouldn’t recommend using it over Logistic unless prevalence was 1% or
+        less.
       </p>
     </section>
     <img src="https://errickson.goatcounter.com/count?p=poissonapprox">

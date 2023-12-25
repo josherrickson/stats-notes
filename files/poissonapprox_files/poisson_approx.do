@@ -1,4 +1,4 @@
-cd "/Users/josh/repositories/_websites/toc_test/files/poissonapprox_files"
+cd "/Users/josh/repositories/_websites/stats-notes/files/poissonapprox_files"
 cap prog drop binsim
 program def binsim, rclass
     drop _all
@@ -26,22 +26,23 @@ program def binsim, rclass
 end
 
 local beta1 .4
-local reps 10
+local reps 1000
 
-foreach level of numlist 10 5 3 1 {
+foreach level of numlist 10 5 3 1 .5 {
 
 	local prev = `level'/100
-simulate pp=r(pp) b_pois=r(b_pois) b_logit=r(b_logit), ///
+	simulate pp=r(pp) b_pois=r(b_pois) b_logit=r(b_logit), ///
     reps(`reps') nodots: binsim 10000 `prev' `beta1'
 	
-twoway kdensity b_logit || kdensity b_pois, ///
+	twoway kdensity b_logit || kdensity b_pois, ///
     xline(`beta1') legend(label(1 "Logistic") label(2 "Poisson")) 
 
-graph export "../images/poisson`level'.svg", replace
+	graph export "../images/poisson`level'.svg", replace as(svg)
 	
-twoway kdensity b_logit || kdensity b_pois, ///
+	twoway (kdensity b_logit, lcolor("red")) ///
+		   (kdensity b_pois, lcolor("green")), ///
     xline(`beta1') legend(label(1 "Logistic") label(2 "Poisson")) ///
 	scheme(black_hue) 
 	
-graph export "../images/poisson`level'_dark.svg", replace
+	graph export "../images/poisson`level'_dark.svg", replace as(svg)
 }
