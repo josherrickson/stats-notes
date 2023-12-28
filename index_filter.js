@@ -2,7 +2,7 @@
 const filterInput = document.getElementById('filterInput')
 
 // Get list of all topics
- const subjectList = document.querySelectorAll('.index_li')
+const subjectList = document.querySelectorAll('.index_li')
 
 // Add an event listener to the input
 filterInput.addEventListener('input', highlightOccurrences)
@@ -12,7 +12,7 @@ function highlightOccurrences() {
     const toReplace = filterInput.value.trim()
 
     // First remove any existing highlighting
-    const regexRemoveHighlight = /<span class=\"highlight\">([^<]*)<\/span>/g
+    const regexRemoveHighlight = /<span class="highlight">([^<]*)<\/span>/g
     x.innerHTML = x.innerHTML.replace(regexRemoveHighlight, '$1')
 
     // If the user has input anything
@@ -25,10 +25,10 @@ function highlightOccurrences() {
           // 'g' means match all; 'i' means ignore case
           let regex = new RegExp(`(${toReplace})`, 'gi')
           return s.replaceAll(regex,
-                              `<span class="highlight">$1</span>`)
+            '<span class="highlight">$1</span>')
         } else {
           // Return tags directly.
-            return s
+          return s
         }
       })
 
@@ -53,11 +53,9 @@ function filterList() {
   }
 
   subjectList.forEach((sl) => {
-    const listItemText = sl.textContent
-
     // Check if the list item contains the user input, if not hide it
     const toReplaceRegex = new RegExp(`${toReplace}`, 'i')
-    if (toReplaceRegex.test(listItemText)) {
+    if (toReplaceRegex.test(sl.textContent)) {
       // Matches, so keep it
       sl.style.display = ''
     } else {
@@ -67,7 +65,7 @@ function filterList() {
   })
 }
 
-const resetButton = document.getElementById('resetButton');
+const resetButton = document.getElementById('resetButton')
 
 resetButton.addEventListener('click', () => {
   filterInput.value = ''
