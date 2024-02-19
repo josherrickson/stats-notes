@@ -27,10 +27,15 @@ $(DEST_DIR)/%.html: $(SRC_DIR)/%.html header.html footer.html
 docs/responsesurfaceplot.html: files/responsesurfaceplot.Rmd
 	R -e 'getwd(); rmarkdown::render("$<", output_file="../$@")'
 
+.PHONY: open
+open:
+	@open docs/index.html
+
 .PHONY: clean
 clean:
 	rm -rf $(DEST_DIR)
 
+.PHONY: copy_files
 copy_files:
 	mkdir -p docs/data
 	cp *.js docs/
