@@ -222,3 +222,18 @@ visualize collinearity plot flexbox stuff
         max-width: 100%;
     }
 }
+
+/**********************************************************************
+Remove elements when printing
+**********************************************************************/
+
+@media print
+{
+    .no-print, .no-print * {
+        display: none !important;
+    }
+
+    body.statsnotes {
+        display: unset !important;
+    }
+}
