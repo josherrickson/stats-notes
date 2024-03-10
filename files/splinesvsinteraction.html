@@ -8,7 +8,7 @@
         series models. For example, consider the scatter plot below.
       </p>
 
-      <img src="images/splinesinteractions1.svg" class="image_center">
+      <img src="images/splinesinteractions1.svg" class="image_center image_invert">
 
       <p>
         The slope amongst the red points (<code>x &lt; 5</code>) is clearly
@@ -59,7 +59,7 @@ Number of observations (_N) was 0, now 100.
 
 . twoway (scatter y x if z == 1) (scatter y x if z == 0), legend(off)</pre>
 
-      <img src="images/splinesinteractions2.svg" class="image_center">
+      <img src="images/splinesinteractions2.svg" class="image_center image_invert">
 
       <p>
         Now there’s a drop of around 4 at the intervention addition to a
@@ -164,7 +164,7 @@ Number of observations (_N) was 0, now 100.
 >        (line y_spline1 x if z == 0, lcolor(maroon)), ///
 >          legend(off)</pre>
 
-        <img src="images/splinesinteractions3.svg" class="image_center">
+        <img src="images/splinesinteractions3.svg" class="image_center image_invert">
 
         <p>
           The continuity at <code>x = 5</code> makes this a poor fit in both
@@ -207,7 +207,7 @@ Number of observations (_N) was 0, now 100.
 >        (line y_spline2 x if z == 0, lcolor(maroon)), ///
 >          legend(off)</pre>
 
-        <img src="images/splinesinteractions4.svg" class="image_center">
+        <img src="images/splinesinteractions4.svg" class="image_center image_invert">
 
         <p>
           We capture the model much better here. Note that the coefficient
@@ -263,7 +263,7 @@ Number of observations (_N) was 0, now 100.
 >        (line y_spline3 x if z == 0, lcolor(maroon)), ///
 >          legend(off)</pre>
 
-        <img src="images/splinesinteractions5.svg" class="image_center">
+        <img src="images/splinesinteractions5.svg" class="image_center image_invert">
 
         <p>
           The model is identical, but the coefficient on <code>x1a</code> is now
@@ -307,7 +307,7 @@ Number of observations (_N) was 0, now 100.
 >        (line y_naive x if z == 0, lcolor(maroon)), ///
 >          legend(off)</pre>
 
-      <img src="images/splinesinteractions6.svg" class="image_center">
+      <img src="images/splinesinteractions6.svg" class="image_center image_invert">
 
       <p>
         The coefficient for <code>x</code> and the interaction capture the
@@ -366,7 +366,7 @@ Number of observations (_N) was 0, now 100.
 >        (line y_int1 x if z == 0, lcolor(maroon)), ///
 >          legend(off)</pre>
 
-        <img src="images/splinesinteractions7.svg" class="image_center">
+        <img src="images/splinesinteractions7.svg" class="image_center image_invert">
 
         <pre>. est table spline1 int1
 
@@ -429,7 +429,7 @@ Number of observations (_N) was 0, now 100.
 >        (line y_int2 x if z == 0, lcolor(maroon)), ///
 >          legend(off)</pre>
 
-        <img src="images/splinesinteractions8.svg" class="image_center">
+        <img src="images/splinesinteractions8.svg" class="image_center image_invert">
 
         <pre>. est table spline2 int2
 
