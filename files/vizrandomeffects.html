@@ -47,15 +47,15 @@
         <a href="https://stackoverflow.com/a/45655597/905101">https://stackoverflow.com/a/45655597/905101</a>:
       </p>
 
-      <pre>rescov <span class="operator"><-</span> <span class="keyword">function</span>(model, data) {
-  var.d <span class="operator"><-</span> <span class="keyword">crossprod</span>(<span class="keyword">getME</span>(model, <span class="string">"Lambdat"</span>))
-  Zt <span class="operator"><-</span> <span class="keyword">getME</span>(model, <span class="string">"Zt"</span>)
-  vr <span class="operator"><-</span> <span class="keyword">sigma</span>(model)<span class="operator">^</span><span class="numeric">2</span>
-  var.b <span class="operator"><-</span> vr <span class="operator">*</span> (<span class="keyword">t</span>(Zt) <span class="operator">%*%</span> var.d <span class="operator">%*%</span> Zt)
-  sI <span class="operator"><-</span> vr <span class="operator">*</span> <span class="keyword">Diagonal</span>(<span class="keyword">nrow</span>(data))
-  var.y <span class="operator"><-</span> var.b <span class="operator">+</span> sI
-  <span class="keyword">return</span>(var.y)
-}</pre>
+      <pre><code>rescov <- function(model, data) {
+  var.d <- crossprod(getME(model, "Lambdat"))
+  Zt <- getME(model, "Zt")
+  vr <- sigma(model)^2
+  var.b <- vr * (t(Zt) %*% var.d %*% Zt)
+  sI <- vr * Diagonal(nrow(data))
+  var.y <- var.b + sI
+  return(var.y)
+}</code></pre>
 
     </section>
     <section id="single-random-effect">
@@ -65,9 +65,9 @@
         package.
       </p>
 
-      <pre><span class="keyword">library</span>(<span class="string">"lme4"</span>)
-<span class="keyword">data</span>(Penicillin)
-<span class="keyword">head</span>(Penicillin, <span class="numeric">10</span>)</pre>
+      <pre class="r_input">library("lme4")
+data(Penicillin)
+head(Penicillin, 10)</pre>
 
         <pre class="r_output">   diameter plate sample
 1        27     a      A

@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Random Effects The visualization function Single random effect Crossed random effects Nested random effects Equivalency of cross and nested random effects Summary</title>
-    <link rel="stylesheet" href="https://errickson.net/style.css">
+    <link rel="stylesheet" href="../../josherrickson.github.io/style.css">
+    <!-- <link rel="stylesheet" href="https://errickson.net/style.css"> -->
     <link rel="stylesheet" href="style.css">
     <!-- Mathjax -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -64,15 +65,15 @@
         <a href="https://stackoverflow.com/a/45655597/905101">https://stackoverflow.com/a/45655597/905101</a>:
       </p>
 
-      <pre>rescov <span class="operator"><-</span> <span class="keyword">function</span>(model, data) {
-  var.d <span class="operator"><-</span> <span class="keyword">crossprod</span>(<span class="keyword">getME</span>(model, <span class="string">"Lambdat"</span>))
-  Zt <span class="operator"><-</span> <span class="keyword">getME</span>(model, <span class="string">"Zt"</span>)
-  vr <span class="operator"><-</span> <span class="keyword">sigma</span>(model)<span class="operator">^</span><span class="numeric">2</span>
-  var.b <span class="operator"><-</span> vr <span class="operator">*</span> (<span class="keyword">t</span>(Zt) <span class="operator">%*%</span> var.d <span class="operator">%*%</span> Zt)
-  sI <span class="operator"><-</span> vr <span class="operator">*</span> <span class="keyword">Diagonal</span>(<span class="keyword">nrow</span>(data))
-  var.y <span class="operator"><-</span> var.b <span class="operator">+</span> sI
-  <span class="keyword">return</span>(var.y)
-}</pre>
+      <pre><code>rescov <- function(model, data) {
+  var.d <- crossprod(getME(model, "Lambdat"))
+  Zt <- getME(model, "Zt")
+  vr <- sigma(model)^2
+  var.b <- vr * (t(Zt) %*% var.d %*% Zt)
+  sI <- vr * Diagonal(nrow(data))
+  var.y <- var.b + sI
+  return(var.y)
+}</code></pre>
 
     </section>
     <section id="single-random-effect">
@@ -82,9 +83,9 @@
         package.
       </p>
 
-      <pre><span class="keyword">library</span>(<span class="string">"lme4"</span>)
-<span class="keyword">data</span>(Penicillin)
-<span class="keyword">head</span>(Penicillin, <span class="numeric">10</span>)</pre>
+      <pre class="r_input">library("lme4")
+data(Penicillin)
+head(Penicillin, 10)</pre>
 
         <pre class="r_output">   diameter plate sample
 1        27     a      A
@@ -119,7 +120,7 @@ mod1 <span class="operator"><-</span> <span class="keyword">lmer</span>(diameter
 rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, Penicillin)
 <span class="keyword">image</span>(rc1)</pre>
 
-      <img src="images/rc1.svg" class="image_center">
+      <img src="images/rc1.svg" class="image_center image_invert">
 
       <p>
         (The data is re-ordered by <code>sample</code> to improve visualization.
@@ -144,7 +145,7 @@ rc1 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod1, P
 rc2 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod2, Penicillin)
 <span class="keyword">image</span>(rc2)</pre>
 
-      <img src="images/rc2.svg" class="image_center">
+      <img src="images/rc2.svg" class="image_center image_invert">
 
       <p>
         We see an additional pattern here. It can be hard to interpret at such a
@@ -153,7 +154,7 @@ rc2 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod2, P
 
       <pre><span class="keyword">image</span>(rc2[<span class="numeric">1</span><span class="operator">:</span><span class="numeric">12</span>, <span class="numeric">1</span><span class="operator">:</span><span class="numeric">12</span>])</pre>
 
-      <img src="images/rc2_zoom.svg", class="image_center">
+      <img src="images/rc2_zoom.svg", class="image_center image_invert">
 
       <p>
         The diagonal blocks represents the correlation across plates - here we
@@ -227,7 +228,7 @@ Source Lot Wafer Site Thickness
 rc3 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod3, Oxide)
 <span class="keyword">image</span>(rc3)</pre>
 
-      <img src="images/rc3.svg" class="image_center">
+      <img src="images/rc3.svg" class="image_center image_invert">
 
       <p>
         This is much cleaner as opposed to the crossed example. Each of the 8
@@ -245,7 +246,7 @@ rc3 <span class="operator"><-</span> <span class="keyword">rescov</span>(mod3, O
 rc3b <span class="operator"><-</span> <span class="keyword">rescov</span>(mod3b, Oxide)
 <span class="keyword">image</span>(rc3b)</pre>
 
-      <img src="images/rc3b.svg" class="image_center">
+      <img src="images/rc3b.svg" class="image_center image_invert">
 
       <p>
         Because the wafers within each lot are named the same, we have spurious
@@ -369,7 +370,7 @@ Fixed effects:
       <pre>rc4b <span class="operator"><-</span> <span class="keyword">rescov</span>(mod4b, Oxide)
 <span class="keyword">image</span>(rc4b)</pre>
 
-      <img src="images/rc4b.svg" class="image_center">
+      <img src="images/rc4b.svg" class="image_center image_invert">
 
     </section>
     <section id="summary">
@@ -389,20 +390,20 @@ Fixed effects:
         <strong>different</strong>:
       </p>
 
-      <img src="images/sem_different.png" style="width:100%">
+      <img src="images/sem_different.png" style="width:100%" class="image_invert">
 
       <p>
         With this naming convention, nested and fixed effects will be
         <strong>equivalent</strong>:
       </p>
 
-      <img src="images/sem_equivalent.png" style="width:100%">
+      <img src="images/sem_equivalent.png" style="width:100%" class="image_invert">
 
     </section>
     <img src="https://errickson.goatcounter.com/count?p=vizrandomeffects">
   </div>
 
-  <nav class="section-nav no-print">
+  <nav class="section-nav">
     <h2 id="header_nav">Random Effects</h2>
 	  <ol>
 		  <li class=""><a href="#random-effects">Introduction</a>
@@ -418,7 +419,7 @@ Fixed effects:
 		  <li class=""><a href="#summary">Summary</a></li>
     </ol>
     <p style="text-align:center">
-      <a href="https://errickson.net">Home</a> | <a href="https://errickson.net/stats-notes">Back</a>
+      <a href="../index.html">Home</a> | <a href="index.html">Back</a>
     </p>
 	</nav>
   <div class="showhide">
